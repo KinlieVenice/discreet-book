@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>discrete-book</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div id="progressTrack"><div id="progressFill"></div></div>
+
+  <div id="landing">
+    <div class="prompt-panel">
+      <div class="prompt-titlebar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span style="margin-left:0.3rem;">discrete-book</span>
+      </div>
+      <div class="prompt-body">
+        <h1 class="prompt-h1">discrete-book<span class="cursor"></span></h1>
+        <p class="prompt-sub">
+          Drop a PDF. It's parsed entirely in your browser &mdash; nothing is uploaded anywhere &mdash;
+          then you pick how it looks on screen.
+        </p>
+
+        <div class="resume-row" id="resumeRow">
+          <span id="resumeLabel">Resume &ldquo;<strong></strong>&rdquo;?</span>
+          <span style="display:flex; gap:0.5rem;">
+            <button id="resumeBtn">Resume</button>
+            <button class="discard" id="discardBtn">Start over</button>
+          </span>
+        </div>
+
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file to load">
+          <div class="dropzone-icon">&gt;_</div>
+          <div class="dropzone-main" id="dropzoneMain">Drop a .pdf here, or click to browse</div>
+          <div class="dropzone-sub" id="dropzoneSub">Extraction happens locally &mdash; the file never leaves this tab.</div>
+        </div>
+        <input type="file" id="fileInput" accept="application/pdf,.pdf">
+
+        <div class="prompt-hint">
+          Once loaded: <code>Space</code> / <code>&darr;</code> to read on, <code>&uarr;</code> back,
+          <code>Esc</code> to instantly hide the page.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="reader">
+    <div id="content" tabindex="-1"></div>
+
+    <div id="controls">
+      <div id="controlsBar">
+        <div class="ctrl-group">
+          <span class="shell-label">disguise</span>
+          <select id="themeSelect">
+            <option value="coding">Code file</option>
+            <option value="business">Business proposal</option>
+            <option value="data">Analytics dashboard</option>
+            <option value="terminal">Terminal / logs</option>
+            <option value="prdiff">PR diff</option>
+            <option value="manpage">Man page</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <button id="fontDown" aria-label="Decrease text size">A&minus;</button>
+          <button id="fontUp" aria-label="Increase text size">A+</button>
+        </div>
+        <button id="loadNew">Load different PDF</button>
+        <div class="ctrl-spacer"></div>
+        <span id="pageInfo"></span>
+        <span class="ctrl-hint">Esc = hide</span>
+        <button id="hideBtn">Hide</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panicOverlay">
+    <div class="spinner"></div>
+    <div class="panic-text" id="panicText">Installing dependencies&hellip;</div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
