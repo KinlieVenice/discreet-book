@@ -39,7 +39,13 @@ const PANIC_LABELS = {
   data: 'Refreshing report…',
   terminal: 'Reconnecting…',
   prdiff: 'Fetching diff…',
-  manpage: 'Loading manual…'
+  manpage: 'Loading manual…',
+  spreadsheet: 'Recalculating…',
+  email: 'Checking for new mail…',
+  memo: 'Loading document…',
+  slides: 'Loading presentation…',
+  ticket: 'Loading ticket…',
+  hrpolicy: 'Loading document…'
 };
 
 const TAB_TITLES = {
@@ -48,7 +54,13 @@ const TAB_TITLES = {
   data: 'Weekly Report',
   terminal: 'app.log',
   prdiff: 'Pull Request #482',
-  manpage: 'notes(1) — Manual Page'
+  manpage: 'notes(1) — Manual Page',
+  spreadsheet: 'Q3 Working Notes.xlsx',
+  email: 'Inbox',
+  memo: 'Meeting Minutes.docx',
+  slides: 'Notes — Slide Deck',
+  ticket: 'Ticket #10482',
+  hrpolicy: 'Employee Handbook.pdf'
 };
 
 function safeGet(key) {
@@ -254,13 +266,110 @@ function renderManpage(paras) {
   return html;
 }
 
+function colLetter(n) {
+  let s = '';
+  n += 1;
+  while (n > 0) {
+    const rem = (n - 1) % 26;
+    s = String.fromCharCode(65 + rem) + s;
+    n = Math.floor((n - 1) / 26);
+  }
+  return s;
+}
+
+function renderSpreadsheet(paras) {
+  let html = '<div class="sheet-ribbon">' +
+    '<div class="ribbon-tabs"><span class="active">Home</span><span>Insert</span><span>Page Layout</span><span>Formulas</span><span>Data</span><span>Review</span><span>View</span></div>' +
+    '<div class="ribbon-tools"><span>Calibri</span><span>11</span><span class="ico">B</span><span class="ico">I</span><span class="ico">U</span><span class="ico">▤</span><span class="ico">%</span></div>' +
+    '</div>';
+  html += '<div class="sheet-formulabar"><span class="cell-ref">A1</span><span class="fx">fx</span><span class="fx-content"></span></div>';
+  html += '<div class="sheet-colheader"><div class="corner"></div>';
+  for (let c = 0; c < 3; c++) html += `<div class="col-h">${colLetter(c)}</div>`;
+  html += '</div>';
+  html += '<div class="sheet-grid">';
+  paras.forEach((p, i) => {
+    html += `<div class="sheet-row"><div class="row-h">${i + 1}</div>` +
+      `<div class="sheet-cell wide">${escapeHtml(p)}</div><div class="sheet-cell"></div><div class="sheet-cell"></div></div>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderEmail(paras) {
+  const subjects = ['Re: Q3 planning sync', 'Team offsite logistics', 'FYI: policy update', 'Weekly status', 'Follow-up notes'];
+  let html = '<div class="mail-shell"><div class="mail-list">';
+  subjects.forEach((s, i) => {
+    html += `<div class="mail-item${i === 0 ? ' active' : ''}"><div class="mail-item-subj">${s}</div><div class="mail-item-preview">Open to read the full thread…</div></div>`;
+  });
+  html += '</div><div class="mail-reading">';
+  html += '<div class="mail-subject">Re: Q3 planning sync</div>';
+  html += '<div class="mail-meta"><span class="mail-sender">Team Notes &lt;notes@internal&gt;</span><span class="mail-date">9:14 AM</span></div>';
+  html += '<div class="mail-body">';
+  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div></div></div>';
+  return html;
+}
+
+function renderMemo(paras) {
+  let html = '<div class="memo-page">';
+  html += '<div class="memo-title">Meeting Minutes</div>';
+  html += '<div class="memo-meta"><div><strong>Date:</strong> Today</div><div><strong>Attendees:</strong> J. Ramirez, T. Okafor, P. Singh</div></div>';
+  html += '<div class="memo-section-label">Notes</div>';
+  html += '<div class="memo-text">';
+  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div></div>';
+  return html;
+}
+
+function renderSlides(paras) {
+  let html = '<div class="slides-strip">';
+  for (let i = 0; i < 5; i++) {
+    html += `<div class="slide-thumb${i === 1 ? ' active' : ''}"><span></span><span></span></div>`;
+  }
+  html += '</div>';
+  html += '<div class="slides-notes-wrap"><div class="slides-notes-label">Speaker Notes &mdash; Slide 2</div>';
+  html += '<div class="slides-notes">';
+  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div></div>';
+  return html;
+}
+
+function renderTicket(paras) {
+  let html = '<div class="ticket-card">';
+  html += '<div class="ticket-header"><span class="ticket-id">#10482</span><span class="ticket-status">Open</span><span class="ticket-priority">Normal</span></div>';
+  html += '<div class="ticket-subject">Working notes &mdash; internal</div>';
+  html += '<div class="ticket-thread">';
+  paras.forEach((p, i) => {
+    html += `<div class="ticket-comment"><div class="ticket-avatar"></div><div class="ticket-comment-body">` +
+      `<div class="ticket-comment-meta">Internal note &middot; ${i + 1}</div><p>${escapeHtml(p)}</p></div></div>`;
+  });
+  html += '</div></div>';
+  return html;
+}
+
+function renderHrPolicy(paras) {
+  let html = '<div class="hr-page">';
+  html += '<div class="hr-header"><div class="hr-title">Employee Handbook</div><div class="hr-effective">Effective Date: This Year</div></div>';
+  html += '<div class="hr-section-label">Section 4 &mdash; Working Notes</div>';
+  html += '<div class="hr-text">';
+  paras.forEach((p, i) => { html += `<p><span class="hr-num">4.${i + 1}</span>${escapeHtml(p)}</p>`; });
+  html += '</div></div>';
+  return html;
+}
+
 const RENDERERS = {
   coding: renderCoding,
   business: renderBusiness,
   data: renderData,
   terminal: renderTerminal,
   prdiff: renderPrDiff,
-  manpage: renderManpage
+  manpage: renderManpage,
+  spreadsheet: renderSpreadsheet,
+  email: renderEmail,
+  memo: renderMemo,
+  slides: renderSlides,
+  ticket: renderTicket,
+  hrpolicy: renderHrPolicy
 };
 
 function render() {
