@@ -1,16 +1,25 @@
-# discrete-book
+# discreet-book
 
 Drop a PDF, read it disguised as something else. Everything — PDF parsing, text,
 your reading progress — stays in your browser. Nothing is uploaded to a server.
 
 ## Themes
 
+**Engineering**
 - **Code file** — VS Code-style tabs, comment-block styling, line-number gutter
-- **Business proposal** — white page, serif type, "Confidential" header
-- **Analytics dashboard** — dark sidebar nav, fake KPI tiles
 - **Terminal / logs** — looks like `tail -f app.log` scrolling by
 - **PR diff** — GitHub-style diff view with a green addition gutter
 - **Man page** — classic black-background `man(1)` styling
+
+**Office**
+- **Business proposal** — white page, serif type, "Confidential" header
+- **Analytics dashboard** — dark sidebar nav, fake KPI tiles
+- **Spreadsheet** — Excel-style ribbon, formula bar, row/column grid
+- **Email inbox** — Outlook/Gmail-style message list and reading pane
+- **Meeting notes** — memo with date/attendee header
+- **Slide deck notes** — PowerPoint speaker-notes view with a thumbnail strip
+- **Support ticket** — helpdesk queue card with a comment thread
+- **HR policy doc** — numbered handbook sections, formal serif body
 
 Switch themes anytime from the bar at the bottom without losing your place.
 
@@ -32,8 +41,10 @@ slightly more "just a website" feeling than a dev server banner.
 - `Space` / `↓` scrolls forward, `↑` scrolls back.
 - `Esc` instantly blanks the screen to a generic loading spinner; `Esc` again
   (or click) returns you to exactly where you were.
-- Your extracted text, theme, font size, and scroll position are saved in
-  `localStorage`, scoped to this page only. Reopening the tab offers to resume.
+- Your extracted book text is saved in IndexedDB (no practical size limit, so
+  long books are fine); theme, font size, and scroll position are saved in
+  `localStorage`. Both are scoped to this page only. Reopening the tab offers
+  to resume.
 - "Load different PDF" on the control bar starts over with a new file.
 
 ## Notes

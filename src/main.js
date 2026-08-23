@@ -3,6 +3,8 @@ import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
+// Kept as "discrete-book" (repo was renamed to discreet-book) so anyone's
+// already-saved reading progress in localStorage/IndexedDB isn't lost.
 const META_KEY = 'discrete-book:meta';
 const DB_NAME = 'discrete-book';
 const STORE_NAME = 'text';
