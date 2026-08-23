@@ -3,12 +3,16 @@ import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-// Kept as "discrete-book" (repo was renamed to discreet-book) so anyone's
-// already-saved reading progress in localStorage/IndexedDB isn't lost.
-const META_KEY = 'discrete-book:meta';
-const DB_NAME = 'discrete-book';
+const META_KEY = 'discreet-book:meta';
+const DB_NAME = 'discreet-book';
 const STORE_NAME = 'text';
 const TEXT_KEY = 'book';
+
+// Old key names from before the repo was renamed from discrete-book to
+// discreet-book. migrateLegacyStorage() below moves anything found under
+// these into the new names, once, so nobody's saved progress is lost.
+const LEGACY_META_KEY = 'discrete-book:meta';
+const LEGACY_DB_NAME = 'discrete-book';
 
 const landing = document.getElementById('landing');
 const readerEl = document.getElementById('reader');
@@ -91,18 +95,18 @@ function persistMeta() {
    can easily run past localStorage's ~5-10MB quota, while IndexedDB has no
    such practical ceiling — so reading progress survives regardless of book
    length or page count. */
-function openDb() {
+function openDb(name) {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, 1);
+    const req = indexedDB.open(name, 1);
     req.onupgradeneeded = () => { req.result.createObjectStore(STORE_NAME); };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
 }
 
-async function idbSetText(text) {
+async function idbSetText(text, dbName = DB_NAME) {
   try {
-    const db = await openDb();
+    const db = await openDb(dbName);
     await new Promise((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, 'readwrite');
       tx.objectStore(STORE_NAME).put(text, TEXT_KEY);
@@ -113,9 +117,9 @@ async function idbSetText(text) {
   } catch { /* storage unavailable or full — reading still works this session */ }
 }
 
-async function idbGetText() {
+async function idbGetText(dbName = DB_NAME) {
   try {
-    const db = await openDb();
+    const db = await openDb(dbName);
     const text = await new Promise((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, 'readonly');
       const req = tx.objectStore(STORE_NAME).get(TEXT_KEY);
@@ -129,7 +133,7 @@ async function idbGetText() {
 
 async function idbDeleteText() {
   try {
-    const db = await openDb();
+    const db = await openDb(DB_NAME);
     await new Promise((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, 'readwrite');
       tx.objectStore(STORE_NAME).delete(TEXT_KEY);
@@ -153,6 +157,28 @@ function persist() {
 function schedulePersist() {
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(persist, 300);
+}
+
+/* One-time move from the pre-rename "discrete-book" storage names to the
+   current "discreet-book" ones, so renaming the app didn't quietly wipe
+   anyone's saved reading progress. Safe to run every load: it's a no-op
+   once nothing is left under the legacy names. */
+async function migrateLegacyStorage() {
+  const legacyMetaRaw = safeGet(LEGACY_META_KEY);
+  if (legacyMetaRaw && !safeGet(META_KEY)) {
+    safeSet(META_KEY, legacyMetaRaw);
+  }
+  if (legacyMetaRaw) safeRemove(LEGACY_META_KEY);
+
+  try {
+    const alreadyHasNewText = await idbGetText(DB_NAME);
+    if (!alreadyHasNewText) {
+      const legacyText = await idbGetText(LEGACY_DB_NAME);
+      if (legacyText) await idbSetText(legacyText, DB_NAME);
+    }
+  } catch { /* ignore */ }
+
+  try { indexedDB.deleteDatabase(LEGACY_DB_NAME); } catch { /* ignore */ }
 }
 
 function escapeHtml(s) {
@@ -460,8 +486,12 @@ fileInput.addEventListener('change', () => {
   if (fileInput.files && fileInput.files[0]) loadFile(fileInput.files[0]);
 });
 
-const savedMeta = loadMeta();
-if (savedMeta) {
+(async function initResume() {
+  await migrateLegacyStorage();
+
+  const savedMeta = loadMeta();
+  if (!savedMeta) return;
+
   resumeRow.classList.add('show');
   resumeRow.querySelector('strong').textContent = savedMeta.name || 'your book';
   resumeBtn.addEventListener('click', async () => {
@@ -480,7 +510,7 @@ if (savedMeta) {
     clearSaved();
     resumeRow.classList.remove('show');
   });
-}
+})();
 
 themeSelect.addEventListener('change', () => {
   state.theme = themeSelect.value;
@@ -530,4 +560,9 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-window.addEventListener('beforeunload', persist);
+window.addEventListener('beforeunload', () => {
+  // Guard against wiping a real saved book with blank defaults: if this
+  // session never loaded/resumed a book, state.text is still '' and there
+  // is nothing meaningful to persist.
+  if (state.text) persist();
+});
