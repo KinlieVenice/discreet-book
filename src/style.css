@@ -166,7 +166,7 @@ button { font-family: inherit; }
 }
 
 /* ---------- Reader shell ---------- */
-#reader { display: none; min-height: 100vh; flex-direction: column; }
+#reader { display: none; height: 100vh; flex-direction: column; }
 #reader.active { display: flex; }
 
 #progressTrack {

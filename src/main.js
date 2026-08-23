@@ -3,7 +3,10 @@ import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-const STORAGE_KEY = 'discrete-book:book';
+const META_KEY = 'discrete-book:meta';
+const DB_NAME = 'discrete-book';
+const STORE_NAME = 'text';
+const TEXT_KEY = 'book';
 
 const landing = document.getElementById('landing');
 const readerEl = document.getElementById('reader');
@@ -58,14 +61,79 @@ function safeRemove(key) {
   try { window.localStorage.removeItem(key); } catch { /* ignore */ }
 }
 
-function loadSaved() {
-  const raw = safeGet(STORAGE_KEY);
+function loadMeta() {
+  const raw = safeGet(META_KEY);
   if (!raw) return null;
   try { return JSON.parse(raw); } catch { return null; }
 }
 
+function persistMeta() {
+  safeSet(META_KEY, JSON.stringify({
+    name: state.name, theme: state.theme, fontSize: state.fontSize, scrollPct: state.scrollPct
+  }));
+}
+
+/* The extracted book text goes in IndexedDB, not localStorage: a long book
+   can easily run past localStorage's ~5-10MB quota, while IndexedDB has no
+   such practical ceiling — so reading progress survives regardless of book
+   length or page count. */
+function openDb() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => { req.result.createObjectStore(STORE_NAME); };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function idbSetText(text) {
+  try {
+    const db = await openDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      tx.objectStore(STORE_NAME).put(text, TEXT_KEY);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  } catch { /* storage unavailable or full — reading still works this session */ }
+}
+
+async function idbGetText() {
+  try {
+    const db = await openDb();
+    const text = await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const req = tx.objectStore(STORE_NAME).get(TEXT_KEY);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+    db.close();
+    return text;
+  } catch { return null; }
+}
+
+async function idbDeleteText() {
+  try {
+    const db = await openDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      tx.objectStore(STORE_NAME).delete(TEXT_KEY);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  } catch { /* ignore */ }
+}
+
+function clearSaved() {
+  safeRemove(META_KEY);
+  idbDeleteText();
+}
+
 function persist() {
-  safeSet(STORAGE_KEY, JSON.stringify(state));
+  persistMeta();
+  idbSetText(state.text);
 }
 
 function schedulePersist() {
@@ -281,13 +349,24 @@ fileInput.addEventListener('change', () => {
   if (fileInput.files && fileInput.files[0]) loadFile(fileInput.files[0]);
 });
 
-const saved = loadSaved();
-if (saved && saved.text) {
+const savedMeta = loadMeta();
+if (savedMeta) {
   resumeRow.classList.add('show');
-  resumeRow.querySelector('strong').textContent = saved.name || 'your book';
-  resumeBtn.addEventListener('click', () => { state = saved; openReader(); });
+  resumeRow.querySelector('strong').textContent = savedMeta.name || 'your book';
+  resumeBtn.addEventListener('click', async () => {
+    resumeBtn.disabled = true;
+    resumeBtn.textContent = 'Loading…';
+    const text = await idbGetText();
+    if (text) {
+      state = { ...savedMeta, text };
+      openReader();
+    } else {
+      resumeRow.classList.remove('show');
+      safeRemove(META_KEY);
+    }
+  });
   discardBtn.addEventListener('click', () => {
-    safeRemove(STORAGE_KEY);
+    clearSaved();
     resumeRow.classList.remove('show');
   });
 }
