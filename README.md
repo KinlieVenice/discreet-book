@@ -22,8 +22,8 @@ your reading progress — stays in your browser. Nothing is uploaded to a server
 - **HR policy doc** — numbered handbook sections, formal serif body
 
 **AI Chat**
-- **Claude** — dark warm UI, sidebar chat history, sticky chat-title bar, your book as the assistant's response
-- **ChatGPT** — near-black UI, icon sidebar (Images/Library/Projects/Codex), blue user message bubble
+- **Claude** — dark warm UI, sidebar chat history, sticky chat-title bar, your book as the assistant's response, a fake sticky "Write a message…" bar at the bottom
+- **ChatGPT** — near-black UI, icon sidebar (Images/Library/Projects/Codex), blue user message bubble, a fake sticky "Ask anything" bar at the bottom
 
 Switch themes anytime from the bar at the bottom without losing your place.
 Office and AI Chat themes also get a font picker (Calibri, Arial, Times New
@@ -58,7 +58,10 @@ no need to run `npm run dev` locally every time.
   (via `pdfjs-dist`) — no network request ever contains your file or its text.
 - `Space` / `↓` scrolls forward, `↑` scrolls back.
 - `Esc` instantly blanks the screen to a generic loading spinner; `Esc` again
-  (or click) returns you to exactly where you were.
+  (or click) returns you to exactly where you were. Clicking the inert parts
+  of the bottom control bar (the labels, the book title/section count, the
+  empty space) does the same thing — a bigger, faster hide target than
+  hunting for the "Hide" button.
 - Your extracted book text is saved in IndexedDB (no practical size limit, so
   long books are fine); theme, font size, and scroll position are saved in
   `localStorage`. Both are scoped to this page only. Reopening the tab offers

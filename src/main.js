@@ -440,7 +440,16 @@ function renderClaude(paras) {
   html += '<div class="claude-thought">Thought for 9s</div>';
   html += '<div class="claude-response-text">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div></div></div>';
+  html += '</div></div>';
+  html += '<div class="claude-inputbar"><div class="claude-inputbox">' +
+    '<div class="claude-inputbox-placeholder">Write a message&hellip;</div>' +
+    '<div class="claude-inputbox-row"><span class="claude-plus">+</span><span class="claude-inputbar-spacer"></span>' +
+    '<span class="claude-model">Opus 5</span><span class="claude-effort">High <span class="chev">&#9662;</span></span>' +
+    '<span class="claude-mic"></span>' +
+    '<span class="claude-wave"><span></span><span></span><span></span><span></span></span>' +
+    '</div></div>' +
+    '<div class="claude-disclaimer">Claude is AI and can make mistakes. Please double-check responses.</div></div>';
+  html += '</div></div>';
   return html;
 }
 
@@ -464,7 +473,16 @@ function renderGpt(paras) {
   html += '<div class="gpt-user-msg">Can you explain this in detail?</div>';
   html += '<div class="gpt-response-text">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div></div></div>';
+  html += '</div></div>';
+  html += '<div class="gpt-inputbar"><div class="gpt-inputbox">' +
+    '<span class="gpt-plus">+</span><span class="gpt-inputbox-placeholder">Ask anything</span>' +
+    '<span class="gpt-inputbar-spacer"></span>' +
+    '<span class="gpt-think"><span class="gpt-think-dot"></span> Think</span>' +
+    '<span class="gpt-mic"></span>' +
+    '<span class="gpt-voice-btn"><span class="gpt-wave"><span></span><span></span><span></span></span></span>' +
+    '</div>' +
+    '<div class="gpt-disclaimer">ChatGPT can make mistakes. Check important info.</div></div>';
+  html += '</div></div>';
   return html;
 }
 
@@ -501,6 +519,16 @@ function applyFontFamily() {
   fontFamilySelect.value = state.fontFamily || '';
 }
 
+const controlsEl = document.getElementById('controls');
+
+// Themes with their own fake bottom input bar (Claude, ChatGPT) need to know
+// the real control bar's actual height so their sticky positioning clears it
+// instead of guessing a fixed pixel gap — the real bar's height changes when
+// the font-family picker shows/hides or the bar wraps on narrow screens.
+function syncControlsHeight() {
+  contentEl.style.setProperty('--controls-h', controlsEl.offsetHeight + 'px');
+}
+
 function render() {
   document.body.className = 'theme-' + state.theme;
   document.title = TAB_TITLES[state.theme] || 'notes';
@@ -514,8 +542,13 @@ function render() {
   contentEl.innerHTML = renderer(paras);
 
   pageInfo.textContent = state.name ? `${state.name} · ${paras.length} sections` : '';
+  syncControlsHeight();
   restoreScroll();
 }
+
+window.addEventListener('resize', () => {
+  if (readerEl.classList.contains('active')) syncControlsHeight();
+});
 
 function restoreScroll() {
   requestAnimationFrame(() => {
@@ -659,6 +692,14 @@ function togglePanic() {
 }
 panicOverlay.addEventListener('click', togglePanic);
 hideBtn.addEventListener('click', togglePanic);
+
+// The inert parts of the control bar (labels, the book title/section count,
+// the empty spacer) double as a big, fast click-to-hide zone — no need to
+// aim for the small "Hide" button or reach for Esc.
+document.querySelectorAll('.shell-label, #pageInfo, .ctrl-spacer').forEach((el) => {
+  el.classList.add('panic-zone');
+  el.addEventListener('click', togglePanic);
+});
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { togglePanic(); return; }

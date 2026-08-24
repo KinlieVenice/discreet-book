@@ -213,6 +213,8 @@ button { font-family: inherit; }
 .ctrl-spacer { flex: 1; }
 .ctrl-hint { color: var(--text-dim); }
 #pageInfo { color: var(--text-dim); white-space: nowrap; }
+.panic-zone { cursor: pointer; }
+.ctrl-spacer.panic-zone { min-height: 1.6rem; }
 
 #panicOverlay {
   display: none;
@@ -577,6 +579,27 @@ body.theme-claude .claude-response-text p {
   font-family: var(--office-font-body, 'Source Serif 4', Georgia, serif); font-size: calc(var(--reader-font-size) * 0.95);
   line-height: 1.75; color: var(--c-text); margin: 0 0 1.1em;
 }
+body.theme-claude .claude-inputbar { position: sticky; bottom: calc(var(--controls-h, 46px) + 0.7rem); padding: 0 2rem; z-index: 6; }
+body.theme-claude .claude-inputbox {
+  background: var(--c-elevated); border: 1px solid var(--c-border); border-radius: 20px;
+  padding: 0.8rem 1rem 0.6rem; box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+body.theme-claude .claude-inputbox-placeholder { color: var(--c-text-dim); font-family: var(--sans); font-size: 0.92rem; margin-bottom: 0.9rem; }
+body.theme-claude .claude-inputbox-row { display: flex; align-items: center; gap: 0.7rem; font-family: var(--sans); font-size: 0.82rem; color: var(--c-text-dim); }
+body.theme-claude .claude-plus { font-size: 1.1rem; }
+body.theme-claude .claude-inputbar-spacer { flex: 1; }
+body.theme-claude .claude-model { color: var(--c-text); font-weight: 600; }
+body.theme-claude .claude-effort { display: flex; align-items: center; gap: 0.1rem; }
+body.theme-claude .claude-mic { width: 15px; height: 17px; border: 1.5px solid var(--c-text-dim); border-radius: 8px 8px 4px 4px; }
+body.theme-claude .claude-wave { display: flex; align-items: center; gap: 2px; height: 16px; }
+body.theme-claude .claude-wave span { width: 2px; background: var(--c-text-dim); border-radius: 1px; }
+body.theme-claude .claude-wave span:nth-child(1) { height: 7px; }
+body.theme-claude .claude-wave span:nth-child(2) { height: 14px; }
+body.theme-claude .claude-wave span:nth-child(3) { height: 10px; }
+body.theme-claude .claude-wave span:nth-child(4) { height: 5px; }
+body.theme-claude .claude-disclaimer {
+  text-align: center; color: var(--c-text-dim); font-family: var(--sans); font-size: 0.72rem; margin-top: 0.6rem; opacity: 0.8;
+}
 
 /* ===================================================== */
 /* Theme: GPT — AI chat authenticity                          */
@@ -628,6 +651,30 @@ body.theme-gpt .gpt-response-text p {
   font-family: var(--office-font-body, var(--sans)); font-size: calc(var(--reader-font-size) * 0.95);
   line-height: 1.75; color: var(--g-text); margin: 0 0 1.15em;
 }
+body.theme-gpt .gpt-inputbar { position: sticky; bottom: calc(var(--controls-h, 46px) + 0.7rem); padding: 0 2rem; z-index: 6; }
+body.theme-gpt .gpt-inputbox {
+  background: var(--g-elevated); border: 1px solid var(--g-border); border-radius: 26px;
+  padding: 0.7rem 0.9rem; display: flex; align-items: center; gap: 0.7rem;
+  font-family: var(--sans); font-size: 0.9rem; box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+}
+body.theme-gpt .gpt-plus { color: var(--g-text-dim); font-size: 1.1rem; }
+body.theme-gpt .gpt-inputbox-placeholder { color: var(--g-text-dim); white-space: nowrap; }
+body.theme-gpt .gpt-inputbar-spacer { flex: 1; }
+body.theme-gpt .gpt-think { display: flex; align-items: center; gap: 0.35rem; color: var(--g-text-dim); font-size: 0.82rem; }
+body.theme-gpt .gpt-think-dot { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--g-text-dim); border-top-color: transparent; }
+body.theme-gpt .gpt-mic { width: 15px; height: 17px; border: 1.5px solid var(--g-text-dim); border-radius: 8px 8px 4px 4px; }
+body.theme-gpt .gpt-voice-btn {
+  width: 26px; height: 26px; border-radius: 50%; background: var(--g-bubble); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+body.theme-gpt .gpt-voice-btn .gpt-wave { display: flex; align-items: center; gap: 2px; height: 12px; }
+body.theme-gpt .gpt-voice-btn .gpt-wave span { width: 2px; background: #ffffff; border-radius: 1px; }
+body.theme-gpt .gpt-voice-btn .gpt-wave span:nth-child(1) { height: 6px; }
+body.theme-gpt .gpt-voice-btn .gpt-wave span:nth-child(2) { height: 11px; }
+body.theme-gpt .gpt-voice-btn .gpt-wave span:nth-child(3) { height: 7px; }
+body.theme-gpt .gpt-disclaimer {
+  text-align: center; color: var(--g-text-dim); font-family: var(--sans); font-size: 0.72rem; margin-top: 0.6rem; opacity: 0.8;
+}
 
 /* ---------- narrow screens ---------- */
 @media (max-width: 640px) {
@@ -654,9 +701,11 @@ body.theme-gpt .gpt-response-text p {
   body.theme-claude .claude-chrome { padding: 1rem 1.2rem 0.8rem; }
   body.theme-claude .claude-response { padding: 1.1rem 1.2rem 8rem; }
   body.theme-claude .claude-user-msg { max-width: 88%; }
+  body.theme-claude .claude-inputbar { padding: 0 1.2rem; }
   body.theme-gpt .gpt-sidebar { display: none; }
   body.theme-gpt .gpt-chrome { padding: 1rem 1.2rem 0.8rem; }
   body.theme-gpt .gpt-response { padding: 1.1rem 1.2rem 8rem; }
   body.theme-gpt .gpt-user-msg { max-width: 88%; }
+  body.theme-gpt .gpt-inputbar { padding: 0 1.2rem; }
   #controlsBar { font-size: 0.7rem; gap: 0.6rem; }
 }
