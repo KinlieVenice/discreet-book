@@ -297,7 +297,6 @@ const ICON_DEFS = {
       '<line x1="6" y1="10" x2="14" y2="10"/><line x1="2" y1="13" x2="14" y2="13"/>'
   },
   rulermarker: { body: '<path d="M4 2h8l-4 5z" fill="currentColor" stroke="none"/><path d="M4 14h8l-4-5z" fill="currentColor" stroke="none"/>' },
-  outline: { body: '<line x1="2.5" y1="4.5" x2="13.5" y2="4.5"/><line x1="2.5" y1="8" x2="10.5" y2="8"/><line x1="2.5" y1="11.5" x2="13.5" y2="11.5"/>' },
   lightbulb: {
     body: '<path d="M8 1.8a4.3 4.3 0 0 0-2.4 7.9c.4.3.6.7.6 1.2v.4h3.6v-.4c0-.5.2-.9.6-1.2A4.3 4.3 0 0 0 8 1.8z"/>' +
       '<line x1="6.4" y1="13.2" x2="9.6" y2="13.2"/><line x1="6.7" y1="14.4" x2="9.3" y2="14.4"/>'
@@ -814,7 +813,6 @@ function renderDocs(paras) {
     const isLast = ci === chunks.length - 1;
     html += `<div class="docs-page${isLast ? ' last' : ''}">`;
     if (ci === 0) {
-      html += `<span class="docs-outline-toggle">${icon('outline')}</span>`;
       html += '<div class="docs-heading">Overview</div>';
     }
     html += '<div class="docs-text">';

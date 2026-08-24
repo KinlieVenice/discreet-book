@@ -621,10 +621,6 @@ body.theme-docs .docs-page {
 }
 body.theme-docs .docs-page:first-of-type { margin-top: 1.8rem; }
 body.theme-docs .docs-page.last { margin-bottom: calc(var(--content-bottom-pad) + 1rem); }
-body.theme-docs .docs-outline-toggle {
-  position: absolute; left: 0.7rem; top: 3rem; width: 22px; height: 22px; border-radius: 50%;
-  border: 1px solid #dadce0; color: #5f6368; display: flex; align-items: center; justify-content: center;
-}
 body.theme-docs .docs-heading { font-size: 1.28rem; font-weight: 700; margin-bottom: 1.1rem; }
 body.theme-docs .docs-text p {
   font-family: var(--office-font-body, Arial, var(--sans)); font-size: calc(var(--reader-font-size) * 0.94);
@@ -934,7 +930,6 @@ body.theme-gpt .gpt-disclaimer {
   body.theme-github .gh-body { padding: 1.4rem 1rem var(--content-bottom-pad); }
   body.theme-docs .docs-sidebar { display: none; }
   body.theme-docs .docs-iconrail { display: none; }
-  body.theme-docs .docs-outline-toggle { display: none; }
   body.theme-docs .docs-page { padding: 1.8rem 1.4rem; margin: 1rem auto; }
   body.theme-docs .docs-page.last { margin-bottom: calc(var(--content-bottom-pad) + 1rem); }
   body.theme-docs .docs-ruler { display: none; }
