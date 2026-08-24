@@ -15,6 +15,7 @@ your reading progress — stays in your browser. Nothing is uploaded to a server
 - **Business proposal** — white page, serif type, "Confidential" header
 - **Analytics dashboard** — dark sidebar nav, fake KPI tiles
 - **Spreadsheet** — Google Sheets-style title bar/menu/toolbar, formula bar, row/column grid, sticky sheet-tab strip
+- **Google Docs** — title bar/toolbar/ruler, floating white page
 - **Email inbox** — Outlook/Gmail-style message list and reading pane
 - **Meeting notes** — memo with date/attendee header
 - **Slide deck notes** — PowerPoint speaker-notes view with a thumbnail strip

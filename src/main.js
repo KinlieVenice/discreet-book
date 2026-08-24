@@ -54,7 +54,7 @@ let extracting = false;
 // engineering themes (code/terminal/diff/man page) stay fixed-monospace,
 // same as a real editor or terminal wouldn't let you pick a document font.
 const OFFICE_THEMES = new Set([
-  'business', 'data', 'spreadsheet', 'email', 'memo', 'slides', 'ticket', 'hrpolicy', 'claude', 'gpt'
+  'business', 'data', 'spreadsheet', 'docs', 'email', 'memo', 'slides', 'ticket', 'hrpolicy', 'claude', 'gpt'
 ]);
 
 const FONT_STACKS = {
@@ -80,6 +80,7 @@ const PANIC_LABELS = {
   prdiff: 'Fetching diff…',
   manpage: 'Loading manual…',
   spreadsheet: 'Recalculating…',
+  docs: 'Saving…',
   email: 'Checking for new mail…',
   memo: 'Loading document…',
   slides: 'Loading presentation…',
@@ -97,6 +98,7 @@ const TAB_TITLES = {
   prdiff: 'Pull Request #482',
   manpage: 'notes(1) — Manual Page',
   spreadsheet: 'Q3 Working Notes.xlsx',
+  docs: 'Working Notes - Google Docs',
   email: 'Inbox',
   memo: 'Meeting Minutes.docx',
   slides: 'Notes — Slide Deck',
@@ -290,7 +292,18 @@ const ICON_DEFS = {
       '<line x1="3.4" y1="3.4" x2="5.5" y2="5.5"/><line x1="10.5" y1="10.5" x2="12.6" y2="12.6"/>' +
       '<line x1="12.6" y1="3.4" x2="10.5" y2="5.5"/><line x1="5.5" y1="10.5" x2="3.4" y2="12.6"/></g>'
   },
-  pencil: { body: '<path d="M11.2 2.3l2.5 2.5L6 12.5H3.5V10z"/>' }
+  pencil: { body: '<path d="M11.2 2.3l2.5 2.5L6 12.5H3.5V10z"/>' },
+  check: { body: '<path d="M3 8.5l3 3 7-7"/>' },
+  indent: {
+    body: '<line x1="2" y1="3" x2="14" y2="3"/><line x1="6" y1="6.5" x2="14" y2="6.5"/>' +
+      '<path d="M2 5.2v2.6l1.8-1.3z" fill="currentColor" stroke="none"/>' +
+      '<line x1="6" y1="10" x2="14" y2="10"/><line x1="2" y1="13" x2="14" y2="13"/>'
+  },
+  bullets: {
+    body: '<circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="6" y1="4" x2="14" y2="4"/>' +
+      '<circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="6" y1="8" x2="14" y2="8"/>' +
+      '<circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="6" y1="12" x2="14" y2="12"/>'
+  }
 };
 
 function icon(name, cls) {
@@ -501,6 +514,43 @@ function renderHrPolicy(paras, startIndex = 0) {
   return html;
 }
 
+function renderDocs(paras) {
+  const fontLabel = FONT_LABELS[state.fontFamily] || 'Arial';
+  const ruleNums = [1, 2, 3, 4, 5, 6, 7].map((n) => `<span>${n}</span>`).join('');
+
+  let html = '<div class="docs-chrome">';
+  html += '<div class="docs-titlebar">' +
+    `<span class="docs-icon">${icon('file')}</span>` +
+    '<span class="docs-title">Working Notes</span>' +
+    `<span class="docs-ico">${icon('star')}</span><span class="docs-chrome-spacer"></span>` +
+    `<span class="docs-ico">${icon('comment')}</span>` +
+    `<span class="docs-share">${icon('lock')} Share <span class="chev">&#9662;</span></span>` +
+    '<span class="docs-avatar">U</span></div>';
+  html += '<div class="docs-toolbar">' +
+    `<span class="docs-menus">${icon('search')} Menus</span>` +
+    toolGroup([icon('undo'), icon('redo'), icon('print'), icon('check'), icon('paint')]) +
+    `<span class="tgrp"><span class="tico twide">100% &#9662;</span></span><span class="tdiv"></span>` +
+    `<span class="tgrp"><span class="tico twide">Normal text &#9662;</span></span><span class="tdiv"></span>` +
+    `<span class="tgrp"><span class="tico twide">${escapeHtml(fontLabel)} &#9662;</span></span><span class="tdiv"></span>` +
+    `<span class="tgrp"><span class="tico">&minus;</span><span class="tico tsize">10</span><span class="tico">+</span></span><span class="tdiv"></span>` +
+    `<span class="tgrp"><span class="tico" style="font-weight:700">B</span><span class="tico" style="font-style:italic">I</span>` +
+    `<span class="tico" style="text-decoration:underline">U</span><span class="tico">A</span></span><span class="tdiv"></span>` +
+    toolGroup([icon('paint'), icon('link'), icon('comment')]) +
+    `<span class="tgrp"><span class="tico">${icon('align')}</span><span class="tico">${icon('valign')}</span>` +
+    `<span class="tico">${icon('bullets')}</span><span class="tico">${icon('bullets')}</span>` +
+    `<span class="tico" style="display:inline-block;transform:scaleX(-1)">${icon('indent')}</span><span class="tico">${icon('indent')}</span></span>` +
+    '<span class="tgrp docs-editing"><span class="tico">' + icon('pencil') + ' Editing <span class="chev">&#9662;</span></span></span>' +
+    '</div>';
+  html += `<div class="docs-ruler"><div class="docs-ruler-ticks"></div><div class="docs-ruler-nums">${ruleNums}</div>` +
+    '<span class="docs-ruler-marker left">&#9660;</span><span class="docs-ruler-marker right">&#9660;</span></div>';
+  html += '</div>';
+
+  html += '<div class="docs-page"><div class="docs-heading">Overview</div><div class="docs-text">';
+  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div></div>';
+  return html;
+}
+
 function renderClaude(paras) {
   const chats = ['Reading notes', 'Quarterly planning', 'Draft outline', 'Research summary', 'Follow-up questions'];
   let html = '<div class="claude-shell"><div class="claude-sidebar">';
@@ -577,6 +627,7 @@ const RENDERERS = {
   prdiff: renderPrDiff,
   manpage: renderManpage,
   spreadsheet: renderSpreadsheet,
+  docs: renderDocs,
   email: renderEmail,
   memo: renderMemo,
   slides: renderSlides,

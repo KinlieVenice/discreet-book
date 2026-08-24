@@ -477,6 +477,62 @@ body.theme-spreadsheet .sheet-tab {
 }
 
 /* ===================================================== */
+/* Theme: DOCS — Google Docs authenticity                     */
+/* ===================================================== */
+body.theme-docs #content { background: #f0f0f0; font-family: Arial, var(--sans); }
+body.theme-docs .docs-chrome { position: sticky; top: 0; z-index: 5; background: #ffffff; }
+
+body.theme-docs .docs-titlebar {
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1rem; font-family: var(--sans);
+}
+body.theme-docs .docs-icon { color: #4285f4; font-size: 1.15rem; }
+body.theme-docs .docs-title { font-size: 0.95rem; color: #202124; }
+body.theme-docs .docs-ico { color: #5f6368; font-size: 0.95rem; }
+body.theme-docs .docs-chrome-spacer { flex: 1; }
+body.theme-docs .docs-share {
+  background: #1a73e8; color: #ffffff; border-radius: 20px; padding: 0.35rem 0.9rem; font-size: 0.82rem;
+}
+body.theme-docs .docs-avatar {
+  width: 26px; height: 26px; border-radius: 50%; background: #1a73e8; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 0.76rem; flex-shrink: 0;
+}
+body.theme-docs .docs-toolbar {
+  display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; border-top: 1px solid #e8eaed;
+  border-bottom: 1px solid #e8eaed; overflow-x: auto; white-space: nowrap; font-family: var(--sans);
+}
+body.theme-docs .docs-menus { display: flex; align-items: center; gap: 0.4rem; color: #444746; font-size: 0.86rem; margin-right: 0.4rem; }
+body.theme-docs .tgrp { display: flex; align-items: center; gap: 0.5rem; }
+body.theme-docs .tdiv { width: 1px; height: 18px; background: #e0e0e0; flex-shrink: 0; }
+body.theme-docs .tico { color: #444746; font-size: 0.86rem; }
+body.theme-docs .tico.twide, body.theme-docs .tsize { color: #3c4043; }
+body.theme-docs .tico.twide { padding: 0.1rem 0.3rem; }
+body.theme-docs .docs-editing { color: #1a73e8; font-size: 0.82rem; margin-left: auto; }
+body.theme-docs .docs-editing .tico { color: #1a73e8; display: flex; align-items: center; gap: 0.3rem; }
+
+body.theme-docs .docs-ruler { position: relative; height: 22px; background: #ffffff; }
+body.theme-docs .docs-ruler-ticks {
+  position: absolute; inset: 0; margin: 0 auto; max-width: 720px;
+  background-image: repeating-linear-gradient(to right, #d8d8d8 0 1px, transparent 1px 34px);
+}
+body.theme-docs .docs-ruler-nums {
+  position: relative; display: flex; justify-content: space-between; max-width: 660px; margin: 0 auto;
+  padding: 0 2px; font-family: var(--mono); font-size: 0.62rem; color: #80868b; line-height: 22px;
+}
+body.theme-docs .docs-ruler-marker { position: absolute; top: 2px; color: #1a73e8; font-size: 0.7rem; }
+body.theme-docs .docs-ruler-marker.left { left: calc(50% - 330px); }
+body.theme-docs .docs-ruler-marker.right { right: calc(50% - 330px); }
+
+body.theme-docs .docs-page {
+  max-width: 720px; margin: 1.8rem auto calc(var(--content-bottom-pad) + 1rem); background: #ffffff; color: #202124;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15); padding: 3rem 3.4rem; font-family: Arial, var(--sans);
+}
+body.theme-docs .docs-heading { font-size: 1.28rem; font-weight: 700; margin-bottom: 1.1rem; }
+body.theme-docs .docs-text p {
+  font-family: var(--office-font-body, Arial, var(--sans)); font-size: calc(var(--reader-font-size) * 0.94);
+  line-height: 1.75; margin: 0 0 1.05em;
+}
+
+/* ===================================================== */
 /* Theme: EMAIL — inbox reading-pane authenticity            */
 /* ===================================================== */
 body.theme-email #content { background: #ffffff; }
@@ -762,6 +818,8 @@ body.theme-gpt .gpt-disclaimer {
   body.theme-ticket .ticket-chrome, body.theme-ticket .ticket-thread { margin-left: 1rem; margin-right: 1rem; }
   body.theme-hrpolicy .hr-chrome { padding: 0.8rem 1.2rem; }
   body.theme-hrpolicy .hr-page { padding: 1.8rem 1.4rem; margin: 1rem auto calc(var(--content-bottom-pad) + 1rem); }
+  body.theme-docs .docs-page { padding: 1.8rem 1.4rem; margin: 1rem auto calc(var(--content-bottom-pad) + 1rem); }
+  body.theme-docs .docs-ruler { display: none; }
   body.theme-spreadsheet .sheet-cell:not(.wide) { display: none; }
   body.theme-claude .claude-sidebar { display: none; }
   body.theme-claude .claude-chrome { padding: 1rem 1.2rem 0.8rem; }
