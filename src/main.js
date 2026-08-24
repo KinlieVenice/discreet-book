@@ -338,24 +338,51 @@ function colLetter(n) {
   return s;
 }
 
+function toolGroup(icons) {
+  return `<span class="tgrp">${icons.map((i) => `<span class="tico">${i}</span>`).join('')}</span><span class="tdiv"></span>`;
+}
+
 function renderSpreadsheet(paras) {
-  const fontLabel = FONT_LABELS[state.fontFamily] || 'Calibri';
+  const fontLabel = FONT_LABELS[state.fontFamily] || 'Default';
   const ptSize = Math.max(8, Math.round(state.fontSize * 0.75));
+
   let html = '<div class="sheet-chrome">';
-  html += '<div class="sheet-ribbon">' +
-    '<div class="ribbon-tabs"><span class="active">Home</span><span>Insert</span><span>Page Layout</span><span>Formulas</span><span>Data</span><span>Review</span><span>View</span></div>' +
-    `<div class="ribbon-tools"><span>${escapeHtml(fontLabel)}</span><span>${ptSize}</span><span class="ico">B</span><span class="ico">I</span><span class="ico">U</span><span class="ico">▤</span><span class="ico">%</span></div>` +
+  html += '<div class="sheet-titlebar">' +
+    '<span class="sheet-icon">&#9638;</span><span class="sheet-title">Untitled spreadsheet</span>' +
+    '<span class="sheet-star">&#9734;</span><span class="sheet-chrome-spacer"></span>' +
+    '<span class="sheet-titlebar-ico">&#128172;</span>' +
+    '<span class="sheet-share">&#128274; Share <span class="chev">&#9662;</span></span>' +
+    '<span class="sheet-avatar">U</span></div>';
+  html += '<div class="sheet-menubar">' +
+    ['File', 'Edit', 'View', 'Insert', 'Format', 'Data', 'Tools', 'Extensions', 'Help', 'Accessibility']
+      .map((m) => `<span>${m}</span>`).join('') + '</div>';
+  html += '<div class="sheet-toolbar">' +
+    toolGroup(['&#8981;', '&#8630;', '&#8631;', '&#128438;', '&#128396;']) +
+    `<span class="tgrp"><span class="tico twide">100% &#9662;</span></span><span class="tdiv"></span>` +
+    toolGroup(['$', '%', '.0', '.00', '123&nbsp;&#9662;']) +
+    `<span class="tgrp"><span class="tico twide">${escapeHtml(fontLabel)}&nbsp;&#9662;</span></span><span class="tdiv"></span>` +
+    `<span class="tgrp"><span class="tico">&minus;</span><span class="tico tsize">${ptSize}</span><span class="tico">+</span></span><span class="tdiv"></span>` +
+    `<span class="tgrp"><span class="tico" style="font-weight:700">B</span><span class="tico" style="font-style:italic">I</span>` +
+    `<span class="tico" style="text-decoration:line-through">S</span><span class="tico">A</span></span><span class="tdiv"></span>` +
+    toolGroup(['&#128166;', '&#8862;', '&#8863;']) +
+    toolGroup(['&#8801;', '&#8597;', '&#8629;', '&#8635;']) +
+    toolGroup(['&#128279;', '&#128172;', '&#128202;', '&#9873;']) +
+    `<span class="tgrp"><span class="tico">&Sigma;</span><span class="tico">&#8942;</span></span>` +
     '</div>';
-  html += '<div class="sheet-formulabar"><span class="cell-ref">A1</span><span class="fx">fx</span><span class="fx-content"></span></div>';
+  html += '<div class="sheet-formulabar"><span class="cell-ref">A1</span><span class="fx"><i>fx</i></span><span class="fx-content"></span></div>';
   html += '<div class="sheet-colheader"><div class="corner"></div>';
-  for (let c = 0; c < 3; c++) html += `<div class="col-h">${colLetter(c)}</div>`;
+  for (let c = 0; c < 13; c++) html += `<div class="col-h">${colLetter(c)}</div>`;
   html += '</div></div>';
+
   html += '<div class="sheet-grid">';
   paras.forEach((p, i) => {
     html += `<div class="sheet-row"><div class="row-h">${i + 1}</div>` +
-      `<div class="sheet-cell wide">${escapeHtml(p)}</div><div class="sheet-cell"></div><div class="sheet-cell"></div></div>`;
+      `<div class="sheet-cell wide">${escapeHtml(p)}</div>` + '<div class="sheet-cell"></div>'.repeat(12) + '</div>';
   });
   html += '</div>';
+
+  html += '<div class="sheet-tabbar"><span class="tico">+</span><span class="tico">&#9776;</span>' +
+    '<span class="sheet-tab active">Sheet1 <span class="chev">&#9662;</span></span></div>';
   return html;
 }
 

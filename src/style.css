@@ -404,34 +404,72 @@ body.theme-manpage .man-body p { margin: 0 0 1em; text-align: justify; padding-l
 /* ===================================================== */
 /* Theme: SPREADSHEET — Excel/Sheets authenticity            */
 /* ===================================================== */
-body.theme-spreadsheet #content { background: #ffffff; font-family: 'Calibri', var(--sans); }
-body.theme-spreadsheet .sheet-chrome { position: sticky; top: 0; z-index: 5; background: #f3f2f1; }
-body.theme-spreadsheet .sheet-ribbon { background: #f3f2f1; border-bottom: 1px solid #d3d1cb; }
-body.theme-spreadsheet .ribbon-tabs { display: flex; gap: 1.1rem; padding: 0.4rem 1rem 0; font-size: 0.78rem; color: #444; }
-body.theme-spreadsheet .ribbon-tabs .active { color: #185c37; font-weight: 600; border-bottom: 2px solid #217346; padding-bottom: 0.35rem; }
-body.theme-spreadsheet .ribbon-tools { display: flex; gap: 0.9rem; padding: 0.4rem 1rem 0.5rem; font-size: 0.78rem; color: #555; }
-body.theme-spreadsheet .ribbon-tools .ico { font-weight: 700; border: 1px solid transparent; padding: 0.05rem 0.4rem; border-radius: 3px; }
-body.theme-spreadsheet .sheet-formulabar {
-  display: flex; align-items: center; gap: 0.7rem; background: #ffffff; border-bottom: 1px solid #d3d1cb;
-  padding: 0.3rem 1rem; font-size: 0.78rem; color: #333;
+body.theme-spreadsheet #content { background: #ffffff; font-family: Arial, var(--sans); }
+body.theme-spreadsheet .sheet-chrome { position: sticky; top: 0; z-index: 5; background: #ffffff; }
+
+body.theme-spreadsheet .sheet-titlebar {
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 1rem; font-family: var(--sans);
 }
-body.theme-spreadsheet .cell-ref { font-weight: 600; width: 3rem; }
-body.theme-spreadsheet .fx { color: #217346; font-style: italic; font-weight: 700; }
-body.theme-spreadsheet .sheet-colheader { display: flex; background: #f3f2f1; border-bottom: 1px solid #d3d1cb; }
-body.theme-spreadsheet .corner { width: 3rem; border-right: 1px solid #d3d1cb; }
-body.theme-spreadsheet .col-h { flex: 1; text-align: center; font-size: 0.76rem; color: #555; padding: 0.25rem 0; border-right: 1px solid #d3d1cb; }
+body.theme-spreadsheet .sheet-icon { color: #0f9d58; font-size: 1.2rem; }
+body.theme-spreadsheet .sheet-title { font-size: 0.98rem; color: #202124; }
+body.theme-spreadsheet .sheet-star { color: #70757a; font-size: 1rem; }
+body.theme-spreadsheet .sheet-chrome-spacer { flex: 1; }
+body.theme-spreadsheet .sheet-titlebar-ico { color: #5f6368; font-size: 1rem; }
+body.theme-spreadsheet .sheet-share {
+  background: #1f1f1f; color: #ffffff; border-radius: 20px; padding: 0.35rem 0.9rem; font-size: 0.82rem;
+}
+body.theme-spreadsheet .sheet-avatar {
+  width: 26px; height: 26px; border-radius: 50%; background: #1a73e8; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 0.76rem; flex-shrink: 0;
+}
+body.theme-spreadsheet .sheet-menubar {
+  display: flex; gap: 1.1rem; padding: 0 1rem 0.4rem; font-size: 0.82rem; color: #3c4043; font-family: var(--sans);
+}
+body.theme-spreadsheet .sheet-toolbar {
+  display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; border-top: 1px solid #e8eaed;
+  border-bottom: 1px solid #e8eaed; overflow-x: auto; white-space: nowrap;
+}
+body.theme-spreadsheet .tgrp { display: flex; align-items: center; gap: 0.5rem; }
+body.theme-spreadsheet .tdiv { width: 1px; height: 18px; background: #e0e0e0; flex-shrink: 0; }
+body.theme-spreadsheet .tico { color: #5f6368; font-size: 0.86rem; }
+body.theme-spreadsheet .tico.twide, body.theme-spreadsheet .tsize { color: #3c4043; }
+body.theme-spreadsheet .tico.twide { padding: 0.1rem 0.3rem; }
+
+body.theme-spreadsheet .sheet-formulabar {
+  display: flex; align-items: center; gap: 0.7rem; background: #ffffff; border-bottom: 1px solid #e0e0e0;
+  padding: 0.3rem 1rem; font-size: 0.8rem; color: #202124; font-family: var(--sans);
+}
+body.theme-spreadsheet .cell-ref { color: #1a73e8; font-weight: 600; width: 2.5rem; }
+body.theme-spreadsheet .fx { color: #5f6368; }
+body.theme-spreadsheet .sheet-colheader { display: flex; background: #f8f9fa; border-bottom: 1px solid #e0e0e0; }
+body.theme-spreadsheet .corner { width: 2.6rem; flex-shrink: 0; border-right: 1px solid #e0e0e0; }
+body.theme-spreadsheet .col-h {
+  flex: 1; min-width: 3.2rem; text-align: center; font-size: 0.76rem; color: #5f6368;
+  padding: 0.25rem 0; border-right: 1px solid #e0e0e0; font-family: var(--sans);
+}
 body.theme-spreadsheet .sheet-grid { padding-bottom: var(--content-bottom-pad); }
-body.theme-spreadsheet .sheet-row { display: flex; border-bottom: 1px solid #e4e2dc; }
+body.theme-spreadsheet .sheet-row { display: flex; border-bottom: 1px solid #e0e0e0; }
 body.theme-spreadsheet .row-h {
-  width: 3rem; flex-shrink: 0; text-align: center; font-size: 0.76rem; color: #555; background: #f3f2f1;
-  border-right: 1px solid #d3d1cb; padding: 0.5rem 0; user-select: none;
+  width: 2.6rem; flex-shrink: 0; text-align: center; font-size: 0.76rem; color: #5f6368; background: #f8f9fa;
+  border-right: 1px solid #e0e0e0; padding: 0.5rem 0; user-select: none; font-family: var(--sans);
 }
 body.theme-spreadsheet .sheet-cell {
-  flex: 1; padding: 0.5rem 0.7rem; font-family: var(--office-font-body, inherit);
-  font-size: calc(var(--reader-font-size) * 0.86); color: #1c1d1f; border-right: 1px solid #e4e2dc;
+  flex: 1; min-width: 3.2rem; padding: 0.5rem 0.7rem; font-family: var(--office-font-body, inherit);
+  font-size: calc(var(--reader-font-size) * 0.86); color: #202124; border-right: 1px solid #e0e0e0;
 }
-body.theme-spreadsheet .sheet-cell.wide { flex: 6; }
-body.theme-spreadsheet .sheet-row:first-child .sheet-cell.wide { outline: 2px solid #217346; outline-offset: -2px; }
+body.theme-spreadsheet .sheet-cell.wide { flex: 8; min-width: 20rem; }
+body.theme-spreadsheet .sheet-row:first-child .sheet-cell.wide { outline: 2px solid #1a73e8; outline-offset: -2px; }
+
+body.theme-spreadsheet .sheet-tabbar {
+  position: sticky; bottom: calc(var(--controls-h, 46px)); z-index: 6;
+  display: flex; align-items: center; gap: 0.9rem; background: #f8f9fa; border-top: 1px solid #e0e0e0;
+  padding: 0.4rem 1rem; font-family: var(--sans);
+}
+body.theme-spreadsheet .sheet-tabbar .tico { font-size: 1rem; }
+body.theme-spreadsheet .sheet-tab {
+  background: #ffffff; color: #1a73e8; font-size: 0.82rem; padding: 0.3rem 0.7rem;
+  border-radius: 4px 4px 0 0; border-bottom: 2px solid #1a73e8;
+}
 
 /* ===================================================== */
 /* Theme: EMAIL — inbox reading-pane authenticity            */
