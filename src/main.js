@@ -303,6 +303,30 @@ const ICON_DEFS = {
     body: '<circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="6" y1="4" x2="14" y2="4"/>' +
       '<circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="6" y1="8" x2="14" y2="8"/>' +
       '<circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="6" y1="12" x2="14" y2="12"/>'
+  },
+  numbered: {
+    body: '<rect x="1.6" y="3.1" width="1.8" height="1.8" fill="currentColor" stroke="none"/><line x1="6" y1="4" x2="14" y2="4"/>' +
+      '<rect x="1.6" y="7.1" width="1.8" height="1.8" fill="currentColor" stroke="none"/><line x1="6" y1="8" x2="14" y2="8"/>' +
+      '<rect x="1.6" y="11.1" width="1.8" height="1.8" fill="currentColor" stroke="none"/><line x1="6" y1="12" x2="14" y2="12"/>'
+  },
+  highlight: { body: '<path d="M10 2l4 4-7 7H3.5v-3.5z"/><line x1="1.5" y1="14.5" x2="12.5" y2="14.5"/>' },
+  outdent: {
+    body: '<line x1="2" y1="3" x2="14" y2="3"/><line x1="6" y1="6.5" x2="14" y2="6.5"/>' +
+      '<path d="M6 5.2v2.6L4.2 6.5z" fill="currentColor" stroke="none"/>' +
+      '<line x1="6" y1="10" x2="14" y2="10"/><line x1="2" y1="13" x2="14" y2="13"/>'
+  },
+  rulermarker: { body: '<path d="M4 2h8l-4 5z" fill="currentColor" stroke="none"/><path d="M4 14h8l-4-5z" fill="currentColor" stroke="none"/>' },
+  outline: { body: '<line x1="2.5" y1="4.5" x2="13.5" y2="4.5"/><line x1="2.5" y1="8" x2="10.5" y2="8"/><line x1="2.5" y1="11.5" x2="13.5" y2="11.5"/>' },
+  lightbulb: {
+    body: '<path d="M8 1.8a4.3 4.3 0 0 0-2.4 7.9c.4.3.6.7.6 1.2v.4h3.6v-.4c0-.5.2-.9.6-1.2A4.3 4.3 0 0 0 8 1.8z"/>' +
+      '<line x1="6.4" y1="13.2" x2="9.6" y2="13.2"/><line x1="6.7" y1="14.4" x2="9.3" y2="14.4"/>'
+  },
+  person: { body: '<circle cx="8" cy="5" r="2.6"/><path d="M2.7 14c0-2.9 2.4-4.8 5.3-4.8s5.3 1.9 5.3 4.8"/>' },
+  mappin: { body: '<path d="M8 14.3S12.6 9.7 12.6 6.3a4.6 4.6 0 1 0-9.2 0C3.4 9.7 8 14.3 8 14.3z"/><circle cx="8" cy="6.2" r="1.7"/>' },
+  waffle: {
+    body: '<g fill="currentColor" stroke="none">' +
+      ['3', '8', '13'].map((cy) => ['3', '8', '13'].map((cx) => `<circle cx="${cx}" cy="${cy}" r="1.3"/>`).join('')).join('') +
+      '</g>'
   }
 };
 
@@ -555,19 +579,42 @@ function renderDocs(paras) {
     `<span class="tgrp"><span class="tico">&minus;</span><span class="tico tsize">10</span><span class="tico">+</span></span><span class="tdiv"></span>` +
     `<span class="tgrp"><span class="tico" style="font-weight:700">B</span><span class="tico" style="font-style:italic">I</span>` +
     `<span class="tico" style="text-decoration:underline">U</span><span class="tico">A</span></span><span class="tdiv"></span>` +
-    toolGroup([icon('paint'), icon('link'), icon('comment')]) +
+    toolGroup([icon('highlight'), icon('link'), icon('comment')]) +
     `<span class="tgrp"><span class="tico">${icon('align')}</span><span class="tico">${icon('valign')}</span>` +
-    `<span class="tico">${icon('bullets')}</span><span class="tico">${icon('bullets')}</span>` +
-    `<span class="tico" style="display:inline-block;transform:scaleX(-1)">${icon('indent')}</span><span class="tico">${icon('indent')}</span></span>` +
+    `<span class="tico">${icon('bullets')}</span><span class="tico">${icon('numbered')}</span>` +
+    `<span class="tico">${icon('outdent')}</span><span class="tico">${icon('indent')}</span></span>` +
     '<span class="tgrp docs-editing"><span class="tico">' + icon('pencil') + ' Editing <span class="chev">&#9662;</span></span></span>' +
     '</div>';
   html += `<div class="docs-ruler"><div class="docs-ruler-ticks"></div><div class="docs-ruler-nums">${ruleNums}</div>` +
-    '<span class="docs-ruler-marker left">&#9660;</span><span class="docs-ruler-marker right">&#9660;</span></div>';
+    `<span class="docs-ruler-marker left">${icon('rulermarker')}</span><span class="docs-ruler-marker right">${icon('rulermarker')}</span></div>`;
   html += '</div>';
 
-  html += '<div class="docs-page"><div class="docs-heading">Overview</div><div class="docs-text">';
-  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div>';
+  html += `<div class="docs-iconrail">` +
+    `<span class="docs-rail-ico">${icon('lightbulb')}</span>` +
+    `<span class="docs-rail-ico docs-rail-circle">${icon('check')}</span>` +
+    `<span class="docs-rail-ico">${icon('person')}</span>` +
+    `<span class="docs-rail-ico">${icon('mappin')}</span>` +
+    `<span class="docs-rail-ico">${icon('waffle')}</span>` +
+    `<span class="docs-rail-ico docs-rail-plus">+</span>` +
+    '</div>';
+
+  const PAGE_BREAK_SIZE = 7;
+  const chunks = [];
+  for (let i = 0; i < paras.length; i += PAGE_BREAK_SIZE) chunks.push(paras.slice(i, i + PAGE_BREAK_SIZE));
+  if (chunks.length === 0) chunks.push([]);
+
+  chunks.forEach((chunk, ci) => {
+    const isLast = ci === chunks.length - 1;
+    html += `<div class="docs-page${isLast ? ' last' : ''}">`;
+    if (ci === 0) {
+      html += `<span class="docs-outline-toggle">${icon('outline')}</span>`;
+      html += '<div class="docs-heading">Overview</div>';
+    }
+    html += '<div class="docs-text">';
+    chunk.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+    html += '</div></div>';
+  });
+
   html += '</div></div>';
   return html;
 }

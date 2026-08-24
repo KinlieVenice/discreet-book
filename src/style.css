@@ -538,13 +538,28 @@ body.theme-docs .docs-ruler-nums {
   position: relative; display: flex; justify-content: space-between; max-width: 660px; margin: 0 auto;
   padding: 0 2px; font-family: var(--mono); font-size: 0.62rem; color: #80868b; line-height: 22px;
 }
-body.theme-docs .docs-ruler-marker { position: absolute; top: 2px; color: #1a73e8; font-size: 0.7rem; }
-body.theme-docs .docs-ruler-marker.left { left: calc(50% - 330px); }
-body.theme-docs .docs-ruler-marker.right { right: calc(50% - 330px); }
+body.theme-docs .docs-ruler-marker { position: absolute; top: 2px; color: #1a73e8; width: 12px; height: 18px; }
+body.theme-docs .docs-ruler-marker.left { left: calc(50% - 330px - 6px); }
+body.theme-docs .docs-ruler-marker.right { right: calc(50% - 330px - 6px); }
+
+body.theme-docs .docs-iconrail {
+  position: fixed; right: 14px; top: 50%; transform: translateY(-50%); z-index: 4;
+  display: flex; flex-direction: column; align-items: center; gap: 1.1rem;
+  background: #ffffff; border-radius: 20px; padding: 0.9rem 0.6rem; box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+body.theme-docs .docs-rail-ico { color: #5f6368; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
+body.theme-docs .docs-rail-circle { border: 1.5px solid #1a73e8; color: #1a73e8; border-radius: 50%; width: 22px; height: 22px; }
+body.theme-docs .docs-rail-plus { color: #5f6368; font-size: 1.1rem; line-height: 1; }
 
 body.theme-docs .docs-page {
-  max-width: 720px; margin: 1.8rem auto calc(var(--content-bottom-pad) + 1rem); background: #ffffff; color: #202124;
+  position: relative; max-width: 720px; margin: 1.6rem auto; background: #ffffff; color: #202124;
   box-shadow: 0 1px 3px rgba(0,0,0,0.15); padding: 3rem 3.4rem; font-family: Arial, var(--sans);
+}
+body.theme-docs .docs-page:first-of-type { margin-top: 1.8rem; }
+body.theme-docs .docs-page.last { margin-bottom: calc(var(--content-bottom-pad) + 1rem); }
+body.theme-docs .docs-outline-toggle {
+  position: absolute; left: 0.7rem; top: 3rem; width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid #dadce0; color: #5f6368; display: flex; align-items: center; justify-content: center;
 }
 body.theme-docs .docs-heading { font-size: 1.28rem; font-weight: 700; margin-bottom: 1.1rem; }
 body.theme-docs .docs-text p {
@@ -839,7 +854,10 @@ body.theme-gpt .gpt-disclaimer {
   body.theme-hrpolicy .hr-chrome { padding: 0.8rem 1.2rem; }
   body.theme-hrpolicy .hr-page { padding: 1.8rem 1.4rem; margin: 1rem auto calc(var(--content-bottom-pad) + 1rem); }
   body.theme-docs .docs-sidebar { display: none; }
-  body.theme-docs .docs-page { padding: 1.8rem 1.4rem; margin: 1rem auto calc(var(--content-bottom-pad) + 1rem); }
+  body.theme-docs .docs-iconrail { display: none; }
+  body.theme-docs .docs-outline-toggle { display: none; }
+  body.theme-docs .docs-page { padding: 1.8rem 1.4rem; margin: 1rem auto; }
+  body.theme-docs .docs-page.last { margin-bottom: calc(var(--content-bottom-pad) + 1rem); }
   body.theme-docs .docs-ruler { display: none; }
   body.theme-spreadsheet .sheet-cell:not(.wide) { display: none; }
   body.theme-claude .claude-sidebar { display: none; }
