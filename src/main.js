@@ -327,7 +327,58 @@ const ICON_DEFS = {
     body: '<g fill="currentColor" stroke="none">' +
       ['3', '8', '13'].map((cy) => ['3', '8', '13'].map((cx) => `<circle cx="${cx}" cy="${cy}" r="1.3"/>`).join('')).join('') +
       '</g>'
-  }
+  },
+  gmaillogo: {
+    body: '<rect x="1" y="2.6" width="14" height="10.8" rx="1.6" fill="#ffffff" stroke="#dadce0" stroke-width="1"/>' +
+      '<path d="M2.2 4.4 8 8.6l5.8-4.2" fill="none" stroke="#ea4335" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M2 4.1v7.5a1.1 1.1 0 0 0 1.1 1.1H4V6.9z" fill="#4285f4" stroke="none"/>' +
+      '<path d="M14 4.1v7.5a1.1 1.1 0 0 1-1.1 1.1H12V6.9z" fill="#34a853" stroke="none"/>' +
+      '<path d="M2 4.1 4 5.6v1.3L2 5.3z" fill="#fbbc04" stroke="none"/>' +
+      '<path d="M14 4.1 12 5.6v1.3l2-1.6z" fill="#fbbc04" stroke="none"/>'
+  },
+  inboxtray: {
+    body: '<path d="M2.3 9V4.3a1 1 0 0 1 1-1h9.4a1 1 0 0 1 1 1V9"/>' +
+      '<path d="M2.3 9h3.4l1 1.7h2.6l1-1.7h3.4"/>' +
+      '<path d="M2.3 9v2.7a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1V9"/>'
+  },
+  send: { body: '<path d="M2 8.2 13.7 2.3 9.3 13.7l-1.8-4.6z"/><path d="M7.5 9.1 13.7 2.3"/>' },
+  clock: { body: '<circle cx="8" cy="8.6" r="5.8"/><path d="M8 5.4v3.2l2.3 1.3"/><line x1="5.6" y1="1.5" x2="10.4" y2="1.5"/>' },
+  chevrondown: { body: '<path d="M4 6.2 8 10l4-3.8"/>' },
+  bag: { body: '<path d="M4.2 5h7.6l.8 8.5H3.4z"/><path d="M6.2 5V3.8a1.8 1.8 0 0 1 3.6 0V5"/>' },
+  envelope: { body: '<rect x="1.6" y="3.6" width="12.8" height="9" rx="1"/><path d="M1.9 4.2 8 9l6.1-4.8"/>' },
+  folder: { body: '<path d="M2 4.2h4.2l1.1 1.4h6.7a1 1 0 0 1 1 1v6.2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5.2a1 1 0 0 1 1-1z"/>' },
+  tag: { body: '<path d="M2 2.3h5.4L14 8.9 8.9 14 2.3 7.4z"/><circle cx="4.9" cy="4.9" r="1" fill="currentColor" stroke="none"/>' },
+  trash: {
+    body: '<line x1="2.8" y1="4.5" x2="13.2" y2="4.5"/><path d="M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5"/>' +
+      '<path d="M4.4 4.5l.7 9a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.7-9"/>'
+  },
+  alertcircle: { body: '<circle cx="8" cy="8" r="6.3"/><line x1="8" y1="5" x2="8" y2="9.2"/><circle cx="8" cy="11.3" r="0.2" fill="currentColor" stroke="none"/>' },
+  archivebox: {
+    body: '<rect x="2" y="2.6" width="12" height="3" rx="0.8"/><rect x="2.7" y="5.6" width="10.6" height="8" rx="0.8"/><line x1="6.3" y1="8.7" x2="9.7" y2="8.7"/>'
+  },
+  calendar: {
+    body: '<rect x="2" y="3.4" width="12" height="10.6" rx="1"/><line x1="2" y1="6.4" x2="14" y2="6.4"/><line x1="5.2" y1="1.9" x2="5.2" y2="4.6"/><line x1="10.8" y1="1.9" x2="10.8" y2="4.6"/>'
+  },
+  gear: {
+    body: '<circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.7M8 12.5v1.7M14.2 8h-1.7M3.5 8H1.8M12.3 3.7l-1.2 1.2M4.9 11.1l-1.2 1.2M12.3 12.3l-1.2-1.2M4.9 4.9 3.7 3.7"/>'
+  },
+  helpcircle: {
+    body: '<circle cx="8" cy="8" r="6.3"/><path d="M6.1 6.2a1.9 1.9 0 1 1 2.7 1.7c-.6.3-.9.7-.9 1.3v.3"/><circle cx="8" cy="11.6" r="0.2" fill="currentColor" stroke="none"/>'
+  },
+  puzzle: {
+    body: '<path d="M3 3h3.1a1.15 1.15 0 0 1 2.3 0H11a1 1 0 0 1 1 1v2.6a1.15 1.15 0 0 1 0 2.3V11a1 1 0 0 1-1 1H8.4a1.15 1.15 0 0 1-2.3 0H3a1 1 0 0 1-1-1V7.9a1.15 1.15 0 0 1 0-2.3V4a1 1 0 0 1 1-1z"/>'
+  },
+  spark: { body: '<path d="M8 1.4c.4 2.7 1.1 3.7 3.8 4.1a.25.25 0 0 1 0 .5c-2.7.4-3.4 1.4-3.8 4.1a.25.25 0 0 1-.5 0c-.4-2.7-1.1-3.7-3.8-4.1a.25.25 0 0 1 0-.5c2.7-.4 3.4-1.4 3.8-4.1a.25.25 0 0 1 .5 0z" fill="currentColor" stroke="none"/>' },
+  expand: { body: '<path d="M5.6 1.8h-3.8v3.8"/><path d="M1.8 1.8l4.3 4.3"/><path d="M10.4 14.2h3.8v-3.8"/><path d="M14.2 14.2 9.9 9.9"/>' },
+  popout: {
+    body: '<path d="M6.5 2h7.5v7.5"/><path d="M14 2 7.2 8.8"/><path d="M10.8 8.8v3.9a1.3 1.3 0 0 1-1.3 1.3H3.3A1.3 1.3 0 0 1 2 12.7V6.5a1.3 1.3 0 0 1 1.3-1.3h3.9"/>'
+  },
+  smiley: {
+    body: '<circle cx="8" cy="8" r="6.3"/><circle cx="5.6" cy="6.7" r="0.75" fill="currentColor" stroke="none"/>' +
+      '<circle cx="10.4" cy="6.7" r="0.75" fill="currentColor" stroke="none"/><path d="M5.2 9.7c.7 1.1 1.7 1.7 2.8 1.7s2.1-.6 2.8-1.7"/>'
+  },
+  reply: { body: '<path d="M6.6 4.2 2.4 8l4.2 3.8"/><path d="M2.4 8h6.4a4.7 4.7 0 0 1 4.7 4.7v.4"/>' },
+  forward: { body: '<path d="M9.4 4.2 13.6 8l-4.2 3.8"/><path d="M13.6 8H7.2a4.7 4.7 0 0 0-4.7 4.7v.4"/>' }
 };
 
 function icon(name, cls) {
@@ -478,18 +529,102 @@ function renderSpreadsheet(paras, startIndex = 0) {
   return html;
 }
 
-function renderEmail(paras) {
-  const subjects = ['Re: Q3 planning sync', 'Team offsite logistics', 'FYI: policy update', 'Weekly status', 'Follow-up notes'];
-  let html = '<div class="mail-shell"><div class="mail-list">';
-  subjects.forEach((s, i) => {
-    html += `<div class="mail-item${i === 0 ? ' active' : ''}"><div class="mail-item-subj">${s}</div><div class="mail-item-preview">Open to read the full thread…</div></div>`;
-  });
-  html += '</div><div class="mail-reading">';
-  html += '<div class="mail-chrome"><div class="mail-subject">Re: Q3 planning sync</div>' +
-    '<div class="mail-meta"><span class="mail-sender">Team Notes &lt;notes@internal&gt;</span><span class="mail-date">9:14 AM</span></div></div>';
+function renderEmail(paras, startIndex = 0, totalParas = paras.length) {
+  let html = '<div class="mail-shell"><div class="mail-nav">';
+  html += `<div class="mail-navtop"><span class="mail-hamburger">${icon('hamburger')}</span>` +
+    `<span class="mail-logo">${icon('gmaillogo')}Gmail</span></div>`;
+  html += `<div class="mail-compose">${icon('pencil')} Compose</div>`;
+  html += '<div class="mail-navlist">' +
+    `<div class="mail-navitem active">${icon('inboxtray')} Inbox<span class="mail-navcount">72</span></div>` +
+    `<div class="mail-navitem">${icon('star')} Starred</div>` +
+    `<div class="mail-navitem">${icon('clock')} Snoozed</div>` +
+    `<div class="mail-navitem">${icon('send')} Sent</div>` +
+    `<div class="mail-navitem">${icon('file')} Drafts<span class="mail-navcount light">5</span></div>` +
+    `<div class="mail-navitem">${icon('chevrondown')} Categories</div>` +
+    `<div class="mail-navitem sub">${icon('bag')} Purchases</div>` +
+    `<div class="mail-navitem">${icon('chevrondown')} More</div>` +
+    '</div>';
+  html += `<div class="mail-labels-head">Labels<span class="mail-plus">+</span></div>`;
+  html += '</div>';
+
+  html += '<div class="mail-main">';
+  html += '<div class="mail-chrome">';
+  html += '<div class="mail-topbar">' +
+    `<span class="mail-search">${icon('search')}<span class="mail-search-ph">Search mail</span>${icon('filter')}</span>` +
+    '<span class="mail-topbar-spacer"></span>' +
+    `<span class="mail-status"><span class="dot"></span>Active${icon('chevrondown')}</span>` +
+    `<span class="mail-topico">${icon('helpcircle')}</span>` +
+    `<span class="mail-topico">${icon('gear')}</span>` +
+    `<span class="mail-topico">${icon('puzzle')}</span>` +
+    `<span class="mail-topico spark">${icon('spark')}</span>` +
+    `<span class="mail-topico">${icon('waffle')}</span>` +
+    `<span class="mail-avatar-badge">FELCO<span class="mail-avatar">K</span></span>` +
+    '</div>';
+  html += '<div class="mail-toolbar">' +
+    `<span class="mail-tico">${icon('reply')}</span>` +
+    `<span class="mail-tico">${icon('archivebox')}</span>` +
+    `<span class="mail-tico">${icon('alertcircle')}</span>` +
+    `<span class="mail-tico">${icon('trash')}</span>` +
+    '<span class="mail-tdiv"></span>' +
+    `<span class="mail-tico">${icon('envelope')}</span>` +
+    `<span class="mail-tico">${icon('clock')}</span>` +
+    `<span class="mail-tico">${icon('check')}</span>` +
+    '<span class="mail-tdiv"></span>' +
+    `<span class="mail-tico">${icon('folder')}</span>` +
+    `<span class="mail-tico">${icon('tag')}</span>` +
+    `<span class="mail-tico">${icon('more')}</span>` +
+    '<span class="mail-toolbar-spacer"></span>' +
+    `<span class="mail-pageinfo">${Math.min(startIndex + 1, Math.max(totalParas, 1))} of ${totalParas.toLocaleString()}</span>` +
+    `<span class="mail-tico small">${icon('chevrondown', 'mail-flip-left')}</span>` +
+    `<span class="mail-tico small">${icon('chevrondown', 'mail-flip-right')}</span>` +
+    '</div>';
+  html += '<div class="mail-subjectrow">' +
+    '<span class="mail-subject">Important Update on Ticket SR-103309</span>' +
+    `<span class="mail-inbox-chip">Inbox<span class="chip-x">&times;</span></span>` +
+    '<span class="mail-subjrow-spacer"></span>' +
+    `<span class="mail-tico">${icon('expand')}</span>` +
+    `<span class="mail-tico">${icon('print')}</span>` +
+    `<span class="mail-tico">${icon('popout')}</span>` +
+    '</div>';
+  html += `<div class="mail-summarize">${icon('spark')}Summarize this email</div>`;
+  html += '<div class="mail-sender-row">' +
+    '<div class="mail-sender-avatar">IT</div>' +
+    '<div class="mail-sender-meta">' +
+    `<div class="mail-sender-name">ESM Service Desk<span class="mail-sender-addr">&lt;it.infra1@fireflyelectric.com&gt;</span></div>` +
+    `<div class="mail-sender-to">to me${icon('chevrondown')}</div>` +
+    '</div>' +
+    '<span class="mail-sender-date">Wed, Aug 19, 12:10 PM (5 days ago)</span>' +
+    `<span class="mail-tico">${icon('star')}</span>` +
+    `<span class="mail-tico">${icon('smiley')}</span>` +
+    `<span class="mail-tico">${icon('reply')}</span>` +
+    `<span class="mail-tico">${icon('more')}</span>` +
+    '</div>';
+  html += '</div>';
+
   html += '<div class="mail-body">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div></div>';
+  html += '<div class="mail-footer-note">This message is for the designated recipient only and may contain confidential ' +
+    'and/or privileged information. If you have received it in error, please delete it and advise the sender immediately. ' +
+    'You should not copy or use it for any other purpose, nor disclose contents to any other person</div>';
+  html += '<div class="mail-footer-actions">' +
+    `<span class="mail-fbtn">${icon('reply')}Reply</span>` +
+    `<span class="mail-fbtn">${icon('forward')}Forward</span>` +
+    `<span class="mail-fbtn icon-only">${icon('smiley')}</span>` +
+    `<span class="mail-fbtn">${icon('comment')}Share in chat</span>` +
+    '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="mail-iconrail">' +
+    `<span class="mail-rail-badge">${icon('calendar')}<span class="mail-rail-num">31</span></span>` +
+    '<div class="mail-rail-group">' +
+    `<span class="mail-rail-ico">${icon('lightbulb')}</span>` +
+    `<span class="mail-rail-ico circle">${icon('check')}</span>` +
+    `<span class="mail-rail-ico">${icon('person')}</span>` +
+    '</div>' +
+    '<span class="mail-rail-plus">+</span>' +
+    '</div>';
+  html += '</div>';
   return html;
 }
 
