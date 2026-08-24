@@ -235,6 +235,9 @@ button { font-family: inherit; }
 .ctrl-spacer { flex: 1; }
 .ctrl-hint { color: var(--text-dim); }
 #pageInfo { color: var(--text-dim); white-space: nowrap; }
+#pageIndicator { color: var(--text-dim); white-space: nowrap; }
+#prevPageBtn, #nextPageBtn { padding: 0.3rem 0.55rem; }
+#prevPageBtn:disabled, #nextPageBtn:disabled { opacity: 0.4; cursor: default; }
 .hide-zone { cursor: pointer; }
 .ctrl-spacer.hide-zone { min-height: 1.6rem; }
 

@@ -56,7 +56,13 @@ no need to run `npm run dev` locally every time.
 
 - Drop or click to choose a `.pdf`. It's parsed page-by-page entirely client-side
   (via `pdfjs-dist`) — no network request ever contains your file or its text.
-- `Space` / `↓` scrolls forward, `↑` scrolls back.
+- **Pagination** (on by default): the control bar groups every 10 source PDF
+  pages into one reader "page," with `‹`/`›` buttons and a `Page X / Y`
+  indicator. `Space`/`↓`/`PageDown` goes to the next page, `↑`/`PageUp` goes
+  back. Click "Pagination: On" to turn it off and fall back to one
+  continuously scrolling document — `Space`/arrows then scroll instead of
+  paging, and your exact scroll position is what gets remembered.
+- With pagination off: `Space` / `↓` scrolls forward, `↑` scrolls back.
 - `Esc` instantly blanks the whole screen to a generic loading spinner; `Esc`
   again (or click) returns you to exactly where you were.
 - Clicking the inert parts of the bottom control bar (the labels, the book

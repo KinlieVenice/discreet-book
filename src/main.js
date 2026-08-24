@@ -36,8 +36,16 @@ const fontDownBtn = document.getElementById('fontDown');
 const fontFamilyGroup = document.getElementById('fontFamilyGroup');
 const fontFamilySelect = document.getElementById('fontFamilySelect');
 const controlsHandle = document.getElementById('controlsHandle');
+const pageToggleBtn = document.getElementById('pageToggle');
+const prevPageBtn = document.getElementById('prevPageBtn');
+const nextPageBtn = document.getElementById('nextPageBtn');
+const pageIndicator = document.getElementById('pageIndicator');
 
-let state = { text: '', name: '', theme: 'coding', fontSize: 17, fontFamily: '', scrollPct: 0 };
+// One "reader page" groups this many source PDF pages (paragraphs — each
+// paragraph is one PDF page's worth of text) together, when pagination is on.
+const PAGE_SIZE = 10;
+
+let state = { text: '', name: '', theme: 'coding', fontSize: 17, fontFamily: '', scrollPct: 0, paginated: true, pageGroup: 0 };
 let panicOn = false;
 let saveTimer = null;
 let extracting = false;
@@ -117,7 +125,8 @@ function loadMeta() {
 function persistMeta() {
   safeSet(META_KEY, JSON.stringify({
     name: state.name, theme: state.theme, fontSize: state.fontSize,
-    fontFamily: state.fontFamily, scrollPct: state.scrollPct
+    fontFamily: state.fontFamily, scrollPct: state.scrollPct,
+    paginated: state.paginated, pageGroup: state.pageGroup
   }));
 }
 
@@ -350,14 +359,14 @@ function renderTerminal(paras) {
   return html;
 }
 
-function renderPrDiff(paras) {
+function renderPrDiff(paras, startIndex = 0, totalParas = paras.length) {
   let html = '<div class="diff-chrome">';
-  html += `<div class="diff-file-header">${icon('file')} notes/reading.md &nbsp; <span class="diff-badge">+` + paras.length + '&nbsp;&minus;0</span></div>';
-  html += `<div class="diff-hunk-marker">@@ -0,0 +1,${paras.length} @@</div>`;
+  html += `<div class="diff-file-header">${icon('file')} notes/reading.md &nbsp; <span class="diff-badge">+` + totalParas + '&nbsp;&minus;0</span></div>';
+  html += `<div class="diff-hunk-marker">@@ -0,0 +${startIndex + 1},${paras.length} @@</div>`;
   html += '</div>';
   html += '<div class="diff-file">';
   paras.forEach((p, i) => {
-    html += `<div class="diff-row"><div class="diff-gutter">${i + 1}</div><div class="diff-linecontent">${escapeHtml(p)}</div></div>`;
+    html += `<div class="diff-row"><div class="diff-gutter">${startIndex + i + 1}</div><div class="diff-linecontent">${escapeHtml(p)}</div></div>`;
   });
   html += '</div>';
   return html;
@@ -388,7 +397,7 @@ function toolGroup(icons) {
   return `<span class="tgrp">${icons.map((i) => `<span class="tico">${i}</span>`).join('')}</span><span class="tdiv"></span>`;
 }
 
-function renderSpreadsheet(paras) {
+function renderSpreadsheet(paras, startIndex = 0) {
   const fontLabel = FONT_LABELS[state.fontFamily] || 'Default';
   const ptSize = Math.max(8, Math.round(state.fontSize * 0.75));
 
@@ -422,7 +431,7 @@ function renderSpreadsheet(paras) {
 
   html += '<div class="sheet-grid">';
   paras.forEach((p, i) => {
-    html += `<div class="sheet-row"><div class="row-h">${i + 1}</div>` +
+    html += `<div class="sheet-row"><div class="row-h">${startIndex + i + 1}</div>` +
       `<div class="sheet-cell wide">${escapeHtml(p)}</div>` + '<div class="sheet-cell"></div>'.repeat(12) + '</div>';
   });
   html += '</div>';
@@ -469,7 +478,7 @@ function renderSlides(paras) {
   return html;
 }
 
-function renderTicket(paras) {
+function renderTicket(paras, startIndex = 0) {
   let html = '<div class="ticket-chrome">';
   html += '<div class="ticket-header"><span class="ticket-id">#10482</span><span class="ticket-status">Open</span><span class="ticket-priority">Normal</span></div>';
   html += '<div class="ticket-subject">Working notes &mdash; internal</div>';
@@ -477,17 +486,17 @@ function renderTicket(paras) {
   html += '<div class="ticket-thread">';
   paras.forEach((p, i) => {
     html += `<div class="ticket-comment"><div class="ticket-avatar"></div><div class="ticket-comment-body">` +
-      `<div class="ticket-comment-meta">Internal note &middot; ${i + 1}</div><p>${escapeHtml(p)}</p></div></div>`;
+      `<div class="ticket-comment-meta">Internal note &middot; ${startIndex + i + 1}</div><p>${escapeHtml(p)}</p></div></div>`;
   });
   html += '</div>';
   return html;
 }
 
-function renderHrPolicy(paras) {
+function renderHrPolicy(paras, startIndex = 0) {
   let html = '<div class="hr-chrome"><div class="hr-title">Employee Handbook</div><div class="hr-effective">Effective Date: This Year</div></div>';
   html += '<div class="hr-page"><div class="hr-section-label">Section 4 &mdash; Working Notes</div>';
   html += '<div class="hr-text">';
-  paras.forEach((p, i) => { html += `<p><span class="hr-num">4.${i + 1}</span>${escapeHtml(p)}</p>`; });
+  paras.forEach((p, i) => { html += `<p><span class="hr-num">4.${startIndex + i + 1}</span>${escapeHtml(p)}</p>`; });
   html += '</div></div>';
   return html;
 }
@@ -620,6 +629,39 @@ function setControlsCollapsed(collapsed) {
   updateControlsSpacing();
 }
 
+function totalPageGroups(allParasLength) {
+  return Math.max(1, Math.ceil(allParasLength / PAGE_SIZE));
+}
+
+function clampPageGroup(allParasLength) {
+  const total = totalPageGroups(allParasLength);
+  state.pageGroup = Math.min(Math.max(0, state.pageGroup || 0), total - 1);
+}
+
+function updatePaginationUI(allParasLength) {
+  pageToggleBtn.textContent = state.paginated ? 'Pagination: On' : 'Pagination: Off';
+  const show = state.paginated ? 'inline-block' : 'none';
+  prevPageBtn.style.display = show;
+  nextPageBtn.style.display = show;
+  pageIndicator.style.display = state.paginated ? 'inline' : 'none';
+  if (!state.paginated) return;
+  const total = totalPageGroups(allParasLength);
+  pageIndicator.textContent = `Page ${state.pageGroup + 1} / ${total}`;
+  prevPageBtn.disabled = state.pageGroup <= 0;
+  nextPageBtn.disabled = state.pageGroup >= total - 1;
+}
+
+function goToPage(delta) {
+  if (!state.paginated) return;
+  const allParas = paragraphsOf(state.text);
+  const total = totalPageGroups(allParas.length);
+  const next = Math.min(Math.max(0, state.pageGroup + delta), total - 1);
+  if (next === state.pageGroup) return;
+  state.pageGroup = next;
+  render();
+  schedulePersist();
+}
+
 function render() {
   document.body.className = 'theme-' + state.theme;
   document.title = TAB_TITLES[state.theme] || 'notes';
@@ -628,11 +670,20 @@ function render() {
   applyFontFamily();
   fontFamilyGroup.style.display = OFFICE_THEMES.has(state.theme) ? 'flex' : 'none';
 
-  const paras = paragraphsOf(state.text);
+  const allParas = paragraphsOf(state.text);
   const renderer = RENDERERS[state.theme] || renderCoding;
-  contentEl.innerHTML = renderer(paras);
 
-  pageInfo.textContent = state.name ? `${state.name} · ${paras.length} sections` : '';
+  let startIndex = 0;
+  let visibleParas = allParas;
+  if (state.paginated) {
+    clampPageGroup(allParas.length);
+    startIndex = state.pageGroup * PAGE_SIZE;
+    visibleParas = allParas.slice(startIndex, startIndex + PAGE_SIZE);
+  }
+  contentEl.innerHTML = renderer(visibleParas, startIndex, allParas.length);
+
+  pageInfo.textContent = state.name ? `${state.name} · ${allParas.length} sections` : '';
+  updatePaginationUI(allParas.length);
   updateControlsSpacing();
   restoreScroll();
 }
@@ -643,13 +694,24 @@ window.addEventListener('resize', () => {
 
 function restoreScroll() {
   requestAnimationFrame(() => {
-    const max = contentEl.scrollHeight - contentEl.clientHeight;
-    contentEl.scrollTop = max > 0 ? max * state.scrollPct : 0;
+    if (state.paginated) {
+      contentEl.scrollTop = 0;
+    } else {
+      const max = contentEl.scrollHeight - contentEl.clientHeight;
+      contentEl.scrollTop = max > 0 ? max * state.scrollPct : 0;
+    }
     updateProgress();
   });
 }
 
 function updateProgress() {
+  if (state.paginated) {
+    const allParasLength = paragraphsOf(state.text).length;
+    const total = totalPageGroups(allParasLength);
+    const pct = total > 1 ? state.pageGroup / (total - 1) : 0;
+    progressFill.style.width = Math.min(100, Math.max(0, pct * 100)) + '%';
+    return;
+  }
   const max = contentEl.scrollHeight - contentEl.clientHeight;
   const pct = max > 0 ? contentEl.scrollTop / max : 0;
   progressFill.style.width = Math.min(100, Math.max(0, pct * 100)) + '%';
@@ -660,6 +722,10 @@ function openReader() {
   landing.style.display = 'none';
   readerEl.classList.add('active');
   themeSelect.value = state.theme;
+  // Normalize state coming from a resumed save that predates pagination
+  // (paginated will be undefined there) as well as a fresh book.
+  state.paginated = state.paginated !== false;
+  state.pageGroup = state.pageGroup || 0;
   setControlsCollapsed(false);
   render();
   contentEl.focus();
@@ -766,6 +832,15 @@ fontDownBtn.addEventListener('click', () => {
   schedulePersist();
 });
 
+pageToggleBtn.addEventListener('click', () => {
+  state.paginated = !state.paginated;
+  if (state.paginated) clampPageGroup(paragraphsOf(state.text).length);
+  render();
+  schedulePersist();
+});
+prevPageBtn.addEventListener('click', () => goToPage(-1));
+nextPageBtn.addEventListener('click', () => goToPage(1));
+
 fontFamilySelect.addEventListener('change', () => {
   state.fontFamily = fontFamilySelect.value;
   applyFontFamily();
@@ -801,10 +876,12 @@ document.addEventListener('keydown', (e) => {
   if (!readerEl.classList.contains('active') || panicOn) return;
   if (e.key === ' ' || e.key === 'ArrowDown' || e.key === 'PageDown') {
     e.preventDefault();
-    contentEl.scrollBy({ top: contentEl.clientHeight * 0.85, behavior: 'smooth' });
+    if (state.paginated) goToPage(1);
+    else contentEl.scrollBy({ top: contentEl.clientHeight * 0.85, behavior: 'smooth' });
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
     e.preventDefault();
-    contentEl.scrollBy({ top: -contentEl.clientHeight * 0.85, behavior: 'smooth' });
+    if (state.paginated) goToPage(-1);
+    else contentEl.scrollBy({ top: -contentEl.clientHeight * 0.85, behavior: 'smooth' });
   }
 });
 
