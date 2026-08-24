@@ -41,10 +41,12 @@ let panicOn = false;
 let saveTimer = null;
 let extracting = false;
 
-// Only the "Office" group themes expose a font-family picker — engineering
-// themes (code/terminal/diff/man page) stay fixed-monospace, same as a real
-// editor or terminal wouldn't let you pick a document font.
-const OFFICE_THEMES = new Set(['business', 'data', 'spreadsheet', 'email', 'memo', 'slides', 'ticket', 'hrpolicy']);
+// Only the "Office" and "AI Chat" group themes expose a font-family picker —
+// engineering themes (code/terminal/diff/man page) stay fixed-monospace,
+// same as a real editor or terminal wouldn't let you pick a document font.
+const OFFICE_THEMES = new Set([
+  'business', 'data', 'spreadsheet', 'email', 'memo', 'slides', 'ticket', 'hrpolicy', 'claude', 'gpt'
+]);
 
 const FONT_STACKS = {
   calibri: "'Calibri', 'Carlito', var(--sans)",
@@ -73,7 +75,9 @@ const PANIC_LABELS = {
   memo: 'Loading document…',
   slides: 'Loading presentation…',
   ticket: 'Loading ticket…',
-  hrpolicy: 'Loading document…'
+  hrpolicy: 'Loading document…',
+  claude: 'Thinking…',
+  gpt: 'Generating…'
 };
 
 const TAB_TITLES = {
@@ -88,7 +92,9 @@ const TAB_TITLES = {
   memo: 'Meeting Minutes.docx',
   slides: 'Notes — Slide Deck',
   ticket: 'Ticket #10482',
-  hrpolicy: 'Employee Handbook.pdf'
+  hrpolicy: 'Employee Handbook.pdf',
+  claude: 'Claude',
+  gpt: 'ChatGPT'
 };
 
 function safeGet(key) {
@@ -412,6 +418,33 @@ function renderHrPolicy(paras) {
   return html;
 }
 
+function renderClaude(paras) {
+  const chats = ['Reading notes', 'Quarterly planning', 'Draft outline', 'Research summary', 'Follow-up questions'];
+  let html = '<div class="claude-shell"><div class="claude-sidebar"><div class="claude-newchat">+ New chat</div><div class="claude-history">';
+  chats.forEach((t, i) => { html += `<div class="claude-hist-item${i === 0 ? ' active' : ''}">${t}</div>`; });
+  html += '</div></div>';
+  html += '<div class="claude-main">';
+  html += '<div class="claude-chrome"><div class="claude-user-msg">Can you walk me through this in detail, section by section?</div></div>';
+  html += '<div class="claude-response"><div class="claude-avatar">C</div><div class="claude-response-text">';
+  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div></div></div></div>';
+  return html;
+}
+
+function renderGpt(paras) {
+  const chats = ['Project ideas', 'Debugging help', 'Email draft', 'Trip planning', 'Book notes'];
+  let html = '<div class="gpt-shell"><div class="gpt-sidebar"><div class="gpt-newchat">+ New chat</div><div class="gpt-history">';
+  chats.forEach((t, i) => { html += `<div class="gpt-hist-item${i === 0 ? ' active' : ''}">${t}</div>`; });
+  html += '</div></div>';
+  html += '<div class="gpt-main">';
+  html += '<div class="gpt-chrome"><div class="gpt-model-pill">ChatGPT 4o &#9662;</div>' +
+    '<div class="gpt-user-msg">Can you explain this in detail?</div></div>';
+  html += '<div class="gpt-response"><div class="gpt-avatar"></div><div class="gpt-response-text">';
+  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div></div></div></div>';
+  return html;
+}
+
 const RENDERERS = {
   coding: renderCoding,
   business: renderBusiness,
@@ -424,7 +457,9 @@ const RENDERERS = {
   memo: renderMemo,
   slides: renderSlides,
   ticket: renderTicket,
-  hrpolicy: renderHrPolicy
+  hrpolicy: renderHrPolicy,
+  claude: renderClaude,
+  gpt: renderGpt
 };
 
 function applyFontSize() {

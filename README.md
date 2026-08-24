@@ -21,7 +21,14 @@ your reading progress — stays in your browser. Nothing is uploaded to a server
 - **Support ticket** — helpdesk queue card with a comment thread
 - **HR policy doc** — numbered handbook sections, formal serif body
 
+**AI Chat**
+- **Claude** — sidebar chat history, sticky user question, your book as the response
+- **ChatGPT** — same idea in ChatGPT's grayscale styling
+
 Switch themes anytime from the bar at the bottom without losing your place.
+Office and AI Chat themes also get a font picker (Calibri, Arial, Times New
+Roman, Georgia, Cambria, Verdana, Tahoma, or theme default) next to the
+existing text-size buttons.
 
 ## Running it
 
