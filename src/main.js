@@ -45,16 +45,16 @@ const pageIndicator = document.getElementById('pageIndicator');
 // paragraph is one PDF page's worth of text) together, when pagination is on.
 const PAGE_SIZE = 10;
 
-let state = { text: '', name: '', theme: 'coding', fontSize: 17, fontFamily: '', scrollPct: 0, paginated: true, pageGroup: 0 };
+let state = { text: '', name: '', theme: 'gitlab', fontSize: 17, fontFamily: '', scrollPct: 0, paginated: true, pageGroup: 0 };
 let panicOn = false;
 let saveTimer = null;
 let extracting = false;
 
 // Only the "Office" and "AI Chat" group themes expose a font-family picker —
-// engineering themes (code/terminal/diff/man page) stay fixed-monospace,
-// same as a real editor or terminal wouldn't let you pick a document font.
+// engineering themes (diff/GitLab issue) stay fixed to their own real
+// typography, same as those tools wouldn't let you pick a document font.
 const OFFICE_THEMES = new Set([
-  'business', 'data', 'spreadsheet', 'docs', 'email', 'memo', 'slides', 'ticket', 'hrpolicy', 'claude', 'gpt'
+  'spreadsheet', 'docs', 'email', 'claude', 'gpt'
 ]);
 
 const FONT_STACKS = {
@@ -73,37 +73,21 @@ const FONT_LABELS = {
 };
 
 const PANIC_LABELS = {
-  coding: 'Installing dependencies…',
-  business: 'Loading document…',
-  data: 'Refreshing report…',
-  terminal: 'Reconnecting…',
   prdiff: 'Fetching diff…',
-  manpage: 'Loading manual…',
+  gitlab: 'Loading issue…',
   spreadsheet: 'Recalculating…',
   docs: 'Saving…',
   email: 'Checking for new mail…',
-  memo: 'Loading document…',
-  slides: 'Loading presentation…',
-  ticket: 'Loading ticket…',
-  hrpolicy: 'Loading document…',
   claude: 'Thinking…',
   gpt: 'Generating…'
 };
 
 const TAB_TITLES = {
-  coding: 'notes.md — Visual Studio Code',
-  business: 'Draft Proposal.docx',
-  data: 'Weekly Report',
-  terminal: 'app.log',
   prdiff: 'Pull Request #482',
-  manpage: 'notes(1) — Manual Page',
+  gitlab: 'Issue #128 · Working notes — internal · GitLab',
   spreadsheet: 'Q3 Working Notes.xlsx',
   docs: 'Working Notes - Google Docs',
   email: 'Inbox',
-  memo: 'Meeting Minutes.docx',
-  slides: 'Notes — Slide Deck',
-  ticket: 'Ticket #10482',
-  hrpolicy: 'Employee Handbook.pdf',
   claude: 'Claude',
   gpt: 'ChatGPT'
 };
@@ -254,11 +238,6 @@ function setExtractProgress(done, total) {
 
 /* ---------------- Theme rendering ---------------- */
 
-function kpi(label, value, up) {
-  return `<div class="kpi"><div class="kpi-label">${label}</div>` +
-    `<div class="kpi-value${up ? ' up' : ''}">${value}</div></div>`;
-}
-
 /* Small inline-SVG icon set, used in place of emoji. Emoji render as
    colorful platform-specific pictographs (and are occasionally the wrong
    glyph entirely for the intended entity code) — completely at odds with
@@ -392,7 +371,45 @@ const ICON_DEFS = {
       '<circle cx="10.4" cy="6.7" r="0.75" fill="currentColor" stroke="none"/><path d="M5.2 9.7c.7 1.1 1.7 1.7 2.8 1.7s2.1-.6 2.8-1.7"/>'
   },
   reply: { body: '<path d="M6.6 4.2 2.4 8l4.2 3.8"/><path d="M2.4 8h6.4a4.7 4.7 0 0 1 4.7 4.7v.4"/>' },
-  forward: { body: '<path d="M9.4 4.2 13.6 8l-4.2 3.8"/><path d="M13.6 8H7.2a4.7 4.7 0 0 0-4.7 4.7v.4"/>' }
+  forward: { body: '<path d="M9.4 4.2 13.6 8l-4.2 3.8"/><path d="M13.6 8H7.2a4.7 4.7 0 0 0-4.7 4.7v.4"/>' },
+  gitlablogo: {
+    body: '<path d="M1.3 6.2 5.3 6.2 8 14.2Z" fill="#e24329" stroke="none"/>' +
+      '<path d="M14.7 6.2 10.7 6.2 8 14.2Z" fill="#e24329" stroke="none"/>' +
+      '<path d="M5.3 6.2 10.7 6.2 8 14.2Z" fill="#fc6d26" stroke="none"/>' +
+      '<path d="M1.3 6.2 3.6 6.2 2.6 2.3Z" fill="#fc6d26" stroke="none"/>' +
+      '<path d="M14.7 6.2 12.4 6.2 13.4 2.3Z" fill="#fc6d26" stroke="none"/>' +
+      '<path d="M5.3 6.2 10.7 6.2 8 1.6Z" fill="#fca326" stroke="none"/>' +
+      '<path d="M1.3 6.2 2.6 2.3 5.3 6.2Z" fill="#fca326" stroke="none"/>' +
+      '<path d="M14.7 6.2 13.4 2.3 10.7 6.2Z" fill="#fca326" stroke="none"/>'
+  },
+  gitbranch: {
+    body: '<circle cx="4" cy="3.2" r="1.6"/><circle cx="4" cy="12.8" r="1.6"/><circle cx="12" cy="8" r="1.6"/>' +
+      '<line x1="4" y1="4.8" x2="4" y2="11.2"/><path d="M4 7.3a4.3 4.3 0 0 0 4 3.2h1.5"/>'
+  },
+  gitmerge: {
+    body: '<circle cx="4" cy="3.2" r="1.6"/><circle cx="4" cy="12.8" r="1.6"/><circle cx="12" cy="12.8" r="1.6"/>' +
+      '<line x1="4" y1="4.8" x2="4" y2="11.2"/><path d="M12 11.2V7.5a4.3 4.3 0 0 0-4-4.3"/>'
+  },
+  board: { body: '<rect x="1.8" y="2.5" width="12.4" height="11" rx="1"/><line x1="5.8" y1="2.5" x2="5.8" y2="13.5"/><line x1="10.2" y1="2.5" x2="10.2" y2="13.5"/>' },
+  headset: {
+    body: '<path d="M3 8.3V8a5 5 0 0 1 10 0v.3"/><rect x="2.2" y="8" width="2.4" height="3.6" rx="1"/>' +
+      '<rect x="11.4" y="8" width="2.4" height="3.6" rx="1"/><path d="M12.6 11.6v.5a2 2 0 0 1-2 2H9"/>'
+  },
+  flag: { body: '<line x1="3.2" y1="1.8" x2="3.2" y2="14.2"/><path d="M3.2 2.5h8.4l-2 2.8 2 2.8H3.2z"/>' },
+  rocket: {
+    body: '<path d="M8 1.7c2.4 1 3.8 3.5 3.8 6.5 0 1.6-.4 3-1 4.2H5.2c-.6-1.2-1-2.6-1-4.2 0-3 1.4-5.5 3.8-6.5z"/>' +
+      '<circle cx="8" cy="6.7" r="1.3"/><path d="M5.6 11.6 4 14.3l1.8-.6"/><path d="M10.4 11.6 12 14.3l-1.8-.6"/>'
+  },
+  shield: { body: '<path d="M8 1.5 13.6 3.6v4c0 3.7-2.3 6.5-5.6 7.5-3.3-1-5.6-3.8-5.6-7.5v-4z"/><path d="M5.5 8.1 7.1 9.7l3.3-3.5"/>' },
+  server: {
+    body: '<rect x="2" y="2.5" width="12" height="4" rx="1"/><rect x="2" y="9.5" width="12" height="4" rx="1"/>' +
+      '<circle cx="4.2" cy="4.5" r="0.5" fill="currentColor" stroke="none"/><circle cx="4.2" cy="11.5" r="0.5" fill="currentColor" stroke="none"/>'
+  },
+  book: { body: '<path d="M2.5 2.8c1.6-.6 3.5-.6 5.5.4v9.8c-2-1-3.9-1-5.5-.4z"/><path d="M13.5 2.8c-1.6-.6-3.5-.6-5.5.4v9.8c2-1 3.9-1 5.5-.4z"/>' },
+  codebrackets: { body: '<path d="M5.6 3.5 2 8l3.6 4.5"/><path d="M10.4 3.5 14 8l-3.6 4.5"/>' },
+  bell: { body: '<path d="M4 11V7.2a4 4 0 0 1 8 0V11l1.3 1.7H2.7z"/><path d="M6.6 13.6a1.6 1.6 0 0 0 2.8 0"/>' },
+  eye: { body: '<path d="M1.5 8S4 3.3 8 3.3 14.5 8 14.5 8 12 12.7 8 12.7 1.5 8 1.5 8Z"/><circle cx="8" cy="8" r="2.1"/>' },
+  clipboard: { body: '<rect x="3.2" y="2.8" width="9.6" height="11.4" rx="1.2"/><rect x="5.8" y="1.5" width="4.4" height="2.2" rx="0.6"/>' }
 };
 
 function icon(name, cls) {
@@ -403,62 +420,6 @@ function icon(name, cls) {
   const strokeAttr = def.filled ? 'none' : 'currentColor';
   return `<svg class="ico-svg${cls ? ' ' + cls : ''}" viewBox="0 0 16 16" fill="${fillAttr}" stroke="${strokeAttr}" ` +
     `stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${def.body}</svg>`;
-}
-
-function renderCoding(paras) {
-  let html = '<div class="code-chrome">';
-  html += '<div class="code-titlebar"><div class="code-tab active">notes.md</div>' +
-    '<div class="code-tab">README.md</div><div class="code-tab">TODO.md</div></div>';
-  html += '<div class="code-fileheader">/**<br>&nbsp;* @fileoverview Internal working notes<br>&nbsp;* @private<br>&nbsp;*/</div>';
-  html += '</div>';
-  html += '<div class="code-body"><div class="gutter">';
-  for (let i = 0; i < paras.length; i++) html += '<span>&nbsp;</span>';
-  html += '</div><div class="code-text">';
-  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div>';
-  return html;
-}
-
-function renderBusiness(paras) {
-  let html = '<div class="doc-chrome"><div class="doc-kicker"><span>Strategic Planning &mdash; Internal Draft</span><span>Confidential</span></div>' +
-    '<div class="doc-chrome-title">Proposal: Q4 Initiative Notes</div></div>';
-  html += '<div class="doc-page"><div class="doc-text">';
-  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div>';
-  return html;
-}
-
-function renderData(paras) {
-  let html = '<div class="dash-shell"><div class="dash-sidebar">';
-  ['Overview', 'Reports', 'Metrics', 'Notes', 'Settings'].forEach((item, idx) => {
-    html += `<div class="item${idx === 3 ? ' active' : ''}">${item}</div>`;
-  });
-  html += '</div><div class="dash-main">';
-  html += '<div class="dash-kpis">' +
-    kpi('Sessions', '18,204', true) + kpi('Conv. rate', '4.7%', false) +
-    kpi('Avg. time', '6m 12s', true) + kpi('Bounce', '31.2%', false) + '</div>';
-  html += '<div class="dash-panel"><div class="dash-panel-title">Report notes</div><div class="dash-text">';
-  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div></div></div>';
-  return html;
-}
-
-function renderTerminal(paras) {
-  let html = '<div class="term-header"><span class="prompt-sign">$</span>tail -f app.log</div>';
-  html += '<div class="term-body">';
-  const levels = ['info', 'debug', 'debug', 'warn', 'info'];
-  let t = 0;
-  paras.forEach((p, i) => {
-    t += 4 + (i % 7);
-    const hh = String(9 + Math.floor(t / 3600) % 6).padStart(2, '0');
-    const mm = String(Math.floor(t / 60) % 60).padStart(2, '0');
-    const ss = String(t % 60).padStart(2, '0');
-    const level = levels[i % levels.length];
-    html += `<div class="term-line"><span class="term-meta">[${hh}:${mm}:${ss}]</span> ` +
-      `<span class="term-level-${level}">${level.toUpperCase().padEnd(5)}</span> ${escapeHtml(p)}</div>`;
-  });
-  html += '</div>';
-  return html;
 }
 
 function renderPrDiff(paras, startIndex = 0, totalParas = paras.length) {
@@ -474,13 +435,90 @@ function renderPrDiff(paras, startIndex = 0, totalParas = paras.length) {
   return html;
 }
 
-function renderManpage(paras) {
-  let html = '<div class="man-bar"><span>NOTES(1)</span><span>General Commands Manual</span><span>NOTES(1)</span></div>';
-  html += '<div class="man-body">';
-  html += '<div class="man-section">NAME</div><p>notes &mdash; internal working notes</p>';
-  html += '<div class="man-section">DESCRIPTION</div>';
+function gitlabNavItem(iconName, label, count) {
+  return `<div class="gl-navitem">${icon(iconName)}<span>${label}</span>` +
+    (count != null ? `<span class="gl-navcount">${count}</span>` : '') + '</div>';
+}
+
+function gitlabRailRow(iconName, label) {
+  return `<div class="gl-railrow"><span class="gl-railico">${icon(iconName)}</span><span class="gl-railtext">${label}</span></div>`;
+}
+
+function renderGitlab(paras, startIndex = 0, totalParas = paras.length) {
+  let html = '<div class="gl-page">';
+
+  html += '<div class="gl-topbar">' +
+    `<span class="gl-topico">${icon('hamburger')}</span>` +
+    `<span class="gl-brand">${icon('gitlablogo')}GitLab</span>` +
+    `<span class="gl-search">${icon('search')}<span class="gl-search-ph">Search GitLab</span></span>` +
+    '<span class="gl-topbar-spacer"></span>' +
+    `<span class="gl-topico">+</span>` +
+    `<span class="gl-topico">${icon('gitmerge')}</span>` +
+    `<span class="gl-topico gl-bell"><span class="gl-badge">6</span>${icon('bell')}</span>` +
+    `<span class="gl-topico">${icon('helpcircle')}</span>` +
+    `<span class="gl-topico">${icon('gear')}</span>` +
+    '<span class="gl-avatar">U</span>' +
+    '</div>';
+
+  html += '<div class="gl-shell">';
+
+  html += '<div class="gl-sidebar">';
+  html += `<div class="gl-project"><span class="gl-project-icon">${icon('gitbranch')}</span><span>Workspace</span></div>`;
+  html += '<div class="gl-navlist">' +
+    gitlabNavItem('file', 'Project information') +
+    gitlabNavItem('gitbranch', 'Repository') +
+    gitlabNavItem('alertcircle', 'Issues', 24) +
+    `<div class="gl-navsub">` +
+    gitlabNavItem('board', 'Boards') +
+    gitlabNavItem('headset', 'Service Desk') +
+    gitlabNavItem('flag', 'Milestones') +
+    '</div>' +
+    gitlabNavItem('gitmerge', 'Merge requests', 3) +
+    gitlabNavItem('rocket', 'CI/CD') +
+    gitlabNavItem('shield', 'Security & Compliance') +
+    gitlabNavItem('rocket', 'Deployments') +
+    gitlabNavItem('chart', 'Monitor') +
+    gitlabNavItem('server', 'Infrastructure') +
+    gitlabNavItem('archivebox', 'Packages & Registries') +
+    gitlabNavItem('chart', 'Analytics') +
+    gitlabNavItem('book', 'Wiki') +
+    gitlabNavItem('codebrackets', 'Snippets') +
+    '</div>';
+  html += `<div class="gl-collapse">${icon('chevrondown', 'gl-collapse-ico')}<span>Collapse sidebar</span></div>`;
+  html += '</div>';
+
+  html += '<div class="gl-main">';
+  html += '<div class="gl-chrome">';
+  html += `<div class="gl-breadcrumb">Workspace <span class="sep">&rsaquo;</span> Project <span class="sep">&rsaquo;</span> Issues <span class="sep">&rsaquo;</span> <strong>#128</strong></div>`;
+  html += '<div class="gl-issuehead">' +
+    '<span class="gl-status open">Open</span>' +
+    '<span class="gl-issuemeta">Created 5 days ago by <span class="gl-avatar-sm">A</span> A. Rivera <span class="gl-role">Developer</span></span>' +
+    '<span class="gl-hspacer"></span>' +
+    '<span class="gl-closebtn">Close issue</span>' +
+    `<span class="gl-tico">${icon('more')}</span>` +
+    '</div>';
+  html += `<div class="gl-title">Working notes &mdash; internal<span class="gl-edit-ico">${icon('pencil')}</span></div>`;
+  html += '</div>';
+
+  html += '<div class="gl-body">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div>';
+  html += '</div>';
+
+  html += '<div class="gl-rail">' +
+    `<div class="gl-railtop">${icon('chevrondown', 'gl-rail-collapse')}</div>` +
+    gitlabRailRow('person', 'Assignee: None') +
+    gitlabRailRow('flag', 'Milestone: None') +
+    gitlabRailRow('calendar', 'Due date: None') +
+    gitlabRailRow('tag', 'Labels: 0') +
+    gitlabRailRow('eye', 'Confidential: No') +
+    gitlabRailRow('lock', 'Locked: No') +
+    gitlabRailRow('person', 'Participants: 1') +
+    gitlabRailRow('bell', 'Notifications') +
+    gitlabRailRow('clipboard', 'Copy reference') +
+    '</div>';
+
+  html += '</div></div>';
   return html;
 }
 
@@ -642,51 +680,6 @@ function renderEmail(paras, startIndex = 0, totalParas = paras.length) {
   return html;
 }
 
-function renderMemo(paras) {
-  let html = '<div class="memo-chrome"><div class="memo-title">Meeting Minutes</div>' +
-    '<div class="memo-meta"><div><strong>Date:</strong> Today</div><div><strong>Attendees:</strong> J. Ramirez, T. Okafor, P. Singh</div></div></div>';
-  html += '<div class="memo-page"><div class="memo-section-label">Notes</div>';
-  html += '<div class="memo-text">';
-  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div>';
-  return html;
-}
-
-function renderSlides(paras) {
-  let html = '<div class="slides-chrome"><div class="slides-strip">';
-  for (let i = 0; i < 5; i++) {
-    html += `<div class="slide-thumb${i === 1 ? ' active' : ''}"><span></span><span></span></div>`;
-  }
-  html += '</div><div class="slides-notes-label">Speaker Notes &mdash; Slide 2</div></div>';
-  html += '<div class="slides-notes-wrap"><div class="slides-notes">';
-  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
-  html += '</div></div>';
-  return html;
-}
-
-function renderTicket(paras, startIndex = 0) {
-  let html = '<div class="ticket-chrome">';
-  html += '<div class="ticket-header"><span class="ticket-id">#10482</span><span class="ticket-status">Open</span><span class="ticket-priority">Normal</span></div>';
-  html += '<div class="ticket-subject">Working notes &mdash; internal</div>';
-  html += '</div>';
-  html += '<div class="ticket-thread">';
-  paras.forEach((p, i) => {
-    html += `<div class="ticket-comment"><div class="ticket-avatar"></div><div class="ticket-comment-body">` +
-      `<div class="ticket-comment-meta">Internal note &middot; ${startIndex + i + 1}</div><p>${escapeHtml(p)}</p></div></div>`;
-  });
-  html += '</div>';
-  return html;
-}
-
-function renderHrPolicy(paras, startIndex = 0) {
-  let html = '<div class="hr-chrome"><div class="hr-title">Employee Handbook</div><div class="hr-effective">Effective Date: This Year</div></div>';
-  html += '<div class="hr-page"><div class="hr-section-label">Section 4 &mdash; Working Notes</div>';
-  html += '<div class="hr-text">';
-  paras.forEach((p, i) => { html += `<p><span class="hr-num">4.${startIndex + i + 1}</span>${escapeHtml(p)}</p>`; });
-  html += '</div></div>';
-  return html;
-}
-
 function docsTabItem(label, level, active) {
   return `<div class="docs-tab-item level${level}${active ? ' active' : ''}">${label}</div>`;
 }
@@ -837,19 +830,11 @@ function renderGpt(paras) {
 }
 
 const RENDERERS = {
-  coding: renderCoding,
-  business: renderBusiness,
-  data: renderData,
-  terminal: renderTerminal,
   prdiff: renderPrDiff,
-  manpage: renderManpage,
+  gitlab: renderGitlab,
   spreadsheet: renderSpreadsheet,
   docs: renderDocs,
   email: renderEmail,
-  memo: renderMemo,
-  slides: renderSlides,
-  ticket: renderTicket,
-  hrpolicy: renderHrPolicy,
   claude: renderClaude,
   gpt: renderGpt
 };
@@ -939,7 +924,7 @@ function render() {
   fontFamilyGroup.style.display = OFFICE_THEMES.has(state.theme) ? 'flex' : 'none';
 
   const allParas = paragraphsOf(state.text);
-  const renderer = RENDERERS[state.theme] || renderCoding;
+  const renderer = RENDERERS[state.theme] || renderGitlab;
 
   let startIndex = 0;
   let visibleParas = allParas;

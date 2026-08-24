@@ -6,21 +6,13 @@ your reading progress — stays in your browser. Nothing is uploaded to a server
 ## Themes
 
 **Engineering**
-- **Code file** — VS Code-style tabs, comment-block styling, line-number gutter
-- **Terminal / logs** — looks like `tail -f app.log` scrolling by
 - **PR diff** — GitHub-style diff view with a green addition gutter
-- **Man page** — classic black-background `man(1)` styling
+- **GitLab issue** — dark top nav with the real GitLab mark, project sidebar (Issues/Merge requests/CI-CD/…), issue header with status badge and title, metadata rail on the right
 
 **Office**
-- **Business proposal** — white page, serif type, "Confidential" header
-- **Analytics dashboard** — dark sidebar nav, fake KPI tiles
 - **Spreadsheet** — Google Sheets-style title bar/menu/toolbar, formula bar, row/column grid, sticky sheet-tab strip
-- **Google Docs** — title bar/toolbar/ruler, floating white page
-- **Email inbox** — Outlook/Gmail-style message list and reading pane
-- **Meeting notes** — memo with date/attendee header
-- **Slide deck notes** — PowerPoint speaker-notes view with a thumbnail strip
-- **Support ticket** — helpdesk queue card with a comment thread
-- **HR policy doc** — numbered handbook sections, formal serif body
+- **Google Docs** — real Docs logo, title bar/toolbar/ruler, document-tabs sidebar, floating pages with page breaks, a right-edge icon rail
+- **Email inbox** — real Gmail logo, full nav (Inbox/Starred/Snoozed/…), search bar, toolbar, sender row, icon rail
 
 **AI Chat**
 - **Claude** — dark warm UI, sidebar chat history, sticky chat-title bar, your book as the assistant's response, a fake sticky "Write a message…" bar at the bottom
