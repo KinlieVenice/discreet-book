@@ -557,7 +557,9 @@ body.theme-docs .docs-tab-item {
   padding: 0.4rem 1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-left: 3px solid transparent;
 }
 body.theme-docs .docs-tab-item.level0 { font-weight: 600; color: #202124; margin-top: 0.4rem; }
-body.theme-docs .docs-tab-item.level1 { padding-left: 2.1rem; color: #5f6368; }
+body.theme-docs .docs-tab-item.level1 { padding-left: 1.6rem; color: #3c4043; }
+body.theme-docs .docs-tab-item.level2 { padding-left: 2.6rem; color: #5f6368; }
+body.theme-docs .docs-tab-item.level3 { padding-left: 3.6rem; color: #5f6368; }
 body.theme-docs .docs-tab-item.active { color: #1a73e8; background: #e8f0fe; border-left-color: #1a73e8; }
 body.theme-docs .docs-main { flex: 1; min-width: 0; }
 body.theme-docs .docs-chrome { position: sticky; top: 0; z-index: 5; background: #ffffff; }
@@ -588,6 +590,8 @@ body.theme-docs .tico.twide, body.theme-docs .tsize { color: #3c4043; }
 body.theme-docs .tico.twide { padding: 0.1rem 0.3rem; }
 body.theme-docs .docs-editing { color: #1a73e8; font-size: 0.82rem; margin-left: auto; }
 body.theme-docs .docs-editing .tico { color: #1a73e8; display: flex; align-items: center; gap: 0.3rem; }
+body.theme-docs .docs-toolbar-collapse-wrap { margin-left: 0.6rem; }
+body.theme-docs .docs-toolbar-collapse { transform: rotate(180deg); }
 
 body.theme-docs .docs-ruler { position: relative; height: 22px; background: #ffffff; }
 body.theme-docs .docs-ruler-ticks {

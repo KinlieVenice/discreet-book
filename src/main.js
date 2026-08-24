@@ -414,7 +414,18 @@ const ICON_DEFS = {
   clipboard: { body: '<rect x="3.2" y="2.8" width="9.6" height="11.4" rx="1.2"/><rect x="5.8" y="1.5" width="4.4" height="2.2" rx="0.6"/>' },
   githublogo: {
     body: '<path d="M8 1.6c-3.6 0-6.4 2.9-6.4 6.5 0 2.9 1.9 5.4 4.5 6.2.3.1.5-.1.5-.4v-1.4c-1.8.4-2.2-.8-2.2-.8-.3-.8-.7-1-.7-1-.6-.4.1-.4.1-.4.6 0 1 .6 1 .6.6 1 1.6.7 2 .5.1-.4.2-.7.4-.9-1.4-.2-2.9-.7-2.9-3.2 0-.7.2-1.3.6-1.7-.1-.2-.3-.9.1-1.8 0 0 .5-.2 1.7.6.5-.1 1-.2 1.5-.2s1 .1 1.5.2c1.1-.8 1.7-.6 1.7-.6.3.9.1 1.6.1 1.8.4.5.6 1 .6 1.7 0 2.5-1.5 3-2.9 3.1.2.2.4.6.4 1.2v1.8c0 .3.2.5.5.4 2.6-.9 4.5-3.3 4.5-6.2 0-3.6-2.9-6.5-6.4-6.5z" fill="currentColor" stroke="none"/>'
-  }
+  },
+  imageicon: { body: '<rect x="1.5" y="2.5" width="13" height="11" rx="1"/><circle cx="5.5" cy="6" r="1.3"/><path d="M2 12l3.5-4 2.5 3 2-2.5L14 12"/>' },
+  checklist: {
+    body: '<rect x="1.7" y="2.7" width="2.4" height="2.4" rx="0.4"/><path d="M2.2 3.9l0.6 0.6 1-1.2"/><line x1="6" y1="3.9" x2="14" y2="3.9"/>' +
+      '<rect x="1.7" y="6.8" width="2.4" height="2.4" rx="0.4"/><path d="M2.2 8l0.6 0.6 1-1.2"/><line x1="6" y1="8" x2="14" y2="8"/>' +
+      '<rect x="1.7" y="10.9" width="2.4" height="2.4" rx="0.4"/><line x1="6" y1="12.1" x2="14" y2="12.1"/>'
+  },
+  clearformat: { body: '<line x1="2" y1="3" x2="10" y2="3"/><line x1="6" y1="3" x2="6" y2="11"/><line x1="10.5" y1="9.5" x2="14.5" y2="13.5"/><line x1="14.5" y1="9.5" x2="10.5" y2="13.5"/>' },
+  cloudsaved: {
+    body: '<path d="M4.8 11.5a3 3 0 0 1-.3-6 4 4 0 0 1 7.6-1.2A2.8 2.8 0 0 1 11.5 11.5z"/><path d="M6 8.3l1.5 1.5 3-3.2"/>'
+  },
+  mention: { body: '<circle cx="8" cy="8.4" r="3"/><path d="M11 8.4V10a1.8 1.8 0 0 0 3.5-.5V8a6.5 6.5 0 1 0-2.7 5.3"/>' }
 };
 
 function icon(name, cls) {
@@ -737,15 +748,16 @@ function renderDocs(paras) {
   html += `<div class="docs-sidebar-header"><span class="docs-back">&#8592;</span>Document tabs<span class="docs-plus">+</span></div>`;
   html += '<div class="docs-tabtree">' +
     docsTabItem('Tab 1', 0) +
-    docsTabItem('Draft Outline', 1) +
-    docsTabItem('Overview', 1, true) +
-    docsTabItem('Objectives', 1) +
-    docsTabItem('Notes', 1) +
-    docsTabItem('Appendix', 0) +
-    docsTabItem('Overview', 1) +
-    docsTabItem('References', 1) +
-    docsTabItem('Revisions', 1) +
-    docsTabItem('Changelog', 1) +
+    docsTabItem('Working Notes', 1) +
+    docsTabItem('Overview', 2, true) +
+    docsTabItem('Objectives', 2) +
+    docsTabItem('Details', 2) +
+    docsTabItem('Reference Material', 1) +
+    docsTabItem('Overview', 2) +
+    docsTabItem('Technical Notes', 1) +
+    docsTabItem('Timeline', 1) +
+    docsTabItem('Milestones', 2) +
+    docsTabItem('Checklist', 3) +
     '</div></div>';
 
   html += '<div class="docs-main">';
@@ -753,7 +765,12 @@ function renderDocs(paras) {
   html += '<div class="docs-titlebar">' +
     `<span class="docs-icon">${icon('googledocslogo')}</span>` +
     '<span class="docs-title">Working Notes</span>' +
-    `<span class="docs-ico">${icon('star')}</span><span class="docs-chrome-spacer"></span>` +
+    `<span class="docs-ico">${icon('mention')}</span>` +
+    `<span class="docs-ico">${icon('star')}</span>` +
+    `<span class="docs-ico">${icon('folder')}</span>` +
+    `<span class="docs-ico">${icon('cloudsaved')}</span>` +
+    '<span class="docs-chrome-spacer"></span>' +
+    `<span class="docs-ico">${icon('clock')}</span>` +
     `<span class="docs-ico">${icon('comment')}</span>` +
     `<span class="docs-share">${icon('lock')} Share <span class="chev">&#9662;</span></span>` +
     '<span class="docs-avatar">U</span></div>';
@@ -767,10 +784,13 @@ function renderDocs(paras) {
     `<span class="tgrp"><span class="tico" style="font-weight:700">B</span><span class="tico" style="font-style:italic">I</span>` +
     `<span class="tico" style="text-decoration:underline">U</span><span class="tico">A</span></span><span class="tdiv"></span>` +
     toolGroup([icon('highlight'), icon('link'), icon('comment')]) +
+    `<span class="tgrp"><span class="tico">+</span><span class="tico">${icon('imageicon')}</span></span><span class="tdiv"></span>` +
     `<span class="tgrp"><span class="tico">${icon('align')}</span><span class="tico">${icon('valign')}</span>` +
-    `<span class="tico">${icon('bullets')}</span><span class="tico">${icon('numbered')}</span>` +
-    `<span class="tico">${icon('outdent')}</span><span class="tico">${icon('indent')}</span></span>` +
+    `<span class="tico">${icon('checklist')}</span><span class="tico">${icon('bullets')}</span><span class="tico">${icon('numbered')}</span>` +
+    `<span class="tico">${icon('outdent')}</span><span class="tico">${icon('indent')}</span>` +
+    `<span class="tico">${icon('clearformat')}</span></span>` +
     '<span class="tgrp docs-editing"><span class="tico">' + icon('pencil') + ' Editing <span class="chev">&#9662;</span></span></span>' +
+    `<span class="tico docs-toolbar-collapse-wrap">${icon('chevrondown', 'docs-toolbar-collapse')}</span>` +
     '</div>';
   html += `<div class="docs-ruler"><div class="docs-ruler-ticks"></div><div class="docs-ruler-nums">${ruleNums}</div>` +
     `<span class="docs-ruler-marker left">${icon('rulermarker')}</span><span class="docs-ruler-marker right">${icon('rulermarker')}</span></div>`;
