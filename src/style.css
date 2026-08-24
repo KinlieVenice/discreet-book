@@ -353,7 +353,7 @@ body.theme-gitlab .gl-collapse {
 body.theme-gitlab .gl-collapse-ico { transform: rotate(90deg); }
 
 body.theme-gitlab .gl-main { flex: 1; min-width: 0; }
-body.theme-gitlab .gl-chrome { position: sticky; top: 52px; z-index: 5; background: #ffffff; padding: 1.4rem 2.2rem 0; }
+body.theme-gitlab .gl-chrome { position: sticky; top: 52px; z-index: 5; background: #ffffff; padding: 1.4rem 2.2rem 0; max-width: 880px; margin: 0 auto; }
 body.theme-gitlab .gl-breadcrumb { font-size: 0.8rem; color: #767676; margin-bottom: 0.9rem; }
 body.theme-gitlab .gl-breadcrumb .sep { margin: 0 0.3rem; }
 body.theme-gitlab .gl-breadcrumb strong { color: #303030; font-weight: 600; }
@@ -377,7 +377,7 @@ body.theme-gitlab .gl-title {
 }
 body.theme-gitlab .gl-edit-ico { color: #767676; width: 18px; height: 18px; }
 
-body.theme-gitlab .gl-body { padding: 1.4rem 2.2rem var(--content-bottom-pad); max-width: 880px; }
+body.theme-gitlab .gl-body { padding: 1.4rem 2.2rem var(--content-bottom-pad); max-width: 880px; margin: 0 auto; }
 body.theme-gitlab .gl-body p {
   font-family: var(--sans); font-size: calc(var(--reader-font-size) * 0.92); line-height: 1.7; margin: 0 0 1.1em; color: #303030;
 }
