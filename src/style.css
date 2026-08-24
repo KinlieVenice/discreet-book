@@ -393,6 +393,80 @@ body.theme-gitlab .gl-railrow { display: flex; align-items: center; gap: 0.7rem;
 body.theme-gitlab .gl-railico { color: #767676; width: 16px; height: 16px; flex-shrink: 0; }
 
 /* ===================================================== */
+/* Theme: GITHUB — README preview authenticity                */
+/* ===================================================== */
+body.theme-github #content { background: #0d1117; font-family: var(--sans); }
+body.theme-github .gh-page { min-height: 100%; }
+
+body.theme-github .gh-topbar {
+  position: sticky; top: 0; z-index: 20; height: 54px; display: flex; align-items: center; gap: 1rem;
+  background: #010409; border-bottom: 1px solid #21262d; color: #c9d1d9; padding: 0 1.2rem;
+}
+body.theme-github .gh-topico {
+  color: #c9d1d9; display: flex; align-items: center; gap: 0.2rem; font-size: 0.9rem; flex-shrink: 0; position: relative;
+}
+body.theme-github .gh-brand svg { width: 26px; height: 26px; color: #ffffff; }
+body.theme-github .gh-crumb { display: flex; align-items: center; gap: 0.35rem; font-size: 0.92rem; color: #c9d1d9; }
+body.theme-github .gh-crumb .sep { color: #6e7681; }
+body.theme-github .gh-crumb strong { font-weight: 600; }
+body.theme-github .gh-crumb svg { width: 12px; height: 12px; color: #8b949e; }
+body.theme-github .gh-search {
+  display: flex; align-items: center; gap: 0.6rem; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+  padding: 0.4rem 0.7rem; font-size: 0.82rem; color: #6e7681; width: 280px; max-width: 28vw;
+}
+body.theme-github .gh-search-ph { flex: 1; }
+body.theme-github .gh-search-ph kbd { border: 1px solid #30363d; border-radius: 3px; padding: 0 0.3rem; font-size: 0.72rem; }
+body.theme-github .gh-topbar-spacer { flex: 1; }
+body.theme-github .gh-bell { position: relative; }
+body.theme-github .gh-badge {
+  position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: #1f6feb; border-radius: 50%;
+  border: 2px solid #010409;
+}
+body.theme-github .gh-avatar {
+  width: 26px; height: 26px; border-radius: 50%; background: #6e40c9; color: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 0.76rem; font-weight: 600;
+}
+
+body.theme-github .gh-chrome { position: sticky; top: 54px; z-index: 5; background: #0d1117; }
+body.theme-github .gh-filebar {
+  display: flex; align-items: center; gap: 0.7rem; padding: 0.9rem 1.4rem; border-bottom: 1px solid #21262d;
+  font-size: 0.86rem; color: #c9d1d9;
+}
+body.theme-github .gh-fileico { color: #8b949e; width: 16px; height: 16px; }
+body.theme-github .gh-filecrumb { display: flex; align-items: center; gap: 0.35rem; }
+body.theme-github .gh-filecrumb .sep { color: #6e7681; }
+body.theme-github .gh-filename {
+  border: 1px solid #30363d; border-radius: 6px; padding: 0.2rem 0.6rem; background: #0d1117; color: #c9d1d9;
+}
+body.theme-github .gh-branchpill {
+  display: flex; align-items: center; gap: 0.4rem; background: #21262d; border-radius: 6px; padding: 0.25rem 0.6rem;
+  font-size: 0.78rem; color: #8b949e;
+}
+body.theme-github .gh-branchpill svg { width: 13px; height: 13px; }
+body.theme-github .gh-hspacer { flex: 1; }
+body.theme-github .gh-cancelbtn, body.theme-github .gh-commitbtn {
+  border-radius: 6px; padding: 0.4rem 0.9rem; font-size: 0.82rem; font-weight: 600; flex-shrink: 0;
+}
+body.theme-github .gh-cancelbtn { border: 1px solid #30363d; color: #c9d1d9; margin-right: 0.6rem; }
+body.theme-github .gh-commitbtn { background: #238636; color: #ffffff; border: 1px solid rgba(240,246,252,0.1); }
+body.theme-github .gh-tabbar {
+  display: flex; align-items: center; padding: 0 1.4rem; border-bottom: 1px solid #21262d; font-size: 0.84rem;
+}
+body.theme-github .gh-tab { padding: 0.7rem 0.9rem; color: #8b949e; border-bottom: 2px solid transparent; }
+body.theme-github .gh-tab.active { color: #c9d1d9; font-weight: 600; border-bottom-color: #f78166; }
+body.theme-github .gh-diffcheck { display: flex; align-items: center; gap: 0.5rem; color: #8b949e; }
+body.theme-github .gh-checkbox { width: 14px; height: 14px; border: 1px solid #30363d; border-radius: 3px; background: #0d1117; }
+
+body.theme-github .gh-body { max-width: 900px; margin: 0 auto; padding: 2rem 2rem var(--content-bottom-pad); }
+body.theme-github .gh-body h1 {
+  font-size: 1.9rem; font-weight: 600; color: #e6edf3; padding-bottom: 0.5rem; margin: 0 0 1rem;
+  border-bottom: 1px solid #21262d;
+}
+body.theme-github .gh-body p {
+  font-size: calc(var(--reader-font-size) * 0.92); line-height: 1.7; margin: 0 0 1.1em; color: #c9d1d9;
+}
+
+/* ===================================================== */
 /* Theme: SPREADSHEET — Excel/Sheets authenticity            */
 /* ===================================================== */
 body.theme-spreadsheet #content { background: #ffffff; font-family: Arial, var(--sans); }
@@ -851,6 +925,9 @@ body.theme-gpt .gpt-disclaimer {
   body.theme-gitlab .gl-search { display: none; }
   body.theme-gitlab .gl-chrome { padding: 0 1rem; }
   body.theme-gitlab .gl-body { padding: 0 1rem var(--content-bottom-pad); }
+  body.theme-github .gh-search { display: none; }
+  body.theme-github .gh-filebar { flex-wrap: wrap; padding: 0.8rem 1rem; }
+  body.theme-github .gh-body { padding: 1.4rem 1rem var(--content-bottom-pad); }
   body.theme-docs .docs-sidebar { display: none; }
   body.theme-docs .docs-iconrail { display: none; }
   body.theme-docs .docs-outline-toggle { display: none; }

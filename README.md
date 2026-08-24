@@ -8,6 +8,7 @@ your reading progress — stays in your browser. Nothing is uploaded to a server
 **Engineering**
 - **PR diff** — GitHub-style diff view with a green addition gutter
 - **GitLab issue** — dark top nav with the real GitLab mark, project sidebar (Issues/Merge requests/CI-CD/…), issue header with status badge and title, metadata rail on the right
+- **GitHub README** — dark top nav with the real Octocat mark, file breadcrumb with a branch pill, Edit/Preview tabs, Cancel/Commit changes buttons, rendered markdown preview body
 
 **Office**
 - **Spreadsheet** — Google Sheets-style title bar/menu/toolbar, formula bar, row/column grid, sticky sheet-tab strip

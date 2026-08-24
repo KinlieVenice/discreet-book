@@ -75,6 +75,7 @@ const FONT_LABELS = {
 const PANIC_LABELS = {
   prdiff: 'Fetching diff…',
   gitlab: 'Loading issue…',
+  github: 'Rendering preview…',
   spreadsheet: 'Recalculating…',
   docs: 'Saving…',
   email: 'Checking for new mail…',
@@ -85,6 +86,7 @@ const PANIC_LABELS = {
 const TAB_TITLES = {
   prdiff: 'Pull Request #482',
   gitlab: 'Issue #128 · Working notes — internal · GitLab',
+  github: 'project/README.md at main',
   spreadsheet: 'Q3 Working Notes.xlsx',
   docs: 'Working Notes - Google Docs',
   email: 'Inbox',
@@ -409,7 +411,10 @@ const ICON_DEFS = {
   codebrackets: { body: '<path d="M5.6 3.5 2 8l3.6 4.5"/><path d="M10.4 3.5 14 8l-3.6 4.5"/>' },
   bell: { body: '<path d="M4 11V7.2a4 4 0 0 1 8 0V11l1.3 1.7H2.7z"/><path d="M6.6 13.6a1.6 1.6 0 0 0 2.8 0"/>' },
   eye: { body: '<path d="M1.5 8S4 3.3 8 3.3 14.5 8 14.5 8 12 12.7 8 12.7 1.5 8 1.5 8Z"/><circle cx="8" cy="8" r="2.1"/>' },
-  clipboard: { body: '<rect x="3.2" y="2.8" width="9.6" height="11.4" rx="1.2"/><rect x="5.8" y="1.5" width="4.4" height="2.2" rx="0.6"/>' }
+  clipboard: { body: '<rect x="3.2" y="2.8" width="9.6" height="11.4" rx="1.2"/><rect x="5.8" y="1.5" width="4.4" height="2.2" rx="0.6"/>' },
+  githublogo: {
+    body: '<path d="M8 1.6c-3.6 0-6.4 2.9-6.4 6.5 0 2.9 1.9 5.4 4.5 6.2.3.1.5-.1.5-.4v-1.4c-1.8.4-2.2-.8-2.2-.8-.3-.8-.7-1-.7-1-.6-.4.1-.4.1-.4.6 0 1 .6 1 .6.6 1 1.6.7 2 .5.1-.4.2-.7.4-.9-1.4-.2-2.9-.7-2.9-3.2 0-.7.2-1.3.6-1.7-.1-.2-.3-.9.1-1.8 0 0 .5-.2 1.7.6.5-.1 1-.2 1.5-.2s1 .1 1.5.2c1.1-.8 1.7-.6 1.7-.6.3.9.1 1.6.1 1.8.4.5.6 1 .6 1.7 0 2.5-1.5 3-2.9 3.1.2.2.4.6.4 1.2v1.8c0 .3.2.5.5.4 2.6-.9 4.5-3.3 4.5-6.2 0-3.6-2.9-6.5-6.4-6.5z" fill="currentColor" stroke="none"/>'
+  }
 };
 
 function icon(name, cls) {
@@ -519,6 +524,46 @@ function renderGitlab(paras, startIndex = 0, totalParas = paras.length) {
     '</div>';
 
   html += '</div></div>';
+  return html;
+}
+
+function renderGithub(paras) {
+  let html = '<div class="gh-page">';
+
+  html += '<div class="gh-topbar">' +
+    `<span class="gh-topico">${icon('hamburger')}</span>` +
+    `<span class="gh-brand">${icon('githublogo')}</span>` +
+    `<span class="gh-crumb">workspace <span class="sep">/</span> <strong>project</strong>${icon('chevrondown')}</span>` +
+    `<span class="gh-search">${icon('search')}<span class="gh-search-ph">Type <kbd>/</kbd> to search</span></span>` +
+    '<span class="gh-topbar-spacer"></span>' +
+    `<span class="gh-topico">+${icon('chevrondown')}</span>` +
+    `<span class="gh-topico">${icon('gitmerge')}</span>` +
+    `<span class="gh-topico gh-bell"><span class="gh-badge"></span>${icon('bell')}</span>` +
+    '<span class="gh-avatar">U</span>' +
+    '</div>';
+
+  html += '<div class="gh-chrome">';
+  html += '<div class="gh-filebar">' +
+    `<span class="gh-fileico">${icon('folder')}</span>` +
+    '<span class="gh-filecrumb">project <span class="sep">/</span> <span class="gh-filename">README.md</span></span>' +
+    `<span class="gh-branchpill">${icon('gitbranch')}in main</span>` +
+    '<span class="gh-hspacer"></span>' +
+    '<span class="gh-cancelbtn">Cancel changes</span>' +
+    '<span class="gh-commitbtn">Commit changes&hellip;</span>' +
+    '</div>';
+  html += '<div class="gh-tabbar">' +
+    '<span class="gh-tab">Edit</span><span class="gh-tab active">Preview</span>' +
+    '<span class="gh-hspacer"></span>' +
+    '<label class="gh-diffcheck"><span class="gh-checkbox"></span>Show diff</label>' +
+    '</div>';
+  html += '</div>';
+
+  html += '<div class="gh-body markdown-body">';
+  html += '<h1>Project Notes</h1>';
+  paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div>';
+
+  html += '</div>';
   return html;
 }
 
@@ -832,6 +877,7 @@ function renderGpt(paras) {
 const RENDERERS = {
   prdiff: renderPrDiff,
   gitlab: renderGitlab,
+  github: renderGithub,
   spreadsheet: renderSpreadsheet,
   docs: renderDocs,
   email: renderEmail,
