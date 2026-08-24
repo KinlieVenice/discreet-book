@@ -41,6 +41,14 @@ Open the printed local URL (typically `http://localhost:5173`). Keep it open at
 that address — bookmark it, or run `npm run build && npm run preview` for a
 slightly more "just a website" feeling than a dev server banner.
 
+### Hosted version
+
+Pushes to `main` auto-deploy to GitHub Pages via `.github/workflows/deploy.yml`.
+One-time setup in the repo's GitHub settings: **Settings → Pages → Build and
+deployment → Source: GitHub Actions**. Once that's set, the site is live at
+`https://<owner>.github.io/discreet-book/` a minute or two after each push —
+no need to run `npm run dev` locally every time.
+
 ## Usage
 
 - Drop or click to choose a `.pdf`. It's parsed page-by-page entirely client-side
