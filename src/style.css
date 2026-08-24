@@ -480,6 +480,26 @@ body.theme-spreadsheet .sheet-tab {
 /* Theme: DOCS — Google Docs authenticity                     */
 /* ===================================================== */
 body.theme-docs #content { background: #f0f0f0; font-family: Arial, var(--sans); }
+body.theme-docs .docs-shell { display: flex; min-height: 100%; }
+body.theme-docs .docs-sidebar {
+  width: 232px; flex-shrink: 0; background: #ffffff; border-right: 1px solid #e8eaed;
+  font-family: var(--sans); font-size: 0.84rem; color: #3c4043;
+  position: sticky; top: 0; align-self: flex-start; height: 100vh; overflow-y: auto;
+}
+body.theme-docs .docs-sidebar-header {
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.9rem 1rem; color: #444746;
+  border-bottom: 1px solid #f1f3f4; font-size: 0.86rem;
+}
+body.theme-docs .docs-back { color: #5f6368; font-size: 1rem; }
+body.theme-docs .docs-plus { margin-left: auto; color: #5f6368; font-size: 1rem; }
+body.theme-docs .docs-tabtree { padding: 0.5rem 0; }
+body.theme-docs .docs-tab-item {
+  padding: 0.4rem 1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-left: 3px solid transparent;
+}
+body.theme-docs .docs-tab-item.level0 { font-weight: 600; color: #202124; margin-top: 0.4rem; }
+body.theme-docs .docs-tab-item.level1 { padding-left: 2.1rem; color: #5f6368; }
+body.theme-docs .docs-tab-item.active { color: #1a73e8; background: #e8f0fe; border-left-color: #1a73e8; }
+body.theme-docs .docs-main { flex: 1; min-width: 0; }
 body.theme-docs .docs-chrome { position: sticky; top: 0; z-index: 5; background: #ffffff; }
 
 body.theme-docs .docs-titlebar {
@@ -818,6 +838,7 @@ body.theme-gpt .gpt-disclaimer {
   body.theme-ticket .ticket-chrome, body.theme-ticket .ticket-thread { margin-left: 1rem; margin-right: 1rem; }
   body.theme-hrpolicy .hr-chrome { padding: 0.8rem 1.2rem; }
   body.theme-hrpolicy .hr-page { padding: 1.8rem 1.4rem; margin: 1rem auto calc(var(--content-bottom-pad) + 1rem); }
+  body.theme-docs .docs-sidebar { display: none; }
   body.theme-docs .docs-page { padding: 1.8rem 1.4rem; margin: 1rem auto calc(var(--content-bottom-pad) + 1rem); }
   body.theme-docs .docs-ruler { display: none; }
   body.theme-spreadsheet .sheet-cell:not(.wide) { display: none; }

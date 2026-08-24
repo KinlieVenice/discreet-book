@@ -514,11 +514,31 @@ function renderHrPolicy(paras, startIndex = 0) {
   return html;
 }
 
+function docsTabItem(label, level, active) {
+  return `<div class="docs-tab-item level${level}${active ? ' active' : ''}">${label}</div>`;
+}
+
 function renderDocs(paras) {
   const fontLabel = FONT_LABELS[state.fontFamily] || 'Arial';
   const ruleNums = [1, 2, 3, 4, 5, 6, 7].map((n) => `<span>${n}</span>`).join('');
 
-  let html = '<div class="docs-chrome">';
+  let html = '<div class="docs-shell"><div class="docs-sidebar">';
+  html += `<div class="docs-sidebar-header"><span class="docs-back">&#8592;</span>Document tabs<span class="docs-plus">+</span></div>`;
+  html += '<div class="docs-tabtree">' +
+    docsTabItem('Tab 1', 0) +
+    docsTabItem('Draft Outline', 1) +
+    docsTabItem('Overview', 1, true) +
+    docsTabItem('Objectives', 1) +
+    docsTabItem('Notes', 1) +
+    docsTabItem('Appendix', 0) +
+    docsTabItem('Overview', 1) +
+    docsTabItem('References', 1) +
+    docsTabItem('Revisions', 1) +
+    docsTabItem('Changelog', 1) +
+    '</div></div>';
+
+  html += '<div class="docs-main">';
+  html += '<div class="docs-chrome">';
   html += '<div class="docs-titlebar">' +
     `<span class="docs-icon">${icon('file')}</span>` +
     '<span class="docs-title">Working Notes</span>' +
@@ -547,6 +567,7 @@ function renderDocs(paras) {
 
   html += '<div class="docs-page"><div class="docs-heading">Overview</div><div class="docs-text">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
+  html += '</div></div>';
   html += '</div></div>';
   return html;
 }
