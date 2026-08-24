@@ -415,7 +415,7 @@ body.theme-spreadsheet .sheet-chrome { position: sticky; top: 0; z-index: 5; bac
 body.theme-spreadsheet .sheet-titlebar {
   display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 1rem; font-family: var(--sans);
 }
-body.theme-spreadsheet .sheet-icon { color: #0f9d58; font-size: 1.2rem; }
+body.theme-spreadsheet .sheet-icon svg { width: 20px; height: 20px; }
 body.theme-spreadsheet .sheet-title { font-size: 0.98rem; color: #202124; }
 body.theme-spreadsheet .sheet-star { color: #70757a; font-size: 1rem; }
 body.theme-spreadsheet .sheet-chrome-spacer { flex: 1; }
@@ -505,7 +505,7 @@ body.theme-docs .docs-chrome { position: sticky; top: 0; z-index: 5; background:
 body.theme-docs .docs-titlebar {
   display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1rem; font-family: var(--sans);
 }
-body.theme-docs .docs-icon { color: #4285f4; font-size: 1.15rem; }
+body.theme-docs .docs-icon svg { width: 19px; height: 19px; }
 body.theme-docs .docs-title { font-size: 0.95rem; color: #202124; }
 body.theme-docs .docs-ico { color: #5f6368; font-size: 0.95rem; }
 body.theme-docs .docs-chrome-spacer { flex: 1; }

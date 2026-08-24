@@ -336,6 +336,20 @@ const ICON_DEFS = {
       '<path d="M2 4.1 4 5.6v1.3L2 5.3z" fill="#fbbc04" stroke="none"/>' +
       '<path d="M14 4.1 12 5.6v1.3l2-1.6z" fill="#fbbc04" stroke="none"/>'
   },
+  googledocslogo: {
+    body: '<rect x="2.3" y="0.8" width="9.8" height="14.4" rx="1.3" fill="#ffffff" stroke="#c7cdd4" stroke-width="0.6"/>' +
+      '<path d="M8.7 0.9v3.2a1 1 0 0 0 1 1H12z" fill="#a4c2f4" stroke="none"/>' +
+      '<line x1="4.3" y1="7.5" x2="9.9" y2="7.5" stroke="#4285f4" stroke-width="1.1" stroke-linecap="round"/>' +
+      '<line x1="4.3" y1="9.6" x2="9.9" y2="9.6" stroke="#4285f4" stroke-width="1.1" stroke-linecap="round"/>' +
+      '<line x1="4.3" y1="11.7" x2="7.7" y2="11.7" stroke="#4285f4" stroke-width="1.1" stroke-linecap="round"/>'
+  },
+  googlesheetslogo: {
+    body: '<rect x="2.3" y="0.8" width="9.8" height="14.4" rx="1.3" fill="#ffffff" stroke="#c7cdd4" stroke-width="0.6"/>' +
+      '<path d="M8.7 0.9v3.2a1 1 0 0 0 1 1H12z" fill="#a0ddb1" stroke="none"/>' +
+      '<rect x="4.3" y="7.1" width="5.6" height="5.4" fill="none" stroke="#34a853" stroke-width="0.9"/>' +
+      '<line x1="4.3" y1="9.8" x2="9.9" y2="9.8" stroke="#34a853" stroke-width="0.9"/>' +
+      '<line x1="7.1" y1="7.1" x2="7.1" y2="12.5" stroke="#34a853" stroke-width="0.9"/>'
+  },
   inboxtray: {
     body: '<path d="M2.3 9V4.3a1 1 0 0 1 1-1h9.4a1 1 0 0 1 1 1V9"/>' +
       '<path d="M2.3 9h3.4l1 1.7h2.6l1-1.7h3.4"/>' +
@@ -491,7 +505,7 @@ function renderSpreadsheet(paras, startIndex = 0) {
 
   let html = '<div class="sheet-chrome">';
   html += '<div class="sheet-titlebar">' +
-    `<span class="sheet-icon">${icon('borders')}</span><span class="sheet-title">Untitled spreadsheet</span>` +
+    `<span class="sheet-icon">${icon('googlesheetslogo')}</span><span class="sheet-title">Untitled spreadsheet</span>` +
     `<span class="sheet-star">${icon('star')}</span><span class="sheet-chrome-spacer"></span>` +
     `<span class="sheet-titlebar-ico">${icon('comment')}</span>` +
     `<span class="sheet-share">${icon('lock')} Share <span class="chev">&#9662;</span></span>` +
@@ -699,7 +713,7 @@ function renderDocs(paras) {
   html += '<div class="docs-main">';
   html += '<div class="docs-chrome">';
   html += '<div class="docs-titlebar">' +
-    `<span class="docs-icon">${icon('file')}</span>` +
+    `<span class="docs-icon">${icon('googledocslogo')}</span>` +
     '<span class="docs-title">Working Notes</span>' +
     `<span class="docs-ico">${icon('star')}</span><span class="docs-chrome-spacer"></span>` +
     `<span class="docs-ico">${icon('comment')}</span>` +
