@@ -22,7 +22,7 @@ your reading progress — stays in your browser. Nothing is uploaded to a server
 - **HR policy doc** — numbered handbook sections, formal serif body
 
 **AI Chat**
-- **Claude** — sidebar chat history, sticky user question, your book as the response
+- **Claude** — dark warm UI, sidebar chat history, sticky chat-title bar, your book as the assistant's response
 - **ChatGPT** — same idea in ChatGPT's grayscale styling
 
 Switch themes anytime from the bar at the bottom without losing your place.
@@ -37,9 +37,12 @@ npm install
 npm run dev
 ```
 
-Open the printed local URL (typically `http://localhost:5173`). Keep it open at
-that address — bookmark it, or run `npm run build && npm run preview` for a
-slightly more "just a website" feeling than a dev server banner.
+Vite is configured with a fixed `/discreet-book/` base (matching the GitHub
+Pages URL below), so open **`http://localhost:5173/discreet-book/`** — not
+the bare root. Keep it open at that address — bookmark it, or run
+`npm run build && npm run preview` for a slightly more "just a website"
+feeling than a dev server banner (same `/discreet-book/` suffix applies
+there too).
 
 ### Hosted version
 

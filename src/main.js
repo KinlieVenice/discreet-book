@@ -420,12 +420,25 @@ function renderHrPolicy(paras) {
 
 function renderClaude(paras) {
   const chats = ['Reading notes', 'Quarterly planning', 'Draft outline', 'Research summary', 'Follow-up questions'];
-  let html = '<div class="claude-shell"><div class="claude-sidebar"><div class="claude-newchat">+ New chat</div><div class="claude-history">';
+  let html = '<div class="claude-shell"><div class="claude-sidebar">';
+  html += '<div class="claude-brand"><span class="claude-mark">&#10038;</span> Claude</div>';
+  html += '<div class="claude-tabs"><span class="active">Home</span><span>Code</span></div>';
+  html += '<div class="claude-newbtn">+ New</div>';
+  html += '<div class="claude-nav">' +
+    '<div class="claude-nav-item">Projects</div><div class="claude-nav-item">Artifacts</div>' +
+    '<div class="claude-nav-item">Scheduled</div><div class="claude-nav-item">Customize</div></div>';
+  html += '<div class="claude-section-label">Chats and tasks</div><div class="claude-history">';
   chats.forEach((t, i) => { html += `<div class="claude-hist-item${i === 0 ? ' active' : ''}">${t}</div>`; });
-  html += '</div></div>';
+  html += '</div>';
+  html += '<div class="claude-profile"><span class="claude-avatar-sm">U</span><span>You &middot; Pro</span></div>';
+  html += '</div>';
   html += '<div class="claude-main">';
-  html += '<div class="claude-chrome"><div class="claude-user-msg">Can you walk me through this in detail, section by section?</div></div>';
-  html += '<div class="claude-response"><div class="claude-avatar">C</div><div class="claude-response-text">';
+  html += '<div class="claude-chrome"><div class="claude-chat-title">Reading notes <span class="chev">&#9662;</span></div>' +
+    '<div class="claude-share">Share</div></div>';
+  html += '<div class="claude-response">';
+  html += '<div class="claude-user-msg">Can you walk me through this in detail, section by section?</div>';
+  html += '<div class="claude-thought">Thought for 9s</div>';
+  html += '<div class="claude-response-text">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div></div></div></div>';
   return html;

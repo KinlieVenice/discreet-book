@@ -520,35 +520,62 @@ body.theme-hrpolicy .hr-num { font-family: var(--mono); font-size: 0.78rem; colo
 /* ===================================================== */
 /* Theme: CLAUDE — AI chat authenticity                       */
 /* ===================================================== */
-body.theme-claude #content { background: #faf7f2; }
+body.theme-claude #content {
+  background: #262624; --c-bg: #262624; --c-sidebar: #1f1e1c; --c-elevated: #34322e; --c-border: #3a3835;
+  --c-text: #eeeae2; --c-text-dim: #8c8880; --c-accent: #da7756;
+}
 body.theme-claude .claude-shell { display: flex; min-height: 100%; }
 body.theme-claude .claude-sidebar {
-  width: 220px; flex-shrink: 0; background: #262019; color: #cabfa9;
-  padding: 1rem 0.8rem; font-family: var(--sans); font-size: 0.82rem;
+  width: 232px; flex-shrink: 0; background: var(--c-sidebar); color: var(--c-text-dim);
+  padding: 1rem 0.9rem; font-family: var(--sans); font-size: 0.82rem;
   position: sticky; top: 0; align-self: flex-start; height: 100vh; overflow-y: auto;
+  display: flex; flex-direction: column;
 }
-body.theme-claude .claude-newchat {
-  border: 1px solid #4a4030; border-radius: 8px; padding: 0.55rem 0.8rem; margin-bottom: 1rem; color: #e8e1d3;
+body.theme-claude .claude-brand {
+  display: flex; align-items: center; gap: 0.4rem; font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.08rem; color: var(--c-text); margin-bottom: 1.2rem;
 }
-body.theme-claude .claude-hist-item { padding: 0.5rem 0.7rem; border-radius: 6px; color: #a89b81; margin-bottom: 0.1rem; }
-body.theme-claude .claude-hist-item.active { background: #362c1f; color: #f0e9db; }
+body.theme-claude .claude-mark { color: var(--c-accent); font-size: 1.1rem; }
+body.theme-claude .claude-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+body.theme-claude .claude-tabs span { padding: 0.35rem 0.8rem; border-radius: 7px; font-size: 0.82rem; }
+body.theme-claude .claude-tabs span.active { background: var(--c-elevated); color: var(--c-text); }
+body.theme-claude .claude-newbtn {
+  background: var(--c-elevated); border-radius: 8px; padding: 0.55rem 0.8rem; margin-bottom: 1.1rem; color: var(--c-text);
+}
+body.theme-claude .claude-nav { margin-bottom: 1rem; }
+body.theme-claude .claude-nav-item { padding: 0.45rem 0.6rem; border-radius: 6px; font-size: 0.84rem; }
+body.theme-claude .claude-section-label {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.75; padding: 0 0.6rem; margin-bottom: 0.4rem;
+}
+body.theme-claude .claude-hist-item { padding: 0.5rem 0.6rem; border-radius: 6px; margin-bottom: 0.05rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body.theme-claude .claude-hist-item.active { background: var(--c-elevated); color: var(--c-text); }
+body.theme-claude .claude-profile {
+  margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--c-border);
+  display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem;
+}
+body.theme-claude .claude-avatar-sm {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--c-elevated); color: var(--c-text-dim);
+  display: flex; align-items: center; justify-content: center; font-size: 0.72rem; flex-shrink: 0;
+}
 body.theme-claude .claude-main { flex: 1; max-width: 760px; margin: 0 auto; }
 body.theme-claude .claude-chrome {
-  position: sticky; top: 0; z-index: 5; background: #faf7f2; padding: 1.4rem 2rem 1rem; border-bottom: 1px solid #ece4d4;
+  position: sticky; top: 0; z-index: 5; background: var(--c-bg); padding: 1rem 2rem;
+  border-bottom: 1px solid var(--c-border); display: flex; justify-content: space-between; align-items: center;
 }
+body.theme-claude .claude-chat-title { color: var(--c-text); font-family: var(--sans); font-size: 0.92rem; }
+body.theme-claude .claude-chat-title .chev { color: var(--c-text-dim); }
+body.theme-claude .claude-share {
+  border: 1px solid var(--c-border); border-radius: 8px; padding: 0.3rem 0.8rem; color: var(--c-text-dim); font-size: 0.8rem;
+}
+body.theme-claude .claude-response { padding: 1.6rem 2rem 8rem; }
 body.theme-claude .claude-user-msg {
-  background: #efe4d2; color: #3d3527; padding: 0.7rem 1.1rem; border-radius: 14px;
-  max-width: 70%; margin-left: auto; font-family: var(--sans); font-size: 0.94rem; line-height: 1.5;
+  background: var(--c-elevated); color: var(--c-text); padding: 0.7rem 1.1rem; border-radius: 16px;
+  max-width: 70%; margin: 0 0 1.6rem auto; font-family: var(--sans); font-size: 0.94rem; line-height: 1.5;
 }
-body.theme-claude .claude-response { display: flex; gap: 0.9rem; padding: 1.4rem 2rem 8rem; }
-body.theme-claude .claude-avatar {
-  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #da7756; color: #fff;
-  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; font-family: var(--sans);
-}
-body.theme-claude .claude-response-text { flex: 1; padding-top: 0.15rem; }
+body.theme-claude .claude-thought { color: var(--c-text-dim); font-family: var(--sans); font-size: 0.82rem; font-style: italic; margin-bottom: 1.1rem; }
 body.theme-claude .claude-response-text p {
-  font-family: var(--office-font-body, var(--sans)); font-size: calc(var(--reader-font-size) * 0.95);
-  line-height: 1.75; color: #3d3527; margin: 0 0 1.1em;
+  font-family: var(--office-font-body, 'Source Serif 4', Georgia, serif); font-size: calc(var(--reader-font-size) * 0.95);
+  line-height: 1.75; color: var(--c-text); margin: 0 0 1.1em;
 }
 
 /* ===================================================== */
