@@ -445,14 +445,24 @@ function renderClaude(paras) {
 }
 
 function renderGpt(paras) {
-  const chats = ['Project ideas', 'Debugging help', 'Email draft', 'Trip planning', 'Book notes'];
-  let html = '<div class="gpt-shell"><div class="gpt-sidebar"><div class="gpt-newchat">+ New chat</div><div class="gpt-history">';
+  const chats = ['Set phone alarms', 'Remove duplicate items', 'Draft outline', 'Trip planning', 'Book notes'];
+  let html = '<div class="gpt-shell"><div class="gpt-sidebar">';
+  html += '<div class="gpt-brand">ChatGPT</div>';
+  html += '<div class="gpt-newbtn">&#9998; New chat</div>';
+  html += '<div class="gpt-nav">' +
+    '<div class="gpt-nav-item">Images</div><div class="gpt-nav-item">Library</div>' +
+    '<div class="gpt-nav-item">Projects</div><div class="gpt-nav-item">Codex</div>' +
+    '<div class="gpt-nav-item">More</div></div>';
+  html += '<div class="gpt-section-label">Recents</div><div class="gpt-history">';
   chats.forEach((t, i) => { html += `<div class="gpt-hist-item${i === 0 ? ' active' : ''}">${t}</div>`; });
-  html += '</div></div>';
+  html += '</div>';
+  html += '<div class="gpt-profile"><span class="gpt-avatar-sm">U</span><span>You &middot; Free</span></div>';
+  html += '</div>';
   html += '<div class="gpt-main">';
-  html += '<div class="gpt-chrome"><div class="gpt-model-pill">ChatGPT 4o &#9662;</div>' +
-    '<div class="gpt-user-msg">Can you explain this in detail?</div></div>';
-  html += '<div class="gpt-response"><div class="gpt-avatar"></div><div class="gpt-response-text">';
+  html += '<div class="gpt-chrome"><div class="gpt-chrome-spacer"></div><div class="gpt-share">Share</div><div class="gpt-more">&hellip;</div></div>';
+  html += '<div class="gpt-response">';
+  html += '<div class="gpt-user-msg">Can you explain this in detail?</div>';
+  html += '<div class="gpt-response-text">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div></div></div></div>';
   return html;

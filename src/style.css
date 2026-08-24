@@ -581,34 +581,52 @@ body.theme-claude .claude-response-text p {
 /* ===================================================== */
 /* Theme: GPT — AI chat authenticity                          */
 /* ===================================================== */
-body.theme-gpt #content { background: #ffffff; }
+body.theme-gpt #content {
+  background: #0f0f0f; --g-bg: #0f0f0f; --g-sidebar: #171717; --g-elevated: #262626; --g-border: #2a2a2a;
+  --g-text: #ececec; --g-text-dim: #9a9a9a; --g-bubble: #2f6feb;
+}
 body.theme-gpt .gpt-shell { display: flex; min-height: 100%; }
 body.theme-gpt .gpt-sidebar {
-  width: 220px; flex-shrink: 0; background: #f7f7f8; border-right: 1px solid #e5e5e5;
-  padding: 1rem 0.8rem; font-family: var(--sans); font-size: 0.82rem; color: #444;
+  width: 232px; flex-shrink: 0; background: var(--g-sidebar);
+  padding: 1rem 0.9rem; font-family: var(--sans); font-size: 0.82rem; color: var(--g-text-dim);
   position: sticky; top: 0; align-self: flex-start; height: 100vh; overflow-y: auto;
+  display: flex; flex-direction: column;
 }
-body.theme-gpt .gpt-newchat { border: 1px solid #d9d9d9; border-radius: 8px; padding: 0.55rem 0.8rem; margin-bottom: 1rem; color: #1a1a1a; }
-body.theme-gpt .gpt-hist-item { padding: 0.5rem 0.7rem; border-radius: 6px; color: #666; margin-bottom: 0.1rem; }
-body.theme-gpt .gpt-hist-item.active { background: #ececec; color: #111; }
+body.theme-gpt .gpt-brand { font-weight: 700; font-size: 1.05rem; color: var(--g-text); margin-bottom: 1.2rem; }
+body.theme-gpt .gpt-newbtn { padding: 0.5rem 0.5rem; border-radius: 8px; margin-bottom: 1.1rem; color: var(--g-text); }
+body.theme-gpt .gpt-nav { margin-bottom: 1.1rem; }
+body.theme-gpt .gpt-nav-item { padding: 0.45rem 0.5rem; border-radius: 6px; font-size: 0.84rem; }
+body.theme-gpt .gpt-section-label {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.75; padding: 0 0.5rem; margin-bottom: 0.4rem;
+}
+body.theme-gpt .gpt-hist-item { padding: 0.5rem 0.5rem; border-radius: 6px; margin-bottom: 0.05rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body.theme-gpt .gpt-hist-item.active { background: var(--g-elevated); color: var(--g-text); }
+body.theme-gpt .gpt-profile {
+  margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--g-border);
+  display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem;
+}
+body.theme-gpt .gpt-avatar-sm {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--g-elevated); color: var(--g-text-dim);
+  display: flex; align-items: center; justify-content: center; font-size: 0.72rem; flex-shrink: 0;
+}
 body.theme-gpt .gpt-main { flex: 1; max-width: 760px; margin: 0 auto; }
 body.theme-gpt .gpt-chrome {
-  position: sticky; top: 0; z-index: 5; background: #ffffff; padding: 1.2rem 2rem 1rem; border-bottom: 1px solid #ececec;
+  position: sticky; top: 0; z-index: 5; background: var(--g-bg); padding: 1rem 2rem;
+  border-bottom: 1px solid var(--g-border); display: flex; align-items: center; gap: 1rem;
 }
-body.theme-gpt .gpt-model-pill {
-  display: inline-block; background: #f0f0f0; color: #333; font-family: var(--sans); font-size: 0.78rem;
-  padding: 0.25rem 0.7rem; border-radius: 99px; margin-bottom: 0.9rem;
+body.theme-gpt .gpt-chrome-spacer { flex: 1; }
+body.theme-gpt .gpt-share {
+  border: 1px solid var(--g-border); border-radius: 8px; padding: 0.3rem 0.8rem; color: var(--g-text-dim); font-size: 0.8rem;
 }
+body.theme-gpt .gpt-more { color: var(--g-text-dim); font-size: 1.1rem; }
+body.theme-gpt .gpt-response { padding: 1.6rem 2rem 8rem; }
 body.theme-gpt .gpt-user-msg {
-  background: #f4f4f5; color: #1a1a1a; padding: 0.7rem 1.1rem; border-radius: 14px;
-  max-width: 70%; margin-left: auto; font-family: var(--sans); font-size: 0.94rem; line-height: 1.5;
+  background: var(--g-bubble); color: #ffffff; padding: 0.7rem 1.1rem; border-radius: 16px;
+  max-width: 70%; margin: 0 0 1.6rem auto; font-family: var(--sans); font-size: 0.94rem; line-height: 1.5;
 }
-body.theme-gpt .gpt-response { display: flex; gap: 0.9rem; padding: 1.4rem 2rem 8rem; }
-body.theme-gpt .gpt-avatar { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: #111; }
-body.theme-gpt .gpt-response-text { flex: 1; padding-top: 0.15rem; }
 body.theme-gpt .gpt-response-text p {
   font-family: var(--office-font-body, var(--sans)); font-size: calc(var(--reader-font-size) * 0.95);
-  line-height: 1.75; color: #1a1a1a; margin: 0 0 1.15em;
+  line-height: 1.75; color: var(--g-text); margin: 0 0 1.15em;
 }
 
 /* ---------- narrow screens ---------- */

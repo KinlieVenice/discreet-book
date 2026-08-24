@@ -23,7 +23,7 @@ your reading progress — stays in your browser. Nothing is uploaded to a server
 
 **AI Chat**
 - **Claude** — dark warm UI, sidebar chat history, sticky chat-title bar, your book as the assistant's response
-- **ChatGPT** — same idea in ChatGPT's grayscale styling
+- **ChatGPT** — near-black UI, icon sidebar (Images/Library/Projects/Codex), blue user message bubble
 
 Switch themes anytime from the bar at the bottom without losing your place.
 Office and AI Chat themes also get a font picker (Calibri, Arial, Times New
