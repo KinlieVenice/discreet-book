@@ -35,6 +35,7 @@ const fontUpBtn = document.getElementById('fontUp');
 const fontDownBtn = document.getElementById('fontDown');
 const fontFamilyGroup = document.getElementById('fontFamilyGroup');
 const fontFamilySelect = document.getElementById('fontFamilySelect');
+const controlsHandle = document.getElementById('controlsHandle');
 
 let state = { text: '', name: '', theme: 'coding', fontSize: 17, fontFamily: '', scrollPct: 0 };
 let panicOn = false;
@@ -520,13 +521,30 @@ function applyFontFamily() {
 }
 
 const controlsEl = document.getElementById('controls');
+let controlsCollapsed = false;
 
 // Themes with their own fake bottom input bar (Claude, ChatGPT) need to know
 // the real control bar's actual height so their sticky positioning clears it
 // instead of guessing a fixed pixel gap — the real bar's height changes when
 // the font-family picker shows/hides or the bar wraps on narrow screens.
-function syncControlsHeight() {
-  contentEl.style.setProperty('--controls-h', controlsEl.offsetHeight + 'px');
+// When the bar is collapsed, both the sticky offset and the bottom padding
+// every theme reserves collapse down too, so hiding the bar actually frees
+// the screen for full-screen reading instead of leaving a dead gap.
+function updateControlsSpacing() {
+  if (controlsCollapsed) {
+    contentEl.style.setProperty('--controls-h', '0px');
+    contentEl.style.setProperty('--content-bottom-pad', '1.5rem');
+  } else {
+    contentEl.style.setProperty('--controls-h', controlsEl.offsetHeight + 'px');
+    contentEl.style.setProperty('--content-bottom-pad', '8rem');
+  }
+}
+
+function setControlsCollapsed(collapsed) {
+  controlsCollapsed = collapsed;
+  controlsEl.classList.toggle('collapsed', collapsed);
+  controlsHandle.classList.toggle('show', collapsed);
+  updateControlsSpacing();
 }
 
 function render() {
@@ -542,12 +560,12 @@ function render() {
   contentEl.innerHTML = renderer(paras);
 
   pageInfo.textContent = state.name ? `${state.name} · ${paras.length} sections` : '';
-  syncControlsHeight();
+  updateControlsSpacing();
   restoreScroll();
 }
 
 window.addEventListener('resize', () => {
-  if (readerEl.classList.contains('active')) syncControlsHeight();
+  if (readerEl.classList.contains('active')) updateControlsSpacing();
 });
 
 function restoreScroll() {
@@ -569,6 +587,7 @@ function openReader() {
   landing.style.display = 'none';
   readerEl.classList.add('active');
   themeSelect.value = state.theme;
+  setControlsCollapsed(false);
   render();
   contentEl.focus();
 }
@@ -694,12 +713,15 @@ panicOverlay.addEventListener('click', togglePanic);
 hideBtn.addEventListener('click', togglePanic);
 
 // The inert parts of the control bar (labels, the book title/section count,
-// the empty spacer) double as a big, fast click-to-hide zone — no need to
-// aim for the small "Hide" button or reach for Esc.
+// the empty spacer) double as a big, fast target for collapsing the bar
+// itself — distinct from Esc/"Hide", which blank the whole screen. This
+// just tucks the toolbar away so reading is full-screen; the small handle
+// that appears at the bottom center brings it back.
 document.querySelectorAll('.shell-label, #pageInfo, .ctrl-spacer').forEach((el) => {
-  el.classList.add('panic-zone');
-  el.addEventListener('click', togglePanic);
+  el.classList.add('hide-zone');
+  el.addEventListener('click', () => setControlsCollapsed(true));
 });
+controlsHandle.addEventListener('click', () => setControlsCollapsed(false));
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { togglePanic(); return; }

@@ -57,11 +57,13 @@ no need to run `npm run dev` locally every time.
 - Drop or click to choose a `.pdf`. It's parsed page-by-page entirely client-side
   (via `pdfjs-dist`) — no network request ever contains your file or its text.
 - `Space` / `↓` scrolls forward, `↑` scrolls back.
-- `Esc` instantly blanks the screen to a generic loading spinner; `Esc` again
-  (or click) returns you to exactly where you were. Clicking the inert parts
-  of the bottom control bar (the labels, the book title/section count, the
-  empty space) does the same thing — a bigger, faster hide target than
-  hunting for the "Hide" button.
+- `Esc` instantly blanks the whole screen to a generic loading spinner; `Esc`
+  again (or click) returns you to exactly where you were.
+- Clicking the inert parts of the bottom control bar (the labels, the book
+  title/section count, the empty space) does something different: it tucks
+  the bar itself away for distraction-free, full-screen reading — the space
+  it was taking up is reclaimed, not just left blank. A small handle appears
+  at the bottom center; click it to bring the bar back.
 - Your extracted book text is saved in IndexedDB (no practical size limit, so
   long books are fine); theme, font size, and scroll position are saved in
   `localStorage`. Both are scoped to this page only. Reopening the tab offers
