@@ -245,12 +245,17 @@ button { font-family: inherit; }
 /* Theme: CODING — VS Code dark+ authenticity              */
 /* ===================================================== */
 body.theme-coding #content { background: #1e1e1e; color: #d4d4d4; }
+body.theme-coding .code-chrome { position: sticky; top: 0; z-index: 5; background: #1e1e1e; }
 body.theme-coding .code-titlebar {
   display: flex; background: #252526; border-bottom: 1px solid #1e1e1e;
-  font-family: var(--mono); font-size: 0.8rem; position: sticky; top: 0; z-index: 5;
+  font-family: var(--mono); font-size: 0.8rem;
 }
 body.theme-coding .code-tab { padding: 0.55rem 1.1rem; color: #969696; border-right: 1px solid #1e1e1e; }
 body.theme-coding .code-tab.active { background: #1e1e1e; color: #d4d4d4; border-top: 2px solid #e0a458; }
+body.theme-coding .code-fileheader {
+  max-width: 900px; margin: 0 auto; padding: 0.9rem 2rem 0.8rem; border-bottom: 1px solid #2a2a2a;
+  color: #569cd6; font-family: var(--mono); font-size: 0.92rem;
+}
 body.theme-coding .code-body {
   display: flex; max-width: 900px; margin: 0 auto; padding: 1.5rem 2rem 8rem;
   font-family: var(--mono); font-size: 0.92rem; line-height: 1.85;
@@ -260,24 +265,25 @@ body.theme-coding .gutter span { display: block; }
 body.theme-coding .code-text { flex: 1; }
 body.theme-coding .code-text p { color: #6a9955; margin: 0 0 0.85em; white-space: pre-wrap; }
 body.theme-coding .code-text p::before { content: "// "; }
-body.theme-coding .code-text p:first-child::before { content: "/** "; }
-body.theme-coding .code-header { color: #569cd6; font-family: var(--mono); font-size: 0.92rem; }
 
 /* ===================================================== */
-/* Theme: BUSINESS — proposal / memo authenticity           */
+/* Theme: BUSINESS — proposal authenticity                  */
 /* ===================================================== */
 body.theme-business #content { background: #dfe2e6; }
+body.theme-business .doc-chrome {
+  position: sticky; top: 0; z-index: 5; background: #1f3a5f; color: #fff;
+  padding: 0.85rem 2.2rem; font-family: 'Source Serif 4', Georgia, serif;
+}
+body.theme-business .doc-kicker {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #b9c9dc; display: flex; justify-content: space-between; margin-bottom: 0.3rem;
+}
+body.theme-business .doc-chrome-title { font-size: 1.02rem; font-weight: 600; text-wrap: balance; }
 body.theme-business .doc-page {
   max-width: 720px; margin: 2.5rem auto 9rem; background: #ffffff; color: #1f2430;
   box-shadow: 0 1px 4px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.08);
   padding: 3.2rem 3.6rem; font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
 }
-body.theme-business .doc-kicker {
-  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: #1f3a5f; border-bottom: 2px solid #1f3a5f; padding-bottom: 0.6rem; margin-bottom: 1.6rem;
-  display: flex; justify-content: space-between;
-}
-body.theme-business .doc-title { font-size: 1.55rem; font-weight: 600; margin: 0 0 2rem; text-wrap: balance; color: #14181f; }
 body.theme-business .doc-text p { font-size: 1.03rem; line-height: 1.75; margin: 0 0 1.1em; text-align: justify; }
 body.theme-business .doc-text p:first-of-type::first-letter {
   font-size: 2.6em; float: left; line-height: 0.85; padding: 0.05em 0.08em 0 0; color: #1f3a5f; font-weight: 600;
@@ -291,6 +297,7 @@ body.theme-data .dash-shell { display: flex; min-height: 100%; }
 body.theme-data .dash-sidebar {
   width: 168px; flex-shrink: 0; background: #0a0d12; border-right: 1px solid #1c2330;
   padding: 1.2rem 0; font-family: var(--mono); font-size: 0.74rem; color: #5b6472;
+  position: sticky; top: 0; align-self: flex-start; height: 100vh; overflow-y: auto;
 }
 body.theme-data .dash-sidebar .item { padding: 0.5rem 1.2rem; border-left: 2px solid transparent; }
 body.theme-data .dash-sidebar .item.active { color: #cdd6e4; border-left-color: #4f8ff7; background: #101722; }
@@ -324,8 +331,13 @@ body.theme-terminal .term-level-warn { color: #d7b96a; }
 /* Theme: PR DIFF — GitHub diff-view authenticity             */
 /* ===================================================== */
 body.theme-prdiff #content { background: #0d1117; }
+body.theme-prdiff .diff-chrome {
+  position: sticky; top: 0; z-index: 5; max-width: 900px; margin: 1.4rem auto 0;
+  border: 1px solid #30363d; border-bottom: none; border-radius: 8px 8px 0 0; overflow: hidden;
+}
 body.theme-prdiff .diff-file {
-  max-width: 900px; margin: 1.4rem auto 9rem; border: 1px solid #30363d; border-radius: 8px; overflow: hidden;
+  max-width: 900px; margin: 0 auto 9rem; border: 1px solid #30363d; border-top: none;
+  border-radius: 0 0 8px 8px; overflow: hidden;
 }
 body.theme-prdiff .diff-file-header {
   display: flex; align-items: center; gap: 0.6rem; background: #161b22; color: #c9d1d9;
@@ -362,7 +374,8 @@ body.theme-manpage .man-body p { margin: 0 0 1em; text-align: justify; padding-l
 /* Theme: SPREADSHEET — Excel/Sheets authenticity            */
 /* ===================================================== */
 body.theme-spreadsheet #content { background: #ffffff; font-family: 'Calibri', var(--sans); }
-body.theme-spreadsheet .sheet-ribbon { position: sticky; top: 0; z-index: 5; background: #f3f2f1; border-bottom: 1px solid #d3d1cb; }
+body.theme-spreadsheet .sheet-chrome { position: sticky; top: 0; z-index: 5; background: #f3f2f1; }
+body.theme-spreadsheet .sheet-ribbon { background: #f3f2f1; border-bottom: 1px solid #d3d1cb; }
 body.theme-spreadsheet .ribbon-tabs { display: flex; gap: 1.1rem; padding: 0.4rem 1rem 0; font-size: 0.78rem; color: #444; }
 body.theme-spreadsheet .ribbon-tabs .active { color: #185c37; font-weight: 600; border-bottom: 2px solid #217346; padding-bottom: 0.35rem; }
 body.theme-spreadsheet .ribbon-tools { display: flex; gap: 0.9rem; padding: 0.4rem 1rem 0.5rem; font-size: 0.78rem; color: #555; }
@@ -373,7 +386,7 @@ body.theme-spreadsheet .sheet-formulabar {
 }
 body.theme-spreadsheet .cell-ref { font-weight: 600; width: 3rem; }
 body.theme-spreadsheet .fx { color: #217346; font-style: italic; font-weight: 700; }
-body.theme-spreadsheet .sheet-colheader { display: flex; position: sticky; top: 58px; z-index: 4; background: #f3f2f1; border-bottom: 1px solid #d3d1cb; }
+body.theme-spreadsheet .sheet-colheader { display: flex; background: #f3f2f1; border-bottom: 1px solid #d3d1cb; }
 body.theme-spreadsheet .corner { width: 3rem; border-right: 1px solid #d3d1cb; }
 body.theme-spreadsheet .col-h { flex: 1; text-align: center; font-size: 0.76rem; color: #555; padding: 0.25rem 0; border-right: 1px solid #d3d1cb; }
 body.theme-spreadsheet .sheet-grid { padding-bottom: 8rem; }
@@ -391,26 +404,35 @@ body.theme-spreadsheet .sheet-row:first-child .sheet-cell.wide { outline: 2px so
 /* ===================================================== */
 body.theme-email #content { background: #ffffff; }
 body.theme-email .mail-shell { display: flex; min-height: 100%; }
-body.theme-email .mail-list { width: 240px; flex-shrink: 0; border-right: 1px solid #e2e0da; background: #faf9f7; }
+body.theme-email .mail-list {
+  width: 240px; flex-shrink: 0; border-right: 1px solid #e2e0da; background: #faf9f7;
+  position: sticky; top: 0; align-self: flex-start; height: 100vh; overflow-y: auto;
+}
 body.theme-email .mail-item { padding: 0.75rem 1rem; border-bottom: 1px solid #edece7; cursor: default; }
 body.theme-email .mail-item.active { background: #e8f0fe; border-left: 3px solid #1a73e8; }
 body.theme-email .mail-item-subj { font-size: 0.84rem; font-weight: 600; color: #1c1d1f; margin-bottom: 0.2rem; }
 body.theme-email .mail-item-preview { font-size: 0.76rem; color: #6b6f76; }
-body.theme-email .mail-reading { flex: 1; max-width: 720px; padding: 1.6rem 2.2rem 8rem; font-family: var(--sans); }
+body.theme-email .mail-reading { flex: 1; max-width: 720px; }
+body.theme-email .mail-chrome { position: sticky; top: 0; z-index: 5; background: #ffffff; padding: 1.6rem 2.2rem 0; font-family: var(--sans); }
 body.theme-email .mail-subject { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.6rem; }
-body.theme-email .mail-meta { display: flex; justify-content: space-between; padding-bottom: 1rem; margin-bottom: 1.2rem; border-bottom: 1px solid #e2e0da; font-size: 0.82rem; color: #6b6f76; }
+body.theme-email .mail-meta { display: flex; justify-content: space-between; padding-bottom: 1rem; margin-bottom: 0; border-bottom: 1px solid #e2e0da; font-size: 0.82rem; color: #6b6f76; }
+body.theme-email .mail-body { padding: 1.2rem 2.2rem 8rem; font-family: var(--sans); }
 body.theme-email .mail-body p { font-size: 0.96rem; line-height: 1.7; margin: 0 0 1.05em; color: #1c1d1f; }
 
 /* ===================================================== */
 /* Theme: MEMO — meeting minutes authenticity                */
 /* ===================================================== */
 body.theme-memo #content { background: #e9e8e3; }
+body.theme-memo .memo-chrome {
+  position: sticky; top: 0; z-index: 5; background: #ffffff; border-bottom: 1px solid #e2e0da;
+  padding: 1rem 2.2rem; font-family: var(--sans);
+}
+body.theme-memo .memo-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
+body.theme-memo .memo-meta { display: flex; gap: 1.4rem; font-size: 0.8rem; color: #444; }
 body.theme-memo .memo-page {
   max-width: 700px; margin: 2.2rem auto 9rem; background: #ffffff; color: #1f2430;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2.8rem 3.2rem; font-family: var(--sans);
 }
-body.theme-memo .memo-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
-body.theme-memo .memo-meta { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; color: #444; padding-bottom: 1.2rem; margin-bottom: 1.4rem; border-bottom: 1px solid #e2e0da; }
 body.theme-memo .memo-section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #6b6f76; margin-bottom: 0.9rem; }
 body.theme-memo .memo-text p { font-size: 0.98rem; line-height: 1.7; margin: 0 0 1em; }
 
@@ -418,7 +440,8 @@ body.theme-memo .memo-text p { font-size: 0.98rem; line-height: 1.7; margin: 0 0
 /* Theme: SLIDES — presentation speaker-notes authenticity   */
 /* ===================================================== */
 body.theme-slides #content { background: #f5f4f1; }
-body.theme-slides .slides-strip { display: flex; gap: 0.7rem; padding: 1.2rem 1.6rem; overflow-x: auto; background: #2b2b2b; }
+body.theme-slides .slides-chrome { position: sticky; top: 0; z-index: 5; background: #2b2b2b; }
+body.theme-slides .slides-strip { display: flex; gap: 0.7rem; padding: 1.2rem 1.6rem; overflow-x: auto; }
 body.theme-slides .slide-thumb {
   flex-shrink: 0; width: 96px; height: 60px; background: #ffffff; border-radius: 3px; border: 2px solid transparent;
   padding: 0.5rem; display: flex; flex-direction: column; gap: 0.3rem; justify-content: center;
@@ -426,8 +449,8 @@ body.theme-slides .slide-thumb {
 body.theme-slides .slide-thumb.active { border-color: #d24726; }
 body.theme-slides .slide-thumb span { display: block; height: 4px; background: #d8d8d8; border-radius: 2px; }
 body.theme-slides .slide-thumb span:first-child { width: 70%; background: #a8a8a8; }
+body.theme-slides .slides-chrome .slides-notes-label { font-size: 0.78rem; font-weight: 600; color: #d8d8d8; padding: 0 1.6rem 0.8rem; }
 body.theme-slides .slides-notes-wrap { max-width: 760px; margin: 0 auto; padding: 1.6rem 1.8rem 8rem; }
-body.theme-slides .slides-notes-label { font-size: 0.8rem; font-weight: 600; color: #6b6f76; margin-bottom: 1rem; }
 body.theme-slides .slides-notes { background: #ffffff; border: 1px solid #e2e0da; border-radius: 6px; padding: 1.4rem 1.6rem; }
 body.theme-slides .slides-notes p { font-size: 0.94rem; line-height: 1.7; color: #1c1d1f; margin: 0 0 1em; }
 
@@ -435,12 +458,18 @@ body.theme-slides .slides-notes p { font-size: 0.94rem; line-height: 1.7; color:
 /* Theme: TICKET — helpdesk queue authenticity                */
 /* ===================================================== */
 body.theme-ticket #content { background: #f5f4f1; }
-body.theme-ticket .ticket-card { max-width: 760px; margin: 1.8rem auto 9rem; background: #ffffff; border: 1px solid #e2e0da; border-radius: 8px; overflow: hidden; }
+body.theme-ticket .ticket-chrome {
+  position: sticky; top: 0; z-index: 5; max-width: 760px; margin: 1.8rem auto 0;
+  background: #ffffff; border: 1px solid #e2e0da; border-bottom: none; border-radius: 8px 8px 0 0; overflow: hidden;
+}
 body.theme-ticket .ticket-header { display: flex; align-items: center; gap: 0.7rem; padding: 0.9rem 1.3rem; border-bottom: 1px solid #e2e0da; font-family: var(--mono); font-size: 0.78rem; color: #6b6f76; }
 body.theme-ticket .ticket-status { background: #16a34a; color: #fff; padding: 0.15rem 0.6rem; border-radius: 99px; font-weight: 600; }
 body.theme-ticket .ticket-priority { background: #eeece6; padding: 0.15rem 0.6rem; border-radius: 99px; }
-body.theme-ticket .ticket-subject { font-size: 1.1rem; font-weight: 600; padding: 1rem 1.3rem 1.2rem; border-bottom: 1px solid #e2e0da; }
-body.theme-ticket .ticket-thread { padding: 1rem 1.3rem; }
+body.theme-ticket .ticket-subject { font-size: 1.1rem; font-weight: 600; padding: 1rem 1.3rem; }
+body.theme-ticket .ticket-thread {
+  max-width: 760px; margin: 0 auto 9rem; background: #ffffff; border: 1px solid #e2e0da; border-top: none;
+  border-radius: 0 0 8px 8px; padding: 1rem 1.3rem;
+}
 body.theme-ticket .ticket-comment { display: flex; gap: 0.8rem; padding: 0.9rem 0; border-bottom: 1px solid #f0efe9; }
 body.theme-ticket .ticket-avatar { width: 28px; height: 28px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
 body.theme-ticket .ticket-comment-meta { font-size: 0.74rem; color: #6b6f76; margin-bottom: 0.35rem; }
@@ -450,20 +479,25 @@ body.theme-ticket .ticket-comment-body p { font-size: 0.92rem; line-height: 1.65
 /* Theme: HR POLICY — employee handbook authenticity          */
 /* ===================================================== */
 body.theme-hrpolicy #content { background: #ded9cd; }
+body.theme-hrpolicy .hr-chrome {
+  position: sticky; top: 0; z-index: 5; text-align: center; background: #262115; color: #fdfbf6;
+  padding: 0.85rem 2rem; font-family: 'Source Serif 4', Georgia, serif;
+}
+body.theme-hrpolicy .hr-title { font-size: 1.15rem; font-weight: 600; }
+body.theme-hrpolicy .hr-effective { font-family: var(--mono); font-size: 0.68rem; color: #cfc9b8; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.06em; }
 body.theme-hrpolicy .hr-page {
   max-width: 720px; margin: 2.4rem auto 9rem; background: #fdfbf6; color: #262115;
   box-shadow: 0 1px 4px rgba(0,0,0,0.12); padding: 3rem 3.4rem; font-family: 'Source Serif 4', Georgia, serif;
 }
-body.theme-hrpolicy .hr-header { text-align: center; border-bottom: 2px solid #262115; padding-bottom: 1.1rem; margin-bottom: 1.6rem; }
-body.theme-hrpolicy .hr-title { font-size: 1.35rem; font-weight: 600; }
-body.theme-hrpolicy .hr-effective { font-family: var(--mono); font-size: 0.72rem; color: #6b6f76; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.06em; }
 body.theme-hrpolicy .hr-section-label { font-weight: 700; margin-bottom: 1.2rem; }
 body.theme-hrpolicy .hr-text p { font-size: 0.99rem; line-height: 1.75; margin: 0 0 1.05em; text-align: justify; }
 body.theme-hrpolicy .hr-num { font-family: var(--mono); font-size: 0.78rem; color: #6b6f76; margin-right: 0.6rem; }
 
 /* ---------- narrow screens ---------- */
 @media (max-width: 640px) {
+  body.theme-business .doc-chrome { padding: 0.8rem 1.4rem; }
   body.theme-business .doc-page { padding: 2rem 1.4rem; margin: 1rem auto 8rem; }
+  body.theme-coding .code-fileheader { padding: 0.8rem 1rem 0.7rem; }
   body.theme-coding .code-body { padding: 1.2rem 1rem 8rem; }
   body.theme-coding .gutter { display: none; }
   body.theme-data .dash-sidebar { display: none; }
@@ -471,7 +505,13 @@ body.theme-hrpolicy .hr-num { font-family: var(--mono); font-size: 0.78rem; colo
   body.theme-prdiff .diff-gutter { width: 2rem; }
   body.theme-manpage .man-body p { padding-left: 0; }
   body.theme-email .mail-list { display: none; }
+  body.theme-email .mail-chrome { padding: 1.2rem 1.2rem 0; }
+  body.theme-email .mail-body { padding: 1rem 1.2rem 8rem; }
+  body.theme-memo .memo-chrome { padding: 0.9rem 1.4rem; }
   body.theme-memo .memo-page { padding: 1.8rem 1.4rem; margin: 1rem auto 8rem; }
+  body.theme-slides .slides-chrome .slides-notes-label { padding: 0 1.2rem 0.7rem; }
+  body.theme-ticket .ticket-chrome, body.theme-ticket .ticket-thread { margin-left: 1rem; margin-right: 1rem; }
+  body.theme-hrpolicy .hr-chrome { padding: 0.8rem 1.2rem; }
   body.theme-hrpolicy .hr-page { padding: 1.8rem 1.4rem; margin: 1rem auto 8rem; }
   body.theme-spreadsheet .sheet-cell:not(.wide) { display: none; }
   #controlsBar { font-size: 0.7rem; gap: 0.6rem; }

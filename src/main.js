@@ -219,22 +219,23 @@ function kpi(label, value, up) {
 }
 
 function renderCoding(paras) {
-  let html = '<div class="code-titlebar"><div class="code-tab active">notes.md</div>' +
+  let html = '<div class="code-chrome">';
+  html += '<div class="code-titlebar"><div class="code-tab active">notes.md</div>' +
     '<div class="code-tab">README.md</div><div class="code-tab">TODO.md</div></div>';
+  html += '<div class="code-fileheader">/**<br>&nbsp;* @fileoverview Internal working notes<br>&nbsp;* @private<br>&nbsp;*/</div>';
+  html += '</div>';
   html += '<div class="code-body"><div class="gutter">';
-  for (let i = 0; i < paras.length + 4; i++) html += '<span>&nbsp;</span>';
+  for (let i = 0; i < paras.length; i++) html += '<span>&nbsp;</span>';
   html += '</div><div class="code-text">';
-  html += '<div class="code-header">/**<br>&nbsp;* @fileoverview Internal working notes<br>&nbsp;* @private<br>&nbsp;*/</div>';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div></div>';
   return html;
 }
 
 function renderBusiness(paras) {
-  let html = '<div class="doc-page">';
-  html += '<div class="doc-kicker"><span>Strategic Planning &mdash; Internal Draft</span><span>Confidential</span></div>';
-  html += '<div class="doc-title">Proposal: Q4 Initiative Notes</div>';
-  html += '<div class="doc-text">';
+  let html = '<div class="doc-chrome"><div class="doc-kicker"><span>Strategic Planning &mdash; Internal Draft</span><span>Confidential</span></div>' +
+    '<div class="doc-chrome-title">Proposal: Q4 Initiative Notes</div></div>';
+  html += '<div class="doc-page"><div class="doc-text">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div></div>';
   return html;
@@ -274,9 +275,11 @@ function renderTerminal(paras) {
 }
 
 function renderPrDiff(paras) {
-  let html = '<div class="diff-file">';
+  let html = '<div class="diff-chrome">';
   html += '<div class="diff-file-header">📄 notes/reading.md &nbsp; <span class="diff-badge">+' + paras.length + '&nbsp;&minus;0</span></div>';
   html += `<div class="diff-hunk-marker">@@ -0,0 +1,${paras.length} @@</div>`;
+  html += '</div>';
+  html += '<div class="diff-file">';
   paras.forEach((p, i) => {
     html += `<div class="diff-row"><div class="diff-gutter">${i + 1}</div><div class="diff-linecontent">${escapeHtml(p)}</div></div>`;
   });
@@ -306,14 +309,15 @@ function colLetter(n) {
 }
 
 function renderSpreadsheet(paras) {
-  let html = '<div class="sheet-ribbon">' +
+  let html = '<div class="sheet-chrome">';
+  html += '<div class="sheet-ribbon">' +
     '<div class="ribbon-tabs"><span class="active">Home</span><span>Insert</span><span>Page Layout</span><span>Formulas</span><span>Data</span><span>Review</span><span>View</span></div>' +
     '<div class="ribbon-tools"><span>Calibri</span><span>11</span><span class="ico">B</span><span class="ico">I</span><span class="ico">U</span><span class="ico">▤</span><span class="ico">%</span></div>' +
     '</div>';
   html += '<div class="sheet-formulabar"><span class="cell-ref">A1</span><span class="fx">fx</span><span class="fx-content"></span></div>';
   html += '<div class="sheet-colheader"><div class="corner"></div>';
   for (let c = 0; c < 3; c++) html += `<div class="col-h">${colLetter(c)}</div>`;
-  html += '</div>';
+  html += '</div></div>';
   html += '<div class="sheet-grid">';
   paras.forEach((p, i) => {
     html += `<div class="sheet-row"><div class="row-h">${i + 1}</div>` +
@@ -330,8 +334,8 @@ function renderEmail(paras) {
     html += `<div class="mail-item${i === 0 ? ' active' : ''}"><div class="mail-item-subj">${s}</div><div class="mail-item-preview">Open to read the full thread…</div></div>`;
   });
   html += '</div><div class="mail-reading">';
-  html += '<div class="mail-subject">Re: Q3 planning sync</div>';
-  html += '<div class="mail-meta"><span class="mail-sender">Team Notes &lt;notes@internal&gt;</span><span class="mail-date">9:14 AM</span></div>';
+  html += '<div class="mail-chrome"><div class="mail-subject">Re: Q3 planning sync</div>' +
+    '<div class="mail-meta"><span class="mail-sender">Team Notes &lt;notes@internal&gt;</span><span class="mail-date">9:14 AM</span></div></div>';
   html += '<div class="mail-body">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div></div></div>';
@@ -339,10 +343,9 @@ function renderEmail(paras) {
 }
 
 function renderMemo(paras) {
-  let html = '<div class="memo-page">';
-  html += '<div class="memo-title">Meeting Minutes</div>';
-  html += '<div class="memo-meta"><div><strong>Date:</strong> Today</div><div><strong>Attendees:</strong> J. Ramirez, T. Okafor, P. Singh</div></div>';
-  html += '<div class="memo-section-label">Notes</div>';
+  let html = '<div class="memo-chrome"><div class="memo-title">Meeting Minutes</div>' +
+    '<div class="memo-meta"><div><strong>Date:</strong> Today</div><div><strong>Attendees:</strong> J. Ramirez, T. Okafor, P. Singh</div></div></div>';
+  html += '<div class="memo-page"><div class="memo-section-label">Notes</div>';
   html += '<div class="memo-text">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div></div>';
@@ -350,35 +353,34 @@ function renderMemo(paras) {
 }
 
 function renderSlides(paras) {
-  let html = '<div class="slides-strip">';
+  let html = '<div class="slides-chrome"><div class="slides-strip">';
   for (let i = 0; i < 5; i++) {
     html += `<div class="slide-thumb${i === 1 ? ' active' : ''}"><span></span><span></span></div>`;
   }
-  html += '</div>';
-  html += '<div class="slides-notes-wrap"><div class="slides-notes-label">Speaker Notes &mdash; Slide 2</div>';
-  html += '<div class="slides-notes">';
+  html += '</div><div class="slides-notes-label">Speaker Notes &mdash; Slide 2</div></div>';
+  html += '<div class="slides-notes-wrap"><div class="slides-notes">';
   paras.forEach((p) => { html += `<p>${escapeHtml(p)}</p>`; });
   html += '</div></div>';
   return html;
 }
 
 function renderTicket(paras) {
-  let html = '<div class="ticket-card">';
+  let html = '<div class="ticket-chrome">';
   html += '<div class="ticket-header"><span class="ticket-id">#10482</span><span class="ticket-status">Open</span><span class="ticket-priority">Normal</span></div>';
   html += '<div class="ticket-subject">Working notes &mdash; internal</div>';
+  html += '</div>';
   html += '<div class="ticket-thread">';
   paras.forEach((p, i) => {
     html += `<div class="ticket-comment"><div class="ticket-avatar"></div><div class="ticket-comment-body">` +
       `<div class="ticket-comment-meta">Internal note &middot; ${i + 1}</div><p>${escapeHtml(p)}</p></div></div>`;
   });
-  html += '</div></div>';
+  html += '</div>';
   return html;
 }
 
 function renderHrPolicy(paras) {
-  let html = '<div class="hr-page">';
-  html += '<div class="hr-header"><div class="hr-title">Employee Handbook</div><div class="hr-effective">Effective Date: This Year</div></div>';
-  html += '<div class="hr-section-label">Section 4 &mdash; Working Notes</div>';
+  let html = '<div class="hr-chrome"><div class="hr-title">Employee Handbook</div><div class="hr-effective">Effective Date: This Year</div></div>';
+  html += '<div class="hr-page"><div class="hr-section-label">Section 4 &mdash; Working Notes</div>';
   html += '<div class="hr-text">';
   paras.forEach((p, i) => { html += `<p><span class="hr-num">4.${i + 1}</span>${escapeHtml(p)}</p>`; });
   html += '</div></div>';
