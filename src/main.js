@@ -33,11 +33,33 @@ const loadNewBtn = document.getElementById('loadNew');
 const hideBtn = document.getElementById('hideBtn');
 const fontUpBtn = document.getElementById('fontUp');
 const fontDownBtn = document.getElementById('fontDown');
+const fontFamilyGroup = document.getElementById('fontFamilyGroup');
+const fontFamilySelect = document.getElementById('fontFamilySelect');
 
-let state = { text: '', name: '', theme: 'coding', fontSize: 17, scrollPct: 0 };
+let state = { text: '', name: '', theme: 'coding', fontSize: 17, fontFamily: '', scrollPct: 0 };
 let panicOn = false;
 let saveTimer = null;
 let extracting = false;
+
+// Only the "Office" group themes expose a font-family picker — engineering
+// themes (code/terminal/diff/man page) stay fixed-monospace, same as a real
+// editor or terminal wouldn't let you pick a document font.
+const OFFICE_THEMES = new Set(['business', 'data', 'spreadsheet', 'email', 'memo', 'slides', 'ticket', 'hrpolicy']);
+
+const FONT_STACKS = {
+  calibri: "'Calibri', 'Carlito', var(--sans)",
+  arial: "Arial, Helvetica, sans-serif",
+  times: "'Times New Roman', Times, serif",
+  georgia: "Georgia, 'Times New Roman', serif",
+  cambria: "Cambria, Georgia, serif",
+  verdana: "Verdana, Geneva, sans-serif",
+  tahoma: "Tahoma, Geneva, sans-serif"
+};
+
+const FONT_LABELS = {
+  '': 'Calibri', calibri: 'Calibri', arial: 'Arial', times: 'Times New Roman',
+  georgia: 'Georgia', cambria: 'Cambria', verdana: 'Verdana', tahoma: 'Tahoma'
+};
 
 const PANIC_LABELS = {
   coding: 'Installing dependencies…',
@@ -87,7 +109,8 @@ function loadMeta() {
 
 function persistMeta() {
   safeSet(META_KEY, JSON.stringify({
-    name: state.name, theme: state.theme, fontSize: state.fontSize, scrollPct: state.scrollPct
+    name: state.name, theme: state.theme, fontSize: state.fontSize,
+    fontFamily: state.fontFamily, scrollPct: state.scrollPct
   }));
 }
 
@@ -309,10 +332,12 @@ function colLetter(n) {
 }
 
 function renderSpreadsheet(paras) {
+  const fontLabel = FONT_LABELS[state.fontFamily] || 'Calibri';
+  const ptSize = Math.max(8, Math.round(state.fontSize * 0.75));
   let html = '<div class="sheet-chrome">';
   html += '<div class="sheet-ribbon">' +
     '<div class="ribbon-tabs"><span class="active">Home</span><span>Insert</span><span>Page Layout</span><span>Formulas</span><span>Data</span><span>Review</span><span>View</span></div>' +
-    '<div class="ribbon-tools"><span>Calibri</span><span>11</span><span class="ico">B</span><span class="ico">I</span><span class="ico">U</span><span class="ico">▤</span><span class="ico">%</span></div>' +
+    `<div class="ribbon-tools"><span>${escapeHtml(fontLabel)}</span><span>${ptSize}</span><span class="ico">B</span><span class="ico">I</span><span class="ico">U</span><span class="ico">▤</span><span class="ico">%</span></div>` +
     '</div>';
   html += '<div class="sheet-formulabar"><span class="cell-ref">A1</span><span class="fx">fx</span><span class="fx-content"></span></div>';
   html += '<div class="sheet-colheader"><div class="corner"></div>';
@@ -402,11 +427,29 @@ const RENDERERS = {
   hrpolicy: renderHrPolicy
 };
 
+function applyFontSize() {
+  // A real ancestor font-size (not one set via inline style on #content
+  // alone) is what theme paragraph rules read via calc(var(--reader-font-size) * …) —
+  // rem units on those rules would otherwise ignore this entirely.
+  contentEl.style.setProperty('--reader-font-size', state.fontSize + 'px');
+}
+
+function applyFontFamily() {
+  if (state.fontFamily && FONT_STACKS[state.fontFamily]) {
+    document.documentElement.style.setProperty('--office-font-body', FONT_STACKS[state.fontFamily]);
+  } else {
+    document.documentElement.style.removeProperty('--office-font-body');
+  }
+  fontFamilySelect.value = state.fontFamily || '';
+}
+
 function render() {
   document.body.className = 'theme-' + state.theme;
   document.title = TAB_TITLES[state.theme] || 'notes';
   panicText.textContent = PANIC_LABELS[state.theme] || 'Loading…';
-  contentEl.style.fontSize = state.fontSize + 'px';
+  applyFontSize();
+  applyFontFamily();
+  fontFamilyGroup.style.display = OFFICE_THEMES.has(state.theme) ? 'flex' : 'none';
 
   const paras = paragraphsOf(state.text);
   const renderer = RENDERERS[state.theme] || renderCoding;
@@ -529,12 +572,21 @@ loadNewBtn.addEventListener('click', () => {
 
 fontUpBtn.addEventListener('click', () => {
   state.fontSize = Math.min(26, state.fontSize + 1);
-  contentEl.style.fontSize = state.fontSize + 'px';
+  applyFontSize();
+  if (state.theme === 'spreadsheet') render();
   schedulePersist();
 });
 fontDownBtn.addEventListener('click', () => {
   state.fontSize = Math.max(12, state.fontSize - 1);
-  contentEl.style.fontSize = state.fontSize + 'px';
+  applyFontSize();
+  if (state.theme === 'spreadsheet') render();
+  schedulePersist();
+});
+
+fontFamilySelect.addEventListener('change', () => {
+  state.fontFamily = fontFamilySelect.value;
+  applyFontFamily();
+  if (state.theme === 'spreadsheet') render();
   schedulePersist();
 });
 

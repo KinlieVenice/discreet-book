@@ -238,7 +238,7 @@ button { font-family: inherit; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .panic-text { font-family: var(--mono); font-size: 0.82rem; color: var(--text-dim); }
 
-#content { flex: 1; overflow-y: auto; scroll-behavior: auto; }
+#content { flex: 1; overflow-y: auto; scroll-behavior: auto; --reader-font-size: 17px; }
 #content:focus-visible { outline: none; }
 
 /* ===================================================== */
@@ -258,7 +258,7 @@ body.theme-coding .code-fileheader {
 }
 body.theme-coding .code-body {
   display: flex; max-width: 900px; margin: 0 auto; padding: 1.5rem 2rem 8rem;
-  font-family: var(--mono); font-size: 0.92rem; line-height: 1.85;
+  font-family: var(--mono); font-size: calc(var(--reader-font-size) * 0.92); line-height: 1.85;
 }
 body.theme-coding .gutter { color: #4b4b4b; text-align: right; padding-right: 1.2rem; user-select: none; flex-shrink: 0; }
 body.theme-coding .gutter span { display: block; }
@@ -284,7 +284,10 @@ body.theme-business .doc-page {
   box-shadow: 0 1px 4px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.08);
   padding: 3.2rem 3.6rem; font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
 }
-body.theme-business .doc-text p { font-size: 1.03rem; line-height: 1.75; margin: 0 0 1.1em; text-align: justify; }
+body.theme-business .doc-text p {
+  font-family: var(--office-font-body, inherit); font-size: calc(var(--reader-font-size) * 1.03);
+  line-height: 1.75; margin: 0 0 1.1em; text-align: justify;
+}
 body.theme-business .doc-text p:first-of-type::first-letter {
   font-size: 2.6em; float: left; line-height: 0.85; padding: 0.05em 0.08em 0 0; color: #1f3a5f; font-weight: 600;
 }
@@ -309,7 +312,10 @@ body.theme-data .kpi-value { font-family: var(--mono); font-size: 1.15rem; color
 body.theme-data .kpi-value.up { color: #4f8ff7; }
 body.theme-data .dash-panel { background: #121826; border: 1px solid #1c2330; border-radius: 10px; padding: 1.8rem 2rem; }
 body.theme-data .dash-panel-title { font-family: var(--mono); font-size: 0.78rem; color: #8892a3; margin-bottom: 1.2rem; padding-bottom: 0.9rem; border-bottom: 1px solid #1c2330; }
-body.theme-data .dash-text p { font-family: var(--sans); font-size: 0.96rem; line-height: 1.75; color: #b6bfcc; margin: 0 0 1.05em; }
+body.theme-data .dash-text p {
+  font-family: var(--office-font-body, var(--sans)); font-size: calc(var(--reader-font-size) * 0.96);
+  line-height: 1.75; color: #b6bfcc; margin: 0 0 1.05em;
+}
 
 /* ===================================================== */
 /* Theme: TERMINAL — tail -f / less log authenticity         */
@@ -320,7 +326,7 @@ body.theme-terminal .term-header {
   font-family: var(--mono); font-size: 0.82rem; color: #8fa887; padding: 0.6rem 1.4rem;
 }
 body.theme-terminal .term-header .prompt-sign { color: #d7b96a; margin-right: 0.5rem; }
-body.theme-terminal .term-body { max-width: 880px; margin: 0 auto; padding: 1rem 1.4rem 8rem; font-family: var(--mono); font-size: 0.88rem; line-height: 1.75; }
+body.theme-terminal .term-body { max-width: 880px; margin: 0 auto; padding: 1rem 1.4rem 8rem; font-family: var(--mono); font-size: calc(var(--reader-font-size) * 0.88); line-height: 1.75; }
 body.theme-terminal .term-line { margin: 0 0 0.6em; white-space: pre-wrap; }
 body.theme-terminal .term-meta { color: #5c6b58; }
 body.theme-terminal .term-level-info { color: #7fa8d9; }
@@ -347,7 +353,7 @@ body.theme-prdiff .diff-badge { color: #3fb950; font-weight: 600; }
 body.theme-prdiff .diff-hunk-marker {
   background: #0d1117; color: #58a6ff; font-family: var(--mono); font-size: 0.78rem; padding: 0.35rem 1rem;
 }
-body.theme-prdiff .diff-row { display: flex; font-family: var(--mono); font-size: 0.86rem; line-height: 1.7; background: rgba(46,160,67,0.08); }
+body.theme-prdiff .diff-row { display: flex; font-family: var(--mono); font-size: calc(var(--reader-font-size) * 0.86); line-height: 1.7; background: rgba(46,160,67,0.08); }
 body.theme-prdiff .diff-gutter {
   flex-shrink: 0; width: 3.2rem; text-align: center; color: #3fb950; background: rgba(46,160,67,0.12);
   border-right: 1px solid #21262d; user-select: none;
@@ -364,7 +370,7 @@ body.theme-manpage .man-bar {
   background: #0d0d0d; color: #9a9a9a; font-family: var(--mono); font-size: 0.78rem;
   padding: 0.5rem 1.6rem; border-bottom: 1px solid #262626;
 }
-body.theme-manpage .man-body { max-width: 760px; margin: 0 auto; padding: 1.6rem 1.6rem 8rem; font-family: var(--mono); font-size: 0.9rem; line-height: 1.8; }
+body.theme-manpage .man-body { max-width: 760px; margin: 0 auto; padding: 1.6rem 1.6rem 8rem; font-family: var(--mono); font-size: calc(var(--reader-font-size) * 0.9); line-height: 1.8; }
 body.theme-manpage .man-section {
   color: #eaeaea; font-weight: 700; letter-spacing: 0.04em; margin: 1.6em 0 0.7em; text-transform: uppercase;
 }
@@ -395,7 +401,10 @@ body.theme-spreadsheet .row-h {
   width: 3rem; flex-shrink: 0; text-align: center; font-size: 0.76rem; color: #555; background: #f3f2f1;
   border-right: 1px solid #d3d1cb; padding: 0.5rem 0; user-select: none;
 }
-body.theme-spreadsheet .sheet-cell { flex: 1; padding: 0.5rem 0.7rem; font-size: 0.86rem; color: #1c1d1f; border-right: 1px solid #e4e2dc; }
+body.theme-spreadsheet .sheet-cell {
+  flex: 1; padding: 0.5rem 0.7rem; font-family: var(--office-font-body, inherit);
+  font-size: calc(var(--reader-font-size) * 0.86); color: #1c1d1f; border-right: 1px solid #e4e2dc;
+}
 body.theme-spreadsheet .sheet-cell.wide { flex: 6; }
 body.theme-spreadsheet .sheet-row:first-child .sheet-cell.wide { outline: 2px solid #217346; outline-offset: -2px; }
 
@@ -417,7 +426,10 @@ body.theme-email .mail-chrome { position: sticky; top: 0; z-index: 5; background
 body.theme-email .mail-subject { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.6rem; }
 body.theme-email .mail-meta { display: flex; justify-content: space-between; padding-bottom: 1rem; margin-bottom: 0; border-bottom: 1px solid #e2e0da; font-size: 0.82rem; color: #6b6f76; }
 body.theme-email .mail-body { padding: 1.2rem 2.2rem 8rem; font-family: var(--sans); }
-body.theme-email .mail-body p { font-size: 0.96rem; line-height: 1.7; margin: 0 0 1.05em; color: #1c1d1f; }
+body.theme-email .mail-body p {
+  font-family: var(--office-font-body, inherit); font-size: calc(var(--reader-font-size) * 0.96);
+  line-height: 1.7; margin: 0 0 1.05em; color: #1c1d1f;
+}
 
 /* ===================================================== */
 /* Theme: MEMO — meeting minutes authenticity                */
@@ -434,7 +446,10 @@ body.theme-memo .memo-page {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2.8rem 3.2rem; font-family: var(--sans);
 }
 body.theme-memo .memo-section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #6b6f76; margin-bottom: 0.9rem; }
-body.theme-memo .memo-text p { font-size: 0.98rem; line-height: 1.7; margin: 0 0 1em; }
+body.theme-memo .memo-text p {
+  font-family: var(--office-font-body, inherit); font-size: calc(var(--reader-font-size) * 0.98);
+  line-height: 1.7; margin: 0 0 1em;
+}
 
 /* ===================================================== */
 /* Theme: SLIDES — presentation speaker-notes authenticity   */
@@ -452,7 +467,10 @@ body.theme-slides .slide-thumb span:first-child { width: 70%; background: #a8a8a
 body.theme-slides .slides-chrome .slides-notes-label { font-size: 0.78rem; font-weight: 600; color: #d8d8d8; padding: 0 1.6rem 0.8rem; }
 body.theme-slides .slides-notes-wrap { max-width: 760px; margin: 0 auto; padding: 1.6rem 1.8rem 8rem; }
 body.theme-slides .slides-notes { background: #ffffff; border: 1px solid #e2e0da; border-radius: 6px; padding: 1.4rem 1.6rem; }
-body.theme-slides .slides-notes p { font-size: 0.94rem; line-height: 1.7; color: #1c1d1f; margin: 0 0 1em; }
+body.theme-slides .slides-notes p {
+  font-family: var(--office-font-body, inherit); font-size: calc(var(--reader-font-size) * 0.94);
+  line-height: 1.7; color: #1c1d1f; margin: 0 0 1em;
+}
 
 /* ===================================================== */
 /* Theme: TICKET — helpdesk queue authenticity                */
@@ -473,7 +491,10 @@ body.theme-ticket .ticket-thread {
 body.theme-ticket .ticket-comment { display: flex; gap: 0.8rem; padding: 0.9rem 0; border-bottom: 1px solid #f0efe9; }
 body.theme-ticket .ticket-avatar { width: 28px; height: 28px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
 body.theme-ticket .ticket-comment-meta { font-size: 0.74rem; color: #6b6f76; margin-bottom: 0.35rem; }
-body.theme-ticket .ticket-comment-body p { font-size: 0.92rem; line-height: 1.65; margin: 0; }
+body.theme-ticket .ticket-comment-body p {
+  font-family: var(--office-font-body, inherit); font-size: calc(var(--reader-font-size) * 0.92);
+  line-height: 1.65; margin: 0;
+}
 
 /* ===================================================== */
 /* Theme: HR POLICY — employee handbook authenticity          */
@@ -490,7 +511,10 @@ body.theme-hrpolicy .hr-page {
   box-shadow: 0 1px 4px rgba(0,0,0,0.12); padding: 3rem 3.4rem; font-family: 'Source Serif 4', Georgia, serif;
 }
 body.theme-hrpolicy .hr-section-label { font-weight: 700; margin-bottom: 1.2rem; }
-body.theme-hrpolicy .hr-text p { font-size: 0.99rem; line-height: 1.75; margin: 0 0 1.05em; text-align: justify; }
+body.theme-hrpolicy .hr-text p {
+  font-family: var(--office-font-body, inherit); font-size: calc(var(--reader-font-size) * 0.99);
+  line-height: 1.75; margin: 0 0 1.05em; text-align: justify;
+}
 body.theme-hrpolicy .hr-num { font-family: var(--mono); font-size: 0.78rem; color: #6b6f76; margin-right: 0.6rem; }
 
 /* ---------- narrow screens ---------- */
