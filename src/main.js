@@ -248,6 +248,52 @@ function kpi(label, value, up) {
     `<div class="kpi-value${up ? ' up' : ''}">${value}</div></div>`;
 }
 
+/* Small inline-SVG icon set, used in place of emoji. Emoji render as
+   colorful platform-specific pictographs (and are occasionally the wrong
+   glyph entirely for the intended entity code) — completely at odds with
+   recreating a specific app's actual monochrome toolbar icons. These use
+   currentColor so they pick up each theme's icon color automatically. */
+const ICON_DEFS = {
+  file: { body: '<rect x="3" y="1.5" width="10" height="13" rx="1"/><line x1="5.5" y1="5" x2="10.5" y2="5"/><line x1="5.5" y1="8" x2="10.5" y2="8"/><line x1="5.5" y1="11" x2="8.5" y2="11"/>' },
+  comment: { body: '<rect x="2" y="3" width="12" height="7" rx="1.5"/><path d="M5 10l-1.5 2.5V10z"/>' },
+  lock: { body: '<rect x="3.5" y="7.5" width="9" height="6" rx="1"/><path d="M5.5 7.5V5.5a2.5 2.5 0 0 1 5 0v2"/>' },
+  print: { body: '<rect x="2.5" y="5.5" width="11" height="6" rx="1"/><rect x="4.5" y="2" width="7" height="4"/><rect x="4.5" y="10" width="7" height="3.5"/>' },
+  paint: { body: '<rect x="3" y="2" width="3.2" height="6" rx="1"/><rect x="3.9" y="7.5" width="1.4" height="5" rx="0.7"/><path d="M8.5 3l4 4-4.2 4.2-2-2z"/>' },
+  fill: { body: '<path d="M3 6.5 8 2l5 4.5L8 11z"/><path d="M11.5 9.5c0 1.4-1.1 2.5-2.5 2.5"/>' },
+  link: { body: '<rect x="1.7" y="6.6" width="6" height="2.8" rx="1.4" transform="rotate(-45 4.7 8)"/><rect x="8.3" y="6.6" width="6" height="2.8" rx="1.4" transform="rotate(-45 11.3 8)"/>' },
+  chart: { body: '<line x1="3" y1="13.5" x2="3" y2="9"/><line x1="8" y1="13.5" x2="8" y2="5"/><line x1="13" y1="13.5" x2="13" y2="7"/>', strokeWidth: 2.2 },
+  filter: { body: '<path d="M2.5 3.5h11L9.2 8.6v4l-2.4 1.2V8.6z"/>' },
+  search: { body: '<circle cx="6.7" cy="6.7" r="4"/><line x1="9.6" y1="9.6" x2="13.5" y2="13.5"/>' },
+  undo: { body: '<path d="M4.5 4v4h4"/><path d="M4.5 8a5 5 0 1 1 1.5 5.6"/>' },
+  redo: { body: '<path d="M11.5 4v4h-4"/><path d="M11.5 8a5 5 0 1 0-1.5 5.6"/>' },
+  borders: { body: '<rect x="2.5" y="2.5" width="11" height="11"/><line x1="2.5" y1="8" x2="13.5" y2="8"/><line x1="8" y1="2.5" x2="8" y2="13.5"/>' },
+  merge: { body: '<rect x="2.5" y="2.5" width="11" height="11"/><line x1="2.5" y1="8" x2="13.5" y2="8"/>' },
+  align: { body: '<line x1="2.5" y1="4" x2="13.5" y2="4"/><line x1="2.5" y1="7.3" x2="10.5" y2="7.3"/><line x1="2.5" y1="10.6" x2="13.5" y2="10.6"/><line x1="2.5" y1="13.4" x2="10.5" y2="13.4"/>' },
+  valign: { body: '<line x1="4" y1="2.2" x2="4" y2="13.8"/><line x1="8" y1="4.2" x2="8" y2="11.8"/><line x1="12" y1="6.2" x2="12" y2="9.8"/>' },
+  wrap: { body: '<path d="M2.5 5.5h8a2.2 2.2 0 0 1 0 4.4H8.3"/><path d="M9.8 7.6 7.9 9.9l1.9 2.3"/>' },
+  rotate: { body: '<path d="M12.8 5.2A5.3 5.3 0 1 0 13.3 9.3"/><path d="M13.3 2.8v3.4h-3.4"/>' },
+  hamburger: { body: '<line x1="2.5" y1="4" x2="13.5" y2="4"/><line x1="2.5" y1="8" x2="13.5" y2="8"/><line x1="2.5" y1="12" x2="13.5" y2="12"/>' },
+  more: { body: '<circle cx="8" cy="3" r="1.1"/><circle cx="8" cy="8" r="1.1"/><circle cx="8" cy="13" r="1.1"/>', filled: true },
+  star: { body: '<path d="M8 1.6l1.9 3.9 4.3.5-3.1 3 .8 4.3L8 11.2l-3.9 2.1.8-4.3-3.1-3 4.3-.5z"/>' },
+  sunburst: {
+    body: '<g stroke-linecap="round"><line x1="8" y1="1.3" x2="8" y2="4.3"/><line x1="8" y1="11.7" x2="8" y2="14.7"/>' +
+      '<line x1="1.3" y1="8" x2="4.3" y2="8"/><line x1="11.7" y1="8" x2="14.7" y2="8"/>' +
+      '<line x1="3.4" y1="3.4" x2="5.5" y2="5.5"/><line x1="10.5" y1="10.5" x2="12.6" y2="12.6"/>' +
+      '<line x1="12.6" y1="3.4" x2="10.5" y2="5.5"/><line x1="5.5" y1="10.5" x2="3.4" y2="12.6"/></g>'
+  },
+  pencil: { body: '<path d="M11.2 2.3l2.5 2.5L6 12.5H3.5V10z"/>' }
+};
+
+function icon(name, cls) {
+  const def = ICON_DEFS[name];
+  if (!def) return '';
+  const sw = def.strokeWidth || 1.3;
+  const fillAttr = def.filled ? 'currentColor' : 'none';
+  const strokeAttr = def.filled ? 'none' : 'currentColor';
+  return `<svg class="ico-svg${cls ? ' ' + cls : ''}" viewBox="0 0 16 16" fill="${fillAttr}" stroke="${strokeAttr}" ` +
+    `stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${def.body}</svg>`;
+}
+
 function renderCoding(paras) {
   let html = '<div class="code-chrome">';
   html += '<div class="code-titlebar"><div class="code-tab active">notes.md</div>' +
@@ -306,7 +352,7 @@ function renderTerminal(paras) {
 
 function renderPrDiff(paras) {
   let html = '<div class="diff-chrome">';
-  html += '<div class="diff-file-header">📄 notes/reading.md &nbsp; <span class="diff-badge">+' + paras.length + '&nbsp;&minus;0</span></div>';
+  html += `<div class="diff-file-header">${icon('file')} notes/reading.md &nbsp; <span class="diff-badge">+` + paras.length + '&nbsp;&minus;0</span></div>';
   html += `<div class="diff-hunk-marker">@@ -0,0 +1,${paras.length} @@</div>`;
   html += '</div>';
   html += '<div class="diff-file">';
@@ -348,26 +394,26 @@ function renderSpreadsheet(paras) {
 
   let html = '<div class="sheet-chrome">';
   html += '<div class="sheet-titlebar">' +
-    '<span class="sheet-icon">&#9638;</span><span class="sheet-title">Untitled spreadsheet</span>' +
-    '<span class="sheet-star">&#9734;</span><span class="sheet-chrome-spacer"></span>' +
-    '<span class="sheet-titlebar-ico">&#128172;</span>' +
-    '<span class="sheet-share">&#128274; Share <span class="chev">&#9662;</span></span>' +
+    `<span class="sheet-icon">${icon('borders')}</span><span class="sheet-title">Untitled spreadsheet</span>` +
+    `<span class="sheet-star">${icon('star')}</span><span class="sheet-chrome-spacer"></span>` +
+    `<span class="sheet-titlebar-ico">${icon('comment')}</span>` +
+    `<span class="sheet-share">${icon('lock')} Share <span class="chev">&#9662;</span></span>` +
     '<span class="sheet-avatar">U</span></div>';
   html += '<div class="sheet-menubar">' +
     ['File', 'Edit', 'View', 'Insert', 'Format', 'Data', 'Tools', 'Extensions', 'Help', 'Accessibility']
       .map((m) => `<span>${m}</span>`).join('') + '</div>';
   html += '<div class="sheet-toolbar">' +
-    toolGroup(['&#8981;', '&#8630;', '&#8631;', '&#128438;', '&#128396;']) +
+    toolGroup([icon('search'), icon('undo'), icon('redo'), icon('print'), icon('paint')]) +
     `<span class="tgrp"><span class="tico twide">100% &#9662;</span></span><span class="tdiv"></span>` +
     toolGroup(['$', '%', '.0', '.00', '123&nbsp;&#9662;']) +
     `<span class="tgrp"><span class="tico twide">${escapeHtml(fontLabel)}&nbsp;&#9662;</span></span><span class="tdiv"></span>` +
     `<span class="tgrp"><span class="tico">&minus;</span><span class="tico tsize">${ptSize}</span><span class="tico">+</span></span><span class="tdiv"></span>` +
     `<span class="tgrp"><span class="tico" style="font-weight:700">B</span><span class="tico" style="font-style:italic">I</span>` +
     `<span class="tico" style="text-decoration:line-through">S</span><span class="tico">A</span></span><span class="tdiv"></span>` +
-    toolGroup(['&#128166;', '&#8862;', '&#8863;']) +
-    toolGroup(['&#8801;', '&#8597;', '&#8629;', '&#8635;']) +
-    toolGroup(['&#128279;', '&#128172;', '&#128202;', '&#9873;']) +
-    `<span class="tgrp"><span class="tico">&Sigma;</span><span class="tico">&#8942;</span></span>` +
+    toolGroup([icon('fill'), icon('borders'), icon('merge')]) +
+    toolGroup([icon('align'), icon('valign'), icon('wrap'), icon('rotate')]) +
+    toolGroup([icon('link'), icon('comment'), icon('chart'), icon('filter')]) +
+    `<span class="tgrp"><span class="tico">&Sigma;</span><span class="tico">${icon('more')}</span></span>` +
     '</div>';
   html += '<div class="sheet-formulabar"><span class="cell-ref">A1</span><span class="fx"><i>fx</i></span><span class="fx-content"></span></div>';
   html += '<div class="sheet-colheader"><div class="corner"></div>';
@@ -381,7 +427,7 @@ function renderSpreadsheet(paras) {
   });
   html += '</div>';
 
-  html += '<div class="sheet-tabbar"><span class="tico">+</span><span class="tico">&#9776;</span>' +
+  html += `<div class="sheet-tabbar"><span class="tico">+</span><span class="tico">${icon('hamburger')}</span>` +
     '<span class="sheet-tab active">Sheet1 <span class="chev">&#9662;</span></span></div>';
   return html;
 }
@@ -449,7 +495,7 @@ function renderHrPolicy(paras) {
 function renderClaude(paras) {
   const chats = ['Reading notes', 'Quarterly planning', 'Draft outline', 'Research summary', 'Follow-up questions'];
   let html = '<div class="claude-shell"><div class="claude-sidebar">';
-  html += '<div class="claude-brand"><span class="claude-mark">&#10038;</span> Claude</div>';
+  html += `<div class="claude-brand"><span class="claude-mark">${icon('sunburst')}</span> Claude</div>`;
   html += '<div class="claude-tabs"><span class="active">Home</span><span>Code</span></div>';
   html += '<div class="claude-newbtn">+ New</div>';
   html += '<div class="claude-nav">' +
@@ -485,7 +531,7 @@ function renderGpt(paras) {
   const chats = ['Set phone alarms', 'Remove duplicate items', 'Draft outline', 'Trip planning', 'Book notes'];
   let html = '<div class="gpt-shell"><div class="gpt-sidebar">';
   html += '<div class="gpt-brand">ChatGPT</div>';
-  html += '<div class="gpt-newbtn">&#9998; New chat</div>';
+  html += `<div class="gpt-newbtn">${icon('pencil')} New chat</div>`;
   html += '<div class="gpt-nav">' +
     '<div class="gpt-nav-item">Images</div><div class="gpt-nav-item">Library</div>' +
     '<div class="gpt-nav-item">Projects</div><div class="gpt-nav-item">Codex</div>' +

@@ -37,6 +37,8 @@ body {
 button { font-family: inherit; }
 ::selection { background: var(--accent); color: var(--accent-text); }
 
+.ico-svg { width: 1em; height: 1em; vertical-align: -0.15em; display: inline-block; flex-shrink: 0; }
+
 .shell-label {
   font-family: var(--mono);
   font-size: 0.7rem;
