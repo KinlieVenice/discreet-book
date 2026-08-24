@@ -558,7 +558,7 @@ function renderEmail(paras, startIndex = 0, totalParas = paras.length) {
     `<span class="mail-topico">${icon('puzzle')}</span>` +
     `<span class="mail-topico spark">${icon('spark')}</span>` +
     `<span class="mail-topico">${icon('waffle')}</span>` +
-    `<span class="mail-avatar-badge">FELCO<span class="mail-avatar">K</span></span>` +
+    `<span class="mail-avatar">U</span>` +
     '</div>';
   html += '<div class="mail-toolbar">' +
     `<span class="mail-tico">${icon('reply')}</span>` +
@@ -588,9 +588,9 @@ function renderEmail(paras, startIndex = 0, totalParas = paras.length) {
     '</div>';
   html += `<div class="mail-summarize">${icon('spark')}Summarize this email</div>`;
   html += '<div class="mail-sender-row">' +
-    '<div class="mail-sender-avatar">IT</div>' +
+    '<div class="mail-sender-avatar">G</div>' +
     '<div class="mail-sender-meta">' +
-    `<div class="mail-sender-name">ESM Service Desk<span class="mail-sender-addr">&lt;it.infra1@fireflyelectric.com&gt;</span></div>` +
+    `<div class="mail-sender-name">The Gmail Team<span class="mail-sender-addr">&lt;mail-noreply@google.com&gt;</span></div>` +
     `<div class="mail-sender-to">to me${icon('chevrondown')}</div>` +
     '</div>' +
     '<span class="mail-sender-date">Wed, Aug 19, 12:10 PM (5 days ago)</span>' +
