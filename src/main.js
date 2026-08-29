@@ -975,6 +975,7 @@ function goToPage(delta) {
   const next = Math.min(Math.max(0, state.pageGroup + delta), total - 1);
   if (next === state.pageGroup) return;
   state.pageGroup = next;
+  state.scrollPct = 0;
   render();
   schedulePersist();
 }
@@ -1011,17 +1012,21 @@ window.addEventListener('resize', () => {
 
 function restoreScroll() {
   requestAnimationFrame(() => {
-    if (state.paginated) {
-      contentEl.scrollTop = 0;
-    } else {
-      const max = contentEl.scrollHeight - contentEl.clientHeight;
-      contentEl.scrollTop = max > 0 ? max * state.scrollPct : 0;
-    }
+    // state.scrollPct tracks scroll position within whatever's currently
+    // rendered — the current page when paginated, the whole document
+    // otherwise — so a re-render triggered by a theme/font change (as
+    // opposed to an actual page turn) restores exactly where you were
+    // instead of snapping back to the top.
+    const max = contentEl.scrollHeight - contentEl.clientHeight;
+    contentEl.scrollTop = max > 0 ? max * state.scrollPct : 0;
     updateProgress();
   });
 }
 
 function updateProgress() {
+  const max = contentEl.scrollHeight - contentEl.clientHeight;
+  const scrollFrac = max > 0 ? contentEl.scrollTop / max : 0;
+  state.scrollPct = scrollFrac;
   if (state.paginated) {
     const allParasLength = paragraphsOf(state.text).length;
     const total = totalPageGroups(allParasLength);
@@ -1029,10 +1034,7 @@ function updateProgress() {
     progressFill.style.width = Math.min(100, Math.max(0, pct * 100)) + '%';
     return;
   }
-  const max = contentEl.scrollHeight - contentEl.clientHeight;
-  const pct = max > 0 ? contentEl.scrollTop / max : 0;
-  progressFill.style.width = Math.min(100, Math.max(0, pct * 100)) + '%';
-  state.scrollPct = pct;
+  progressFill.style.width = Math.min(100, Math.max(0, scrollFrac * 100)) + '%';
 }
 
 function openReader() {
@@ -1151,7 +1153,10 @@ fontDownBtn.addEventListener('click', () => {
 
 pageToggleBtn.addEventListener('click', () => {
   state.paginated = !state.paginated;
-  if (state.paginated) clampPageGroup(paragraphsOf(state.text).length);
+  if (state.paginated) {
+    clampPageGroup(paragraphsOf(state.text).length);
+    state.scrollPct = 0;
+  }
   render();
   schedulePersist();
 });
